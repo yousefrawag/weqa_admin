@@ -10,7 +10,7 @@ Follow the steps below to set up and run the Laravel project:
    - Launch the terminal: `View > Terminal` or press `Ctrl + ~` (Cmd + ~ on Mac).
 2. Clone the GitHub repository:
    ```bash
-   git clone  https://github.com/weqa_platform.git
+   git clone  https://github.com/saardotsa/weqa_platform.git
    ```
    > The `.` at the end ensures the project is cloned into the current folder.
 
