@@ -5,7 +5,7 @@ import authFetch from "../../../utils/axiosAuthfetch";
 import useQueryDelete from "../../../services/useQueryDelete";
 import Categoary from "./Categoary";
 import EditModal from "../../common/popupmdules/EditModal";
-import useQueryupdate from "../../../services/useQueryupdate";
+import useQueryupdate from "../../../services/useQueryupdate"
 const LevelItem = ({ level }) => {
   const { deleteIteam } = useQueryDelete("mainCategory", "mainCategory");
 const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")

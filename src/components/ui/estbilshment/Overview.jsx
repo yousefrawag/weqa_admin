@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 const Overview = ({CurrenEstbilshment}) => {
-    const {findEstablishment} = CurrenEstbilshment
+  
   return (
      <div className='w-full h-full grid grid-cols-1 gap-2 xl:grid-cols-2	 shadow-md p-5	'>
                <div className="mb-6 flex flex-col  gap-2">
@@ -15,7 +15,7 @@ const Overview = ({CurrenEstbilshment}) => {
                 
                 >
                     {
-                        findEstablishment?.name
+                        CurrenEstbilshment?.name
                     }
                 </p>
               
@@ -33,7 +33,7 @@ const Overview = ({CurrenEstbilshment}) => {
                 
                 >
                     {
-                        findEstablishment?.mainCategory?.name
+                        CurrenEstbilshment?.levels?.name  
                     }
                 </p>
               
@@ -51,7 +51,7 @@ const Overview = ({CurrenEstbilshment}) => {
                 
                 >
                      {
-                        findEstablishment?.estbilshType
+                        CurrenEstbilshment?.kind
                     }
                 </p>
               

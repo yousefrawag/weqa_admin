@@ -15,8 +15,7 @@ const UserOverview = () => {
           </div>
       {/* wrrap buttons layout */}
  
-    {/* form add new user */}
-    <form  className='w-full h-full shadow-md p-5	'>
+    <div  className='w-full h-full shadow-md p-5	'>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5 w-full items-center'>
               <div className="mb-6 flex flex-col  gap-2">
                   <span
@@ -233,8 +232,8 @@ const UserOverview = () => {
       </div>
     
     
-    </form>
-    {/* END form add new user */}
+    </div>
+  
 </div>
   )
 }

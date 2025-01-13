@@ -1,19 +1,53 @@
 import React from 'react'
 import useQuerygetiteams from '../../../services/Querygetiteams'
-
+import useQueryadditeam from '../../../services/Queryadditeam'
+import { useDashboardContext } from '../../../context/DashboardProviedr'
+import toast from 'react-hot-toast'
 const AddLevel4 = () => {
-    const {data:Levels} = useQuerygetiteams('mainCategory', 'mainCategory')
+    // custoem hservices hooks
+    const {data:Levels} = useQuerygetiteams('nestSubCategory', 'nestSubCategory')
+    const { isError , isLoading , addIteam} = useQueryadditeam("nestSubCategory" , "mainCategory")
+     // custoem hservices hooks
+     const {  setmodule} = useDashboardContext()
+// handel submit 
+const handelsubmit = (e) => {
+    e.preventDefault();
+    try {
+        const formData = new FormData(e.currentTarget);
 
+        const data = Object.fromEntries(formData);
+        if(!data.name){
+            return toast.error("قم بكتابه إسم الفرع")
+        }
+        if(!data.subcategories){
+            return toast.error("قم باختيار الهيكل التابع له الفرع")
+        }
+        
+        addIteam(data , {
+            onSuccess:() =>{
+               
+                setmodule(false)
+                e.target.reset()
+                toast.success("تم إضافه فرع جديد")
+            }
+        })
+
+    } catch (error) {
+      toast.error(error)
+        console.log(error);
+        
+    }
+}
   return (
-    <div className='w-full h-full mt-3'>
+    <form className='w-full h-full mt-3' onSubmit={handelsubmit}>
           <div className="mb-6 flex flex-col  gap-5">
                     <label
-                      htmlFor="mainCategory"
+                      htmlFor="subcategories"
                       className="w-full  text-lg font-medium text-gray-700 dark:text-white"
                     >
                    هيكل فرعى رابع
                     </label>
-                  <select name='mainCategory' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+                  <select name='subcategories' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
                       <option>
                                 قم بالإختيار
                       </option>
@@ -45,7 +79,7 @@ const AddLevel4 = () => {
                     حفظ
                 </button>
 
-</div>
+</form>
   )
 }
 

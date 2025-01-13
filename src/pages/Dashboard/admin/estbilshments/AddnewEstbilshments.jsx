@@ -1,18 +1,27 @@
 import React, { useState } from 'react'
 import Breadcrumb from '../../../../components/common/Breadcrumbs/Breadcrumb'
-import { Link, useNavigate } from 'react-router-dom'
-import useQuerygetiteams from '../../../../services/Querygetiteams'
+import { useNavigate } from 'react-router-dom'
 import useQueryadditeam from '../../../../services/Queryadditeam'
 import toast from 'react-hot-toast'
+import RenderLevelflow from '../../../../components/ui/estbilshment/AddEstbilshment/RenderLevelflow'
+import Wrapbtn from '../../../../components/common/Wrapbtn'
+import {EsbilshesLevel} from "../../../../data/index"
 
 const AddnewEstbilshments = () => {
   // react hooks && custome fetch and add
-  const{isError , isLoading , data} =  useQuerygetiteams("mainCategory" , "mainCategory")
-  const {addIteam} =  useQueryadditeam("estbilshment" , "estbilshment")
+ 
+  const {addIteam} =  useQueryadditeam("building" , "building")
+   // react hooks && custome fetch and add
+
+  
+  const [Currentlevel , SetCurrentLevel] = useState("first")
   const [errors , setErrors] = useState({})
-  const EsbilshesLevel = ["هيكل رئيسى" , "هيكل فرعى تانى"  , "هيكل فرعى ثالث" , "هيكل فرعى رابع" ]
-  const [Currentlevel , SetCurrentLevel] = useState("هيكل رئيسى")
-  const navigate = useNavigate()
+    const [updatelevel , setupdatelevel] = useState("")
+    const navigate = useNavigate()
+   
+const handeupdateLevel = (e) => {
+  return setupdatelevel(e.target.value)
+}
 
 
 
@@ -23,14 +32,23 @@ const handelSubmit = (e) =>{
       const formData = new FormData(e.currentTarget);
 
       const data = Object.fromEntries(formData);
+      data.continued = Currentlevel
+      data.levels = updatelevel
       if(!data.name){
+        toast.error("يجب إضافه اسم للمنشأه")
           return setErrors({...errors , name:"يجب إضافه اسم للمنشأه"})
       }
-      if(!data.mainCategory){
-        return setErrors({...errors , mainCategory:"يجب إضافه مستوى للمنشأه"}) 
+      if(!data.kind){
+        toast.error("يجب إضافه نوع للمنشأه")
+        return setErrors({...errors , kind:"يجب إضافه نوع للمنشأه"})
     }
-    if(!data.estbilshType){
-      return setErrors({...errors , estbilshType:"يجب إضافه نوع للمنشأه"}) 
+      if(!data.continued){
+        toast.error("يجب إضافه مستوى للمنشأه")
+        return setErrors({...errors , continued:"يجب إضافه مستوى للمنشأه"}) 
+    }
+    if(!data.levels){
+      toast.error("يجب إضافه تابعية للمنشأه")
+      return setErrors({...errors , levels:"يجب إضافه تابعية للمنشأه"}) 
   }
       
       addIteam(data , {
@@ -43,7 +61,7 @@ const handelSubmit = (e) =>{
       })
   } catch (error) {
       console.log(error);
-      
+      toast.error("هناك خطاء فى إضافة منشأه يرجى التأكد من جميع البيانات ")
   }
 }
   return (
@@ -69,67 +87,67 @@ const handelSubmit = (e) =>{
                errors.name && <p className='text-red-500'>{errors.name}</p>
               }
             </div>
-            {/* set estbilshment mainCategory */}
+
+            <div className="mb-6 flex flex-col  gap-2">
+              <label
+                htmlFor="kind"
+                className="w-full text-lg font-medium text-gray-700 dark:text-white"
+              >
+              نوع المنشأه
+              </label>
+              <select name="kind" id="kind" className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
+              >
+                <option value="">قم بإختيار النوع</option>
+                <option value="مبنى إداري">مبنى إداري </option>
+                <option value="مستشفى">مستشفى   </option>
+                <option value="مركز صحي"> مركز صحي  </option>
+                <option value="مركز تخصصي">مركز تخصصي </option>
+                <option value="عيادة تخصصية"> عيادة تخصصية</option>
+                <option value="عيادة"> عيادة </option>
+              </select>
+        
+              {
+               errors.kind && <p className='text-red-500'>{errors.kind}</p>
+              }
+            </div>
+         
            
+
+            {/* START RENDER LEVELS BUTONS */}
            {
-            
+      
          <div >
            <span  className="w-full text-lg font-medium text-gray-700 dark:text-white mb-5">مستوى المنشأه</span>
           <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-2 w-full mt-2 mb-4'>
                   {
                       EsbilshesLevel.map((item) => {
                         return    <button
-                        key={item}
-                        onClick={() => SetCurrentLevel(item)}
-                        className={`block text-white  ${Currentlevel === item ? "bg-main2" :"bg-main"}  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800`}
+                        key={item.key}
+                        onClick={() => SetCurrentLevel(item.key)}
+                        className={`block text-white  ${Currentlevel === item.key ? "bg-main2" :"bg-main"}  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800`}
                         type="button"
                       >
-                          {item}
+                          {item.name}
                       </button>
                       })
                 }
           </div>
      
        </div>
+      
            }
+           {/* END RENDER LEVELS BUTONS */}
 
-            <div className="mb-6 flex flex-col  gap-5">
-                    <label
-                      htmlFor="mainCategory"
-                      className="w-full  text-lg font-medium text-gray-700 dark:text-white"
-                    >
-                   المنشأه التابع لة
-                    </label>
-                  <select name='mainCategory' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
-                      <option>
-                                قم بالإختيار
-                      </option>
-                        {
-                          data?.data?.allCategory?.map((item) =>{
-                            return <option key={item._id} value={item._id}>{item.name}</option>
-                          })
-                        }
-                                  
-                      
-                  </select>
-                  {
-               errors.mainCategory && <p className='text-red-500'>{errors.mainCategory}</p>
-              }
-              </div>
+           {/* RENDER LEVLS FLOW  */}
+             <RenderLevelflow Currentlevel={Currentlevel} handeupdateLevel={handeupdateLevel} updatelevel={updatelevel} name="levels"/>
 
-               {/*END set estbilshment mainCategory */}
+             {/* END RENDER LEVLS FLOW  */}
+              
 
              
               {/* wrrap button layout */}
-              <div className='w-full flex justify-between items-center'>
-                  <button type="submit" className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800" >
-                        حفظ
-                      </button>
-                    <Link to="/Est-ablishments" className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800" >
-                        عوده 
-                      </Link>
-
-              </div>
+              <Wrapbtn to={"/Est-ablishments"} />
+       
           {/* wrrap buttons layout */}
         </form>
         {/* form add new estbilshment */}

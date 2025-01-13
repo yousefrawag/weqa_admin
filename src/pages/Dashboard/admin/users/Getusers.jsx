@@ -4,41 +4,54 @@ import CustomeTabel from '../../../../components/common/CustomeTabel'
 import { GrFormView } from "react-icons/gr";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { MdOutlineEditNote } from 'react-icons/md';
-
+import { format } from 'date-fns';
 import { Link } from 'react-router-dom'
+import useQuerygetiteams from '../../../../services/Querygetiteams';
+import HeadPagestyle from '../../../../components/common/HeadPagestyle';
+import Loader from '../../../../components/common/Loader';
+import useQueryDelete from '../../../../services/useQueryDelete';
 const Getusers = () => {
+  const {isError , isLoading , data} = useQuerygetiteams("employee" , "employee")
+  const {deleteIteam} = useQueryDelete("employee" , "employee")
     const columns = [
         {
             name:"الإسم",
-            selector: (row) => row.name,
+            selector: (row) => row.username,
 
         },
         {
             name:"رقم الجوال",
-            selector: (row) => row.name,
+            selector: (row) => <span className='text-wrap'> {row.phone}</span> ,
 
         },
         {
             name:"الايميل",
-            selector: (row) => row.name,
+            selector: (row) => <span className='text-wrap'> {row.email}</span> ,
 
         },
         {
             name:"المدينه",
-            selector: (row) => row.name,
+            selector: (row) => row.address?.city,
 
         },
         {
-            name:"المنشأه التابع لها",
-            selector: (row) => row.name,
+          name:"رقم الهوية",
+          selector: (row) => <span className='text-wrap'> {row.identity}</span>  ,
 
-        },
+      },
+   
         {
             name:"الصلاحية",
-            selector: (row) => row.name,
+            selector: (row) => <span className='text-wrap'> { row.role}</span> ,
 
         },
-      
+        {
+                  name: "تاريخ الانشاء",
+                  selector: (row) => row.createdAt,
+                  cell: (row) => (
+                    <div>{format(new Date(row.createdAt), "dd MMMM, yyyy")}</div>
+                  ),
+                },
      
          {
                    name:"إجراء",
@@ -58,33 +71,16 @@ const Getusers = () => {
               
                }
     ]
-    const data = [
-        {
-              name:"محمد احمد"
-        },
-        {
-            name:" يوسف رواج"
-      },
-      {
-        name:" طارق السلام"
-  },
-  {
-    name:"ماجد الهوارى"
-},
-
-    ]
+if(isLoading){
+  return <Loader />
+}
   return (
     <div>
-        
-    <div className='flex justify-between w-full'>
-    <Breadcrumb pageName="المستخدمين" />
-    <Link to="/Add-user" className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800" type="button">
-    إضافه مستخدم 
-    </Link>
-    </div>
+        <HeadPagestyle  pageName="المستخدمين" to="/Add-user" title={"إضافة مستخدم"} />
+
     
     <div className='shadow-[#EFEEF4] w-full h-full rounded-md'>
-    <CustomeTabel columns={columns} data={data}/>
+    <CustomeTabel columns={columns} data={data?.data?.data}/>
     </div>
     
         </div>

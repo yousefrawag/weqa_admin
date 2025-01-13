@@ -5,6 +5,7 @@ import { useDashboardContext } from '../../../context/DashboardProviedr';
 import useQuerygetiteams from '../../../services/Querygetiteams';
 import EditmainCategory from '../../../components/common/popupmdules/EditModal';
 import LevelItem from '../../../components/ui/Levels/LevelItem';
+import Loader from '../../../components/common/Loader';
 const Levels = () => {
   const { setmodule  } = useDashboardContext();
   // custome fetch data Levels
@@ -13,7 +14,9 @@ const Levels = () => {
     isLoading,
     data: categoryes,
   } = useQuerygetiteams('mainCategory', 'mainCategory');
-
+if(isLoading){
+  return <Loader />
+}
 
  
 

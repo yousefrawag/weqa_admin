@@ -69,10 +69,13 @@ setEditVisible(false)
           </div>
 
           {/* Render sub-subcategories if present */}
-          {/* {subcategory.subcategories && subcategory.subcategories.length > 0 && (
-          <Subcategoray  subcategory={subcategory}/>
-          )} */}
-          <Subcategoray  subcategory={subcategory}/>
+          {subcategory.subcategories && subcategory.subcategories.length > 0 && (
+            subcategory.subcategories.map((item) => {
+              return  <Subcategoray  subcategory={item} isDropdownVisible = {isDropdownVisible} toggleDropdown ={toggleDropdown}/>
+            })
+      
+          )}
+        
         </div>
       ))}
     </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-hot-toast";
 
 const EditModal = ({ isVisible, onClose, onSubmit, entity, placeholder }) => {
   if (!isVisible) return null;
@@ -7,7 +8,13 @@ const EditModal = ({ isVisible, onClose, onSubmit, entity, placeholder }) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
-    onSubmit(data);
+    try {
+      onSubmit(data);
+      toast.success(`تم تعديل بنجاح ${data.name}`)
+    } catch (error) {
+      toast.error("هناك خطأ فى الإضافة يرجى مراجعه البيانات ")
+    }
+    
   };
 
   return (

@@ -9,6 +9,9 @@ import DashboardProvider from '../context/DashboardProviedr.jsx';
 import { AdminRoutes } from './AdminRoutes.jsx';
 import { EsbilshRoutes } from './EsbilshRoutes.jsx';
 import { UsersRoute } from './UsersRoute.jsx';
+import { LocationsRoutes } from './LocationsRoutes.jsx';
+import { AssetsRoutes } from './AssetsRoutes.jsx';
+import { permissionsRoutes } from './permissionsRoutes.jsx';
 const AppRoutes = () => {
 
 
@@ -20,6 +23,9 @@ const AppRoutes = () => {
       children:  [
        ...AdminRoutes,
        ...EsbilshRoutes,
+       ...LocationsRoutes,
+       ...AssetsRoutes,
+       ...permissionsRoutes,
        ...UsersRoute,
    
    
