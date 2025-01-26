@@ -14,7 +14,7 @@ const UpdatedEstbilshment = () => {
     const {id} = useParams()
    // HOOKS FETCH AND UPDATE ITEM
     const { isError , isLoading , data:CurrenEstbilshment} = useQuerygetSpacficIteam("building" , "building" , id)
-    const {updateiteam} = useQueryupdate("building" , "building")
+    const {updateiteam , isLoading:loadingUpdate} = useQueryupdate("building" , "building")
     const findEstablishment = CurrenEstbilshment?.data
 
    const EsbilshesLevel = [
@@ -96,13 +96,13 @@ const handeupdateLevel = (e) => {
   }
 useEffect(() => {
   if(findEstablishment){
-    setupdatelevel(findEstablishment?.levels)
+    setupdatelevel(findEstablishment?.levels._id)
     setKind(findEstablishment?.kind)
     return SetCurrentLevel(findEstablishment?.continued) 
   }
 
 } , [findEstablishment])
-if(loading){
+if(isLoading || loadingUpdate){
   return <Loader />
 }
   return (

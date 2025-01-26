@@ -3,6 +3,7 @@ import useQuerygetiteams from '../../../services/Querygetiteams'
 import useQueryadditeam from '../../../services/Queryadditeam'
 import toast from 'react-hot-toast'
 import { useDashboardContext } from '../../../context/DashboardProviedr'
+import SmailLoader from '../../common/Loader/SmailLoader'
 
 const AddLevel3 = () => {
     const {data:Levels} = useQuerygetiteams('category', 'category')
@@ -35,6 +36,9 @@ const handelsubmit = (e) => {
         console.log(error);
         
     }
+}
+if(isLoading) {
+    return <SmailLoader />
 }
   return (
     <form className='w-full h-full mt-3' onSubmit={handelsubmit}>

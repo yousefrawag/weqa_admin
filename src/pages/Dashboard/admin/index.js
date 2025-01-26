@@ -16,16 +16,31 @@ import Getlocations from "./locations/Getlocations";
 import AddLocations from "./locations/AddLocations";
 import LocationOverview from "./locations/LocationOverview";
 import UpdateLocations from "./locations/UpdateLocations";
-import AssetsSection from "./assets/AssetsSection";
+// assets levels
 import AssetsLevels from "./assets/assetslevels/AssetsLevels";
 import Getpermissions from "./permissions/Getpermissions";
+import AssetsCategoray from "./assets/assetslevels/AssetsCategoray";
+import AssetsSubcategoray from "./assets/assetslevels/AssetsSubcategoray";
+import GetAssetsByCategoray from "./assets/AssetsData/GetAssetsByCategoray";
+import Addassets from "./assets/AddAsset/Addassets";
+import AssetOverview from "./assets/AssetOverview";
+import GetAllAssets from "./assets/AssetsData/GetAllAssets";
+import AssetsOnboarding from "./assets/AssetsOnboarding";
+import AddPermission from "./permissions/AddPermission";
+
 export {
     ECommerce ,
+       
+    Levels,
+
+     // Establishments Routes
     Establishments,
     AddnewEstbilshments,
-    Levels,
     UpdatedEstbilshment,
     Estbilshmentoverview,
+ 
+     // Establishments Routes
+  
     Getusers,
     AddNewuser ,
     UserOverview , 
@@ -34,12 +49,27 @@ export {
     Adduser,
     Updateuser,
     Useroverview,
+
+     // locations Routes
     Getlocations,
     AddLocations,
     LocationOverview,
     UpdateLocations,
-    AssetsSection,
+     // locations Routes
+
+   // asset Routes
     AssetsLevels,
-    Getpermissions
+    Getpermissions ,
+    AssetsCategoray,
+    AssetsSubcategoray,
+    GetAssetsByCategoray,
+    Addassets,
+    AssetOverview,
+    GetAllAssets,
+    AssetsOnboarding,
+      // asset Routes
+
+      // permissions routes
+      AddPermission
 
 }

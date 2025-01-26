@@ -6,11 +6,12 @@ import toast from 'react-hot-toast'
 import RenderLevelflow from '../../../../components/ui/estbilshment/AddEstbilshment/RenderLevelflow'
 import Wrapbtn from '../../../../components/common/Wrapbtn'
 import {EsbilshesLevel} from "../../../../data/index"
+import Loader from '../../../../components/common/Loader'
 
 const AddnewEstbilshments = () => {
   // react hooks && custome fetch and add
  
-  const {addIteam} =  useQueryadditeam("building" , "building")
+  const {addIteam , isLoading} =  useQueryadditeam("building" , "building")
    // react hooks && custome fetch and add
 
   
@@ -63,6 +64,9 @@ const handelSubmit = (e) =>{
       console.log(error);
       toast.error("هناك خطاء فى إضافة منشأه يرجى التأكد من جميع البيانات ")
   }
+}
+if(isLoading) {
+  return <Loader />
 }
   return (
     <div className='w-full'>

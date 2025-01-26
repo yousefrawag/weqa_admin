@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "author": {
-    "name": "TailAdmin",
-    "email": "hello@tailadmin.com",
-    "url": "https://tailadmin.com"
+    "name": "yousef",
+    "email": "yousefrawag908@gmail.com",
+    "url": "https://yousef-rawag7.netlify.app/"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.0",

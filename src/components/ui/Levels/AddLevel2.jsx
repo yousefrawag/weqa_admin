@@ -4,6 +4,7 @@ import useQueryadditeam from '../../../services/Queryadditeam'
 import { useDashboardContext } from '../../../context/DashboardProviedr'
 import { useState , useEffect } from 'react'
 import toast from 'react-hot-toast'
+import SmailLoader from '../../common/Loader/SmailLoader'
 const AddLevel2 = () => {
     const {data:Levels} = useQuerygetiteams('mainCategory', 'mainCategory')
     const {module ,  setmodule} = useDashboardContext()
@@ -23,6 +24,7 @@ const handelsubmit = (e) => {
         if(!data.maincategories){
             return toast.error("قم باختيار الهيكل التابع له الفرع")
         }
+        console.log(data);
         
         addIteam(data , {
             onSuccess:() =>{
@@ -37,6 +39,9 @@ const handelsubmit = (e) => {
         console.log(error);
         
     }
+}
+if(isLoading){
+    return <SmailLoader />
 }
   return (
     <form onSubmit={handelsubmit} className='w-full h-full mt-3'>

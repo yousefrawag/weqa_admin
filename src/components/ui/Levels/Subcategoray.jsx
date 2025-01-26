@@ -32,10 +32,10 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
           className="py-2 px-4 bg-white rounded-md text-center w-full max-w-sm"
         >
           <div className='flex justify-between w-full '> 
-            <span>{subcategory?.name}</span>
+            <span className='text-black'>{subcategory?.name}</span>
             <div className="relative">
                 <button
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-main text-bold text-2xl hover:text-gray-700"
                   onClick={() => toggleDropdown(subcategory._id)}
                 >
                   ⋮

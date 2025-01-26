@@ -24,16 +24,16 @@ const SubsubCategoray = ({nestSub , isDropdownVisible  , toggleDropdown}) => {
     <div className="h-10 w-[2px] bg-main"></div>
 
     {/* Horizontal grid for sub-subcategories */}
-    <div className="grid grid-cols-2 gap-6 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 w-full max-w-4xl">
+    <div className="grid grid-cols-2 gap-3 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2  w-full max-w-4xl">
     <div
           
           className="py-2 px-4 bg-white rounded-md text-center w-full max-w-sm"
         >
             <div className='flex justify-between w-full '> 
-            <span>{nestSub?.name}</span>
+            <span className='text-black'>{nestSub?.name}</span>
             <div className="relative">
                 <button
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-main text-bold text-2xl hover:text-gray-700"
                   onClick={() => toggleDropdown(nestSub._id)}
                 >
                   ⋮

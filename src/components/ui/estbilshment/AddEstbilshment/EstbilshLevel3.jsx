@@ -1,7 +1,7 @@
 import React from 'react'
 import useQuerygetiteams from '../../../../services/Querygetiteams'
 const EstbilshLevel3 = ({handeupdateLevel, updatelevel , name}) => {
-    const {data} = useQuerygetiteams('nestSubCategory', 'nestSubCategory')
+    const {data} = useQuerygetiteams('subCategory', 'subCategory')
   return (
       
     <div className="mb-6 flex flex-col  gap-5">

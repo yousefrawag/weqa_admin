@@ -11,7 +11,7 @@ import Loader from '../../../../components/common/Loader'
 const AddLocations = () => {
   // react hooks && custome fetch and add
  
-  const {addIteam} =  useQueryadditeam("location" , "location")
+  const {addIteam , isLoading} =  useQueryadditeam("location" , "location")
    // react hooks && custome fetch and add
 
     const navigate = useNavigate()
@@ -50,7 +50,7 @@ const AddLocations = () => {
         setLoading(false)
       }
     };
-  if(loading){
+  if(isLoading){
     return <Loader />
   }  
   return (

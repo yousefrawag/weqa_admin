@@ -10,8 +10,11 @@ const CardEstbilsh = ({icon , to , title , total}) => {
                     icon
                 }
                 <div className='flex items-center justify-center flex-col gap-2'>
-                <span className="text-2xl text-main2 font-medium dark:text-white">{total}</span>
+             <span className="text-2xl text-main2 font-medium dark:text-white">{total}</span>
+            
                 <span className="text-md text-main2 font-medium dark:text-white">{title}</span>
+           
+               
                 </div>
               
         </Link>

@@ -12,6 +12,7 @@ import { UsersRoute } from './UsersRoute.jsx';
 import { LocationsRoutes } from './LocationsRoutes.jsx';
 import { AssetsRoutes } from './AssetsRoutes.jsx';
 import { permissionsRoutes } from './permissionsRoutes.jsx';
+import { UserRoutes } from './UserRoutes.jsx';
 const AppRoutes = () => {
 
 
@@ -27,7 +28,7 @@ const AppRoutes = () => {
        ...AssetsRoutes,
        ...permissionsRoutes,
        ...UsersRoute,
-   
+       ...UserRoutes,
    
       
   

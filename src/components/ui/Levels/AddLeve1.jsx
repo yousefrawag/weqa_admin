@@ -3,6 +3,7 @@ import useQueryadditeam from '../../../services/Queryadditeam'
 import { useDashboardContext } from '../../../context/DashboardProviedr'
 import { useEffect , useState } from 'react'
 import toast from 'react-hot-toast'
+import SmailLoader from '../../common/Loader/SmailLoader'
 const AddLeve1 = () => {
     const {module ,  setmodule} = useDashboardContext()
     const [requerFiled , setRequirefiled] = useState("")
@@ -36,6 +37,9 @@ useEffect(() => {
         return setRequirefiled("")
     }
     } , [module])
+ if(isLoading){
+    return <SmailLoader />
+ }   
   return (
     <form onSubmit={handelsubmit} className='w-full h-full mt-3'>
         <div className='flex flex-col '>

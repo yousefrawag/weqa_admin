@@ -1,16 +1,26 @@
 import {
 
-    AssetsSection,
-    AddNewuser ,
-    UserOverview ,
-    AssetsLevels
+ 
+    AssetsLevels , 
+    AssetsCategoray,
+    AssetsSubcategoray ,
+    GetAssetsByCategoray ,
+    Addassets,
+    AssetOverview,
+    GetAllAssets,
+    AssetsOnboarding
  
    } from "../pages/Dashboard/admin"
  export const AssetsRoutes = [
   
-     { path: "/Assets-sections", element: <AssetsSection /> },
+  { path: "/Assets-Onboarding", element: < AssetsOnboarding /> },
      { path: "/Assets-levels", element: <AssetsLevels /> },
-     { path: "/Add-asset", element: <AddNewuser /> },
-     { path: "/Asset-overview/:id", element: <UserOverview /> },
+     { path: "Assets-category/:id", element: <AssetsCategoray /> },
+     { path: "Assets-Subcategory/:id", element: <AssetsSubcategoray /> },
+     { path: "Assets/:id/:continued", element: <GetAssetsByCategoray /> },
+     { path: "add-assets/:id/:continued", element: <Addassets /> },
+     { path: "assetOverview/:id", element: <AssetOverview /> },
+     { path: "all-assets", element: <GetAllAssets /> },
+  
      
    ];

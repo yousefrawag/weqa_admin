@@ -1,14 +1,16 @@
 import React from 'react';
 import CardDataStats from '../../../components/common/CardDataStats';
-import ChartOne from '../../../components/common/Charts/ChartOne';
-import ChatCard from '../../../components/common/Chat/ChatCard';
-
-
+import GetusersChart from '../../../components/common/GetusersChart';
+import GetlocationChart from '../../../components/common/GetlocationChart';
+import GetestbilsmentChart from '../../../components/common/GetestbilsmentChart';
+import GetAssetchart from '../../../components/common/GetAssetchart';
+import Getmessagechart from '../../../components/common/Getmessagechart';
 const ECommerce = () => {
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats title="إجمالى المنشأت" total="50" rate="0.43%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -27,7 +29,7 @@ const ECommerce = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="إجمالى المواقع" total="100" rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -50,7 +52,7 @@ const ECommerce = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        <CardDataStats title="إجمالى الإصول" total="2.450" rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -69,7 +71,7 @@ const ECommerce = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
+        <CardDataStats title="إجمالى المستخدمين" total="150" rate="0.95%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -94,13 +96,11 @@ const ECommerce = () => {
         </CardDataStats>
       </div>
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-      <ChartOne />
-     
-     
-      
-        <ChatCard />
-      </div>
+        <GetestbilsmentChart />
+        <GetlocationChart />
+        <GetAssetchart />
+        <GetusersChart />
+        <Getmessagechart />
     </>
   );
 };

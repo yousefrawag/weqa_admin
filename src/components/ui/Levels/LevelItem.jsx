@@ -31,11 +31,11 @@ const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")
       {/* Parent category */}
       <div className="relative w-full max-w-sm">
         <div className="py-2 px-4 bg-white shadow-md rounded-md text-center flex justify-between items-center cursor-pointer">
-          <span>{level.name}</span>
+          <span className="text-black">{level.name}</span>
           {/* Dropdown dots */}
           <div className="relative">
             <button
-              className="text-gray-500 hover:text-gray-700"
+              className="text-main text-bold text-2xl hover:text-gray-700"
               onClick={() => toggleDropdown(level._id)}
             >
               ⋮

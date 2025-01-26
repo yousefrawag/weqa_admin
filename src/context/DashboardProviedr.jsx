@@ -1,10 +1,21 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const DashboardContext = createContext();
 
 const DashboardProvider = ({ children }) => {
-    const [module, setmodule] = useState(false);
+const [module, setmodule] = useState(false);
 const [editmainCategory , setEditmaincategory] = useState(false)
+const [moduleAddAsset ,setModuleAddAsset ] = useState(false)
+const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    console.log("Stored user from localStorage:", storedUser); // Debugging
+    return storedUser ? JSON.parse(storedUser) : false;
+  });
+
+  // Update local storage whenever user state changes
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 const [mainCategory , setmainCategory] = useState({
     _id:"",
     name:""
@@ -22,7 +33,10 @@ setmainCategory(item)
                 setEditmaincategory,
                 handelEditmainCategory,
                 mainCategory,
-                setmainCategory
+                setmainCategory,
+                moduleAddAsset ,
+                setModuleAddAsset,
+                user , setUser
             }}
         >
             {children}

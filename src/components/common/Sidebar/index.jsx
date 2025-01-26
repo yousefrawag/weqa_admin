@@ -99,17 +99,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           {/* <!-- Menu Group --> */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-            Admin  MENU
+          وقاء ادمن
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
+            
               {/* <!-- Menu Item Dashboard --> */}
               <li>
                 <NavLink
                   to="/"
                   className={`${liststyle} ${
-                    (pathname === '/' ||
-                      pathname.includes('dashboard')) &&
+                    pathname === '/' &&
                     'bg-main'
                   }`}
                 >
@@ -219,10 +219,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                {/* <!-- Menu Item assets --> */}
                <li>
                 <NavLink
-                  to="/Assets-sections"
+                  to="/Assets-Onboarding"
                   className={`${liststyle} ${
                     
-                      pathname.includes('Assets-sections') &&
+                      pathname.includes('Assets-Onboarding') &&
                     'bg-main'
                   }`}
                 >

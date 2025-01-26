@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import Header from '../components/common/Header/index';
 import Sidebar from '../components/common/Sidebar/index';
-import { Outlet } from 'react-router-dom';
-
+import { Outlet, redirect, useNavigate } from 'react-router-dom';
+import { useDashboardContext } from '../context/DashboardProviedr';
+import { useEffect } from 'react';
 const DefaultLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+const {user , setUser} = useDashboardContext()
+const navigate = useNavigate()
+useEffect(() => {
+  if (!user) {
+  return  navigate("/auth/signin");
+  } 
+}, []);
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}

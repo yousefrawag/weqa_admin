@@ -3,9 +3,10 @@ import useQuerygetiteams from '../../../services/Querygetiteams'
 import useQueryadditeam from '../../../services/Queryadditeam'
 import { useDashboardContext } from '../../../context/DashboardProviedr'
 import toast from 'react-hot-toast'
+import SmailLoader from '../../common/Loader/SmailLoader'
 const AddLevel4 = () => {
     // custoem hservices hooks
-    const {data:Levels} = useQuerygetiteams('nestSubCategory', 'nestSubCategory')
+    const {data:Levels} = useQuerygetiteams('subCategory', 'subCategory')
     const { isError , isLoading , addIteam} = useQueryadditeam("nestSubCategory" , "mainCategory")
      // custoem hservices hooks
      const {  setmodule} = useDashboardContext()
@@ -37,6 +38,9 @@ const handelsubmit = (e) => {
         console.log(error);
         
     }
+}
+if(isLoading) {
+  return <SmailLoader />
 }
   return (
     <form className='w-full h-full mt-3' onSubmit={handelsubmit}>
