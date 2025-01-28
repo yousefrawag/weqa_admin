@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const authFetch = axios.create({
-    baseURL:"http://localhost:3000/api/v1" /* "http://localhost:3300/api" */,
+    baseURL:"https://weqa-admin.vercel.app/api/v1" /* "http://localhost:3300/api" */,
 })
 
 authFetch.interceptors.request.use((request) => {
