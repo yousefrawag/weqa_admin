@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { ProcessCustomerData } from '../utils/helpers/processCustomerData';
+import ProcessCustomerData from "../utils/helpers/ProcessCustomerData.jsx";;
 
 const CustomeChart = ({ data, seriesName, chartType }) => {
   const [timeRange, setTimeRange] = useState('day');
