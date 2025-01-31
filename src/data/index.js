@@ -21,13 +21,7 @@ export const EsbilshesLevel = [
   }
      ]
      export const inputFields = [
-      {
-        id: "01",
-        type: "text",
-        name: "إسم الإصل",
-        key: "assetName",
-        category: "genarlildata",
-      },
+ 
       {
         id: "02",
         type: "number",

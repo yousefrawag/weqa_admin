@@ -17,13 +17,23 @@ authFetch.interceptors.request.use((request) => {
     console.log(error);
     return Promise.reject(error)
 })
-authFetch.interceptors.response.use((respones) => {
-    console.log(respones);
-    return respones
-} , (error) => {
-    console.log(error);
-
+authFetch.interceptors.response.use(
+    (respones) => {
+        console.log(respones);
+        return respones;
+      },
+      (error) => {
+    if(error?.response?.status === 401){
+      localStorage.clear()
     
-    return Promise.reject(error)
-})
+      setTimeout(() => {
+        window.location.href = "/auth/signin";
+      }, 2000)
+      
+      console.log("Token expired, redirecting to login...")
+    }
+    
+        return Promise.reject(error);
+      }
+)
 export default authFetch

@@ -6,9 +6,10 @@ const CardEstbilsh = ({icon , to , title , total}) => {
         to={to}
              className="w-full rounded-md border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark flex justify-start flex-col border-main focus:outline-none focus:bg-[#804DB8]/20 dark:focus:bg-[#804DB8]/20 dark:border-main"
          >
-                {
-                    icon
-                }
+{
+    icon && React.createElement(icon, { className: "text-4xl text-main2 dark:text-white" }) 
+}
+
                 <div className='flex items-center justify-center flex-col gap-2'>
              <span className="text-2xl text-main2 font-medium dark:text-white">{total}</span>
             

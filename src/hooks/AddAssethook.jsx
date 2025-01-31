@@ -6,6 +6,7 @@ import useQueryadditeam from '../services/Queryadditeam';
 import toast from 'react-hot-toast';
 import SmailLoader from '../components/common/Loader/SmailLoader';
 import { inputFields } from '../data/index'; // Import the inputFields array
+import SelectSection from '../components/ui/assets/Addasset/SelectSection';
 
 const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
   const { isError, isLoading, addIteam } = useQueryadditeam(endpoint, keyName);
@@ -88,29 +89,23 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
       filteredFormData.set("image", images.file);
     }
   
-    // Add only the selected input fields
-    selectedInputs.forEach((input) => {
-      if (input.type === "select") {
-        // For select fields, add the selected options
-        filteredFormData.set(input.key, JSON.stringify(input.selectedOptions));
-      } else {
-        // For other fields, add their values
-        filteredFormData.set(input.key, data[input.key] || "");
-      }
-    });
   
+    formData.append("data", JSON.stringify(selectedInputs));
+
     // Log the filtered form data to verify its contents
     console.log("Filtered Form Data:", data);
   
     try {
       addIteam(formData, {
         onSuccess: () => {
-          toast.success('تم إضافه فئه بنجاح');
           setImages({
             file: "",
             view: ""
           });
           setModuleAddAsset(false);
+          setSelectedInputs([])
+          toast.success('تم إضافه فئه بنجاح');
+       
         },
       });
     } catch (error) {
