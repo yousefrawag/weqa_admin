@@ -32,7 +32,7 @@ const CustomeChart = ({ data, seriesName, chartType }) => {
   };
 
   return (
-    <div className="chart-container mt-10">
+    <div className="chart-container mt-5">
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setTimeRange('day')}

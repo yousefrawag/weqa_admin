@@ -9,7 +9,7 @@ const GetAssetchart = () => {
     }
   return (
     <div className='mt-5'>
-        <h1>إحصائات الإصول</h1>
+        <h1 className='font-bold'>إحصائات الإصول</h1>
         <CustomeChart data={data?.data?.data} seriesName="إجمالى الإصول" chartType="area"/>
     </div>
   )
