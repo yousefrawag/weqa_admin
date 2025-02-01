@@ -6,6 +6,8 @@ const DashboardProvider = ({ children }) => {
 const [module, setmodule] = useState(false);
 const [editmainCategory , setEditmaincategory] = useState(false)
 const [moduleAddAsset ,setModuleAddAsset ] = useState(false)
+const [UpdateAssetmodule , setUpdateassetmodule] = useState(true)
+const [CurrentAssetCategoryupdate , setCurrentLevel] = useState({})
 const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     console.log("Stored user from localStorage:", storedUser); // Debugging
@@ -36,7 +38,11 @@ setmainCategory(item)
                 setmainCategory,
                 moduleAddAsset ,
                 setModuleAddAsset,
-                user , setUser
+                user , setUser ,
+                UpdateAssetmodule , 
+                setUpdateassetmodule ,
+                CurrentAssetCategoryupdate ,
+                 setCurrentLevel
             }}
         >
             {children}

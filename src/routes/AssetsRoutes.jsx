@@ -8,7 +8,8 @@ import {
     Addassets,
     AssetOverview,
     GetAllAssets,
-    AssetsOnboarding
+    AssetsOnboarding,
+    EditAsset
  
    } from "../pages/Dashboard/admin"
  export const AssetsRoutes = [
@@ -21,6 +22,7 @@ import {
      { path: "add-assets/:id/:continued", element: <Addassets /> },
      { path: "assetOverview/:id", element: <AssetOverview /> },
      { path: "all-assets", element: <GetAllAssets /> },
+     { path: "asset-edit/:id", element: <EditAsset /> },
   
      
    ];

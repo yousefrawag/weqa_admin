@@ -32,6 +32,8 @@ const AssetsSubcategoray = () => {
                 <CardAsset
                     key={category._id}
                     img={category.image}
+                    keydelete="categoryAssets" 
+                     enddpointDelete="subCategoryAssets"
                     to={`/Assets/${category._id}/third`}
                     title={category.name}
                     isDropdownVisible={isDropdownVisible === categories._id } toggleDropdown={toggleDropdown}
@@ -43,8 +45,10 @@ const AssetsSubcategoray = () => {
                 <CardAsset
                     key={categories._id}
                     img={categories.image}
+                    enddpointDelete="subCategoryAssets"
                     to={`/Assets/${categories._id}/third`}
                     title={categories.name}
+                    keydelete="categoryAssets" 
                     isDropdownVisible={isDropdownVisible === categories._id } toggleDropdown={toggleDropdown}
                 />
             );

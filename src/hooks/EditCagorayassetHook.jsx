@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDashboardContext } from '../context/DashboardProviedr';
 import UploadImage from './UploadImage';
 import SelectCategory from '../components/ui/assets/Addasset/SelectCategory';
@@ -7,10 +7,12 @@ import toast from 'react-hot-toast';
 import SmailLoader from '../components/common/Loader/SmailLoader';
 import { inputFields } from '../data/index'; // Import the inputFields array
 import SelectSection from '../components/ui/assets/Addasset/SelectSection';
+import useQueryupdate from '../services/useQueryupdate';
+import SelectoptionHook from './SelectoptionHook';
+const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, ismainLevel , mdoule , setModule }) => {
+  const { isError, isLoading, updateiteam } = useQueryupdate(endpoint, keyName);
+  const [level , setlevel] = useState("")
 
-const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
-  const { isError, isLoading, addIteam } = useQueryadditeam(endpoint, keyName);
-  const { moduleAddAsset, setModuleAddAsset } = useDashboardContext();
   const [images, setImages] = useState({
     file: "",
     view: ""
@@ -66,7 +68,7 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
   
-    if (images.file) {
+    if (images.view) {
       formData.set("image", images.file);
     } else {
       return toast.error("يجب إضافة صوره للفئة");
@@ -96,13 +98,13 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
     console.log("Filtered Form Data:", data);
   
     try {
-      addIteam(formData, {
+        updateiteam({data:formData , id}, {
         onSuccess: () => {
           setImages({
             file: "",
             view: ""
           });
-          setModuleAddAsset(false);
+          setModule(false);
           setSelectedInputs([])
           toast.success('تم إضافه فئه بنجاح');
        
@@ -112,12 +114,20 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
       toast.error('هناك خطأ في فئة الموقع');
     }
   }
+  useEffect(() => {
+    if(item) {
+        setSelectedInputs([...item?.data] ||[] )
+        setImages((prev) => ({...images , view:item.image}))
+        console.log(item);
+        
+    }
+  } , [item])
 
   return (
-    <div className={`px-7 lg:px-0 fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center top-0 right-0 bottom-0 ${moduleAddAsset ? "flex" : "hidden"}`}>
+    <div className={`px-7 lg:px-0 fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center top-0 right-0 bottom-0 ${mdoule ? "flex" : "hidden"}`}>
       <div className="relative bg-white p-4 lg:p-6 rounded-md shadow-lg w-full lg:max-w-[60%] h-[90%] mx-auto flex flex-col">
         <button
-          onClick={() => setModuleAddAsset(false)}
+          onClick={() => setModule(false)}
           className="absolute top-3 right-5 lg:right-10 text-gray-500 hover:text-gray-800 focus:outline-none"
           type='button'
         >
@@ -127,7 +137,7 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
         <div className="flex-1 overflow-y-auto mb-4 px-5">
           {isLoading ? <SmailLoader /> :
             <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4 w-full'>
-              {ismainLevel ? null : <SelectCategory title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
+              {ismainLevel ? null : <SelectoptionHook  title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
               <div className="mb-4 flex flex-col gap-2">
                 <label htmlFor="name" className="w-full text-lg font-medium text-gray-700 dark:text-black">
                   إسم الفئه
@@ -136,6 +146,7 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
                   type="text"
                   id="name"
                   name="name"
+                  defaultValue={item?.name}
                   className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
                 />
               </div>
@@ -198,4 +209,4 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
   );
 };
 
-export default AddAssethook;
+export default EditCagorayassetHook;

@@ -1,18 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Breadcrumb from '../../components/common/Breadcrumbs/Breadcrumb';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+
 import { useDashboardContext } from '../../context/DashboardProviedr';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
+import SmailLoader from "../../components/common/Loader/SmailLoader"
+import authFetch from '../../utils/axiosAuthfetch';
+import { login } from '../../store/userSlice';
 const SignIn = () => {
   const { setUser} = useDashboardContext()
-  const navigate = useNavigate()
-  const handelsubmit = (e) => {
-    e.preventDefault();
-    setUser(true); // Update state
-    localStorage.setItem("user", JSON.stringify(true))
-    return navigate("/")
-  }
+  
+  
+  const user = useSelector((state) => state.userState.userinfo)
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [loading , setLoading] = useState(false)
+    const handelLogin = async (e) =>{
+      e.preventDefault();
+     
+      try {
+        const formData = new FormData(e.currentTarget)
+        const data =  Object.fromEntries(formData)
+       if(!data.identity){
+        return toast.error("يجب إدخال رقم الهوية")
+       }
+       if(!data.password){
+        return toast.error("يجب إدخال  كلمة المرور")
+       }
+       setLoading(true)
+        const res = await authFetch.post("/auth/login" ,data)
+      const user = res.data.user
+      
+      if(res.status === 200) {
+        localStorage.setItem("token" , JSON.stringify(res.data.token))
+        dispatch(login(user))
+       
+        toast.success("تم تسجيل الدخول بنجاح")
+        return  navigate('/')
+      }
+  
+      } catch (error) {
+        setLoading(false)
+        console.log(error);
+        
+        toast.error("يوجد خطأ في الباسورد او  رقم الهوية")
+      } finally {
+        setLoading(false)
+      }
+  
+    }
   return (
     <>
      
@@ -26,7 +63,7 @@ const SignIn = () => {
                 تسجيل الدخول
               </h2>
 
-              <form onSubmit={handelsubmit}>
+              <form onSubmit={handelLogin}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     رقم الهوية
@@ -34,6 +71,7 @@ const SignIn = () => {
                   <div className="relative shadow-md">
                     <input
                       type="text"
+                      name='identity'
                       placeholder="رقم الهويه الخاص بك"
                       className="w-full rounded-lg border border-main bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-main focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-main"
                     />
@@ -49,6 +87,7 @@ const SignIn = () => {
                   <div className="relative shadow-md">
                     <input
                       type="password"
+                      name='password'
                       placeholder="كلمة المرور الخاصة بك"
                       className="w-full rounded-lg border border-main bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-main focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-main"
                     />
@@ -76,7 +115,7 @@ const SignIn = () => {
                     </span>
                   </div>
                 </div>
-
+        {loading && <SmailLoader />}
                 <div className="mb-5">
                   <input
                     type="submit"

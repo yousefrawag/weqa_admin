@@ -32,8 +32,10 @@ console.log(categories);
                 <CardAsset
                     key={category._id}
                     img={category.image}
+                    enddpointDelete="categoryAssets" 
                     id={category._id}
                     to={ `/Assets/${category?._id}/second` }
+                      keydelete="mainCategoryAssets"
                     hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`} 
                     title={category.name}
                     isDropdownVisible={isDropdownVisible === category._id } toggleDropdown={toggleDropdown}
@@ -45,6 +47,8 @@ console.log(categories);
                 <CardAsset
                     key={categories._id}
                     img={categories.image}
+                    enddpointDelete="categoryAssets" 
+                    keydelete="mainCategoryAssets"
                     to={ `/Assets/${category?._id}/second` }
                     hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`}                   title={categories.name}
                     isDropdownVisible={isDropdownVisible === category?._id}

@@ -7,7 +7,9 @@ import {
      EstablishmentUsers,
      Adduser,
      Updateuser,
-     Useroverview
+     Useroverview , 
+     GetEsbilshAssets,
+     GetEsbilshLocation
  
     } from "../pages/Dashboard/admin"
   export const EsbilshRoutes = [
@@ -21,6 +23,8 @@ import {
       { path: "/establishments/:id/users", element: <EstablishmentUsers /> },
       { path: "/establishments/:id/users/add", element: <Adduser /> },
       { path: "/establishments/:id/users/edit/:userId", element: <Updateuser /> },
-      { path: "/establishments/:id/users/:userId/details", element:<Useroverview /> }
+      { path: "/establishments/:id/users/:userId/details", element:<Useroverview /> },
+      { path: "/establishments-assets/:id", element:<GetEsbilshAssets /> },
+      { path: "/establishments-location/:id", element:<GetEsbilshLocation /> }
 
     ];

@@ -45,12 +45,12 @@ const GetAllAssets = () => {
             },
             {
                 name:"المنطقة",
-                selector: (row) => row?.locationDetails[0]?.areaName,
+                selector: (row) => row?.locationDetails[0]?.areaName || "غير معروف",
     
             },
             {
                 name:"القسم",
-                selector: (row) => row.locationDetails[0]?.sectionName,
+                selector: (row) => row.locationDetails[0]?.sectionName || "غير معروف",
     
             },
             {

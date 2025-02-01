@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import image from "../../images/icon/aweqa_Icon-1.png"
 import { Link } from 'react-router-dom'
 import useQueryDelete from '../../services/useQueryDelete'
 import SmailLoader from './Loader/SmailLoader'
-const CardAsset = ({id ,to , img , title ,tosub , enddpointDelete , isDropdownVisible ,toggleDropdown , hasSub}) => {
-    const {deleteIteam , isLoading} = useQueryDelete(enddpointDelete , enddpointDelete )
+import EditCagorayassetHook from '../../hooks/EditCagorayassetHook'
+import { useDashboardContext } from '../../context/DashboardProviedr'
+const CardAsset = ({id ,to , img , title ,tosub , item ,  enddpointDelete , isDropdownVisible ,toggleDropdown , hasSub , keydelete}) => {
+    const {deleteIteam , isLoading} = useQueryDelete(enddpointDelete , keydelete )
+   const [mdoule , setModule] = useState(false)
+       
   return (
          <div
         
@@ -24,7 +28,7 @@ const CardAsset = ({id ,to , img , title ,tosub , enddpointDelete , isDropdownVi
                 } 
                 <button
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                
+                onClick={()=> setModule(true)}
                 >
                   تعديل
                 </button>
@@ -44,9 +48,10 @@ const CardAsset = ({id ,to , img , title ,tosub , enddpointDelete , isDropdownVi
               
                   <Link   to={to} className="text-md text-main2 font-medium dark:text-white">{title}</Link>
                   </div>
-                
+                  <EditCagorayassetHook item={item} mdoule ={mdoule} setModule={setModule} endpoint={enddpointDelete} id={id}  keyName={keydelete}/>
           </div>
-  )
-}
+        
+  )}
+
 
 export default CardAsset

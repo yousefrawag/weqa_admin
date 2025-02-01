@@ -15,7 +15,7 @@ const UpdatedEstbilshment = () => {
    // HOOKS FETCH AND UPDATE ITEM
     const { isError , isLoading , data:CurrenEstbilshment} = useQuerygetSpacficIteam("building" , "building" , id)
     const {updateiteam , isLoading:loadingUpdate} = useQueryupdate("building" , "building")
-    const findEstablishment = CurrenEstbilshment?.data
+    const findEstablishment = CurrenEstbilshment?.building
 
    const EsbilshesLevel = [
      {

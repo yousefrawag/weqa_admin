@@ -23,6 +23,7 @@ const LevelsPermission = () => {
       ];
   return (
     <div className='w-full h-full shadow-lg'>
+      
         <PermissionsGrid  sectionName = "الهيكل الإدارى" permissions = {permissionsData} handlePermissionChange = {handlePermissionChange} />
     </div>
   )

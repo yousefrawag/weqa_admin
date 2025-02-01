@@ -19,7 +19,7 @@ const FetchassetName = ({id , endpointKey}) => {
       type="text"
       id="assetsName"
       name="assetsName"
-        value={data?.data?.name}
+        defaultValue={data?.data?.name || ""}
         
       className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
     />

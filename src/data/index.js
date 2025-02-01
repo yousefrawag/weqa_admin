@@ -21,13 +21,7 @@ export const EsbilshesLevel = [
   }
      ]
      export const inputFields = [
-      {
-        id: "01",
-        type: "text",
-        name: "إسم الإصل",
-        key: "assetName",
-        category: "genarlildata",
-      },
+ 
       {
         id: "02",
         type: "number",
@@ -101,7 +95,7 @@ export const EsbilshesLevel = [
         id: "12",
         type: "select",
         name: "نوع الإصل",
-        key: "kind",
+        key: "assettype",
         category: "genarlildata",
         options: [
           { value: "", label: "قم بإختيار النوع" },
@@ -237,7 +231,7 @@ export const EsbilshesLevel = [
         id: "25",
         type: "text",
         name: "مكان تخزينها أو استخدامها",
-        key: "securtmethodStorage",
+        key: "securtmethodStorage2",
         category: "genarlildata",
       },
       {

@@ -32,8 +32,8 @@ const AssetsLevels = () => {
               {
                 data?.data?.data?.map((item) => {
                   const {name , image , _id} = item 
-                  return   <CardAsset  isDropdownVisible={isDropdownVisible === _id}
-                  toggleDropdown={toggleDropdown} key={_id} id={_id} enddpointDelete="mainCategoryAssets" hasSub={true} tosub={`/Assets-category/${_id}`}  img={image} to={ `/Assets/${_id}/first` } title={name} />
+                  return   <CardAsset   keydelete="mainCategoryAssets" isDropdownVisible={isDropdownVisible === _id}
+                  toggleDropdown={toggleDropdown} key={_id} id={_id} item={item} enddpointDelete="mainCategoryAssets" hasSub={true} tosub={`/Assets-category/${_id}`}  img={image} to={ `/Assets/${_id}/first` } title={name} />
 
                 })
               }

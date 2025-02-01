@@ -27,7 +27,9 @@ import AssetOverview from "./assets/AssetOverview";
 import GetAllAssets from "./assets/AssetsData/GetAllAssets";
 import AssetsOnboarding from "./assets/AssetsOnboarding";
 import AddPermission from "./permissions/AddPermission";
-
+import EditAsset from "./assets/editasset/EditAsset";
+import GetEsbilshAssets from "./estbilshments/estbilshAssets/GetEsbilshAssets";
+import GetEsbilshLocation from "./estbilshments/EsstbilshLocation/GetEsbilshLocation";
 export {
     ECommerce ,
        
@@ -70,6 +72,9 @@ export {
       // asset Routes
 
       // permissions routes
-      AddPermission
+      AddPermission,
+      EditAsset , 
+      GetEsbilshAssets , 
+      GetEsbilshLocation
 
 }
