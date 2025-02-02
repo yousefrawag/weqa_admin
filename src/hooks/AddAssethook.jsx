@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDashboardContext } from '../context/DashboardProviedr';
 import UploadImage from './UploadImage';
 import SelectCategory from '../components/ui/assets/Addasset/SelectCategory';
@@ -7,27 +7,34 @@ import toast from 'react-hot-toast';
 import SmailLoader from '../components/common/Loader/SmailLoader';
 import { inputFields } from '../data/index'; // Import the inputFields array
 import SelectSection from '../components/ui/assets/Addasset/SelectSection';
-
-const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
+import SelectoptionHook from './SelectoptionHook';
+const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel , id }) => {
   const { isError, isLoading, addIteam } = useQueryadditeam(endpoint, keyName);
   const { moduleAddAsset, setModuleAddAsset } = useDashboardContext();
+  const [value , setvalue] = useState(id)
   const [images, setImages] = useState({
     file: "",
     view: ""
   });
+  console.log(fectParentKEY , endpoint);
+  
   const [selectedInputs, setSelectedInputs] = useState([]);
 
   const handelFiles = (e) => {
+    console.log("handelFiles triggered", e.target.files);
     const file = e.target.files[0];
+  
+    console.log("file from handelfiles:", file);
+    
     if (file) {
       const convertFiles = URL.createObjectURL(file);
       setImages({
-        file: file,
+        file,
         view: convertFiles,
       });
     }
-  };
-
+  }
+  
   const handleInputSelection = (e, input) => {
     if (e.target.checked) {
       // Add the input to selectedInputs with an empty selectedOptions array
@@ -112,12 +119,17 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
       toast.error('هناك خطأ في فئة الموقع');
     }
   }
+  useEffect(() => {
+    if(id){
+      setvalue(id)
+    }
+  } , [id])
 
   return (
     <div className={`px-7 lg:px-0 fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center top-0 right-0 bottom-0 ${moduleAddAsset ? "flex" : "hidden"}`}>
       <div className="relative bg-white p-4 lg:p-6 rounded-md shadow-lg w-full lg:max-w-[60%] h-[90%] mx-auto flex flex-col">
         <button
-          onClick={() => setModuleAddAsset(false)}
+          onClick={() => setModuleAddAsset(false) }
           className="absolute top-3 right-5 lg:right-10 text-gray-500 hover:text-gray-800 focus:outline-none"
           type='button'
         >
@@ -127,7 +139,7 @@ const AddAssethook = ({ endpoint, keyName, fectParentKEY, ismainLevel }) => {
         <div className="flex-1 overflow-y-auto mb-4 px-5">
           {isLoading ? <SmailLoader /> :
             <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4 w-full'>
-              {ismainLevel ? null : <SelectCategory title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
+              {ismainLevel ? null : <SelectoptionHook  value={value} setvalue={setvalue} title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
               <div className="mb-4 flex flex-col gap-2">
                 <label htmlFor="name" className="w-full text-lg font-medium text-gray-700 dark:text-black">
                   إسم الفئه

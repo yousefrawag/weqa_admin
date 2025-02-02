@@ -9,7 +9,7 @@ const GetlocationChart = () => {
     }
   return (
     <div className='mt-5'>
-        <h1>إحصائات المواقع</h1>
+        <h1 className='font-bold'>إحصائات المواقع</h1>
         <CustomeChart data={data?.data?.data} seriesName="إجمالى المواقع" chartType="area"/>
     </div>
   )

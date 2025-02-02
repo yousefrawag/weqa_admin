@@ -15,7 +15,7 @@ const EstbilshLevel = ({ data }) => {
       <div className="relative flex flex-col items-center">
         <div className="py-4 px-6 bg-white shadow-lg rounded-xl text-center flex flex-col items-center gap-2 border border-gray-300 w-64 max-w-full">
           <HiOutlineBuildingOffice2 className="text-4xl text-main" />
-          <span className="text-lg font-semibold text-black">{CurrenEstbilshment.name}</span>
+          <span className="text-lg font-semibold text-black">{CurrenEstbilshment?.name}</span>
         </div>
 
         {/* Connector to subcategories */}
@@ -44,7 +44,7 @@ const EstbilshLevel = ({ data }) => {
                 {/* Subcategory box */}
                 <div className="py-4 px-6 bg-white shadow-lg rounded-xl text-center flex flex-col items-center gap-2 border border-gray-300 w-full">
                   <HiOutlineBuildingOffice2 className="text-3xl text-main" />
-                  <span className="text-md font-medium text-black">{subcategory.name}</span>
+                  <span className="text-md font-medium text-black">{subcategory?.name}</span>
                 </div>
               </Link>
             ))}

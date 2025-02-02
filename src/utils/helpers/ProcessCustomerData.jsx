@@ -1,4 +1,4 @@
-export const ProcessCustomerData = (userCustomers) => {
+const ProcessCustomerData = (userCustomers) => {
     const today = new Date();
   
     // Helper to format dates
@@ -54,3 +54,4 @@ export const ProcessCustomerData = (userCustomers) => {
       },
     };
   };
+  export default ProcessCustomerData;

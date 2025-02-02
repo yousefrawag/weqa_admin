@@ -10,7 +10,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import DashboardProvider from './context/DashboardProviedr';
 import {Provider} from "react-redux"
 import Store from "../src/store/index"
-
 const queryClient = new QueryClient({
   defaultOptions:{
     queries:{

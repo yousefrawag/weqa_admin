@@ -29,13 +29,7 @@ export const EsbilshesLevel = [
         key: "count",
         category: "genarlildata",
       },
-      {
-        id: "03",
-        type: "text",
-        name: "رقم الإصل",
-        key: "assetsNumber",
-        category: "genarlildata",
-      },
+ 
       {
         id: "04",
         type: "text",

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import { ProcessCustomerData } from '../utils/helpers/processCustomerData';
+import ProcessCustomerData from "../utils/helpers/ProcessCustomerData.jsx";;
 
 const CustomeChart = ({ data, seriesName, chartType }) => {
   const [timeRange, setTimeRange] = useState('day');
@@ -32,7 +32,7 @@ const CustomeChart = ({ data, seriesName, chartType }) => {
   };
 
   return (
-    <div className="chart-container mt-10">
+    <div className="chart-container mt-5">
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setTimeRange('day')}

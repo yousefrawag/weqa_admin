@@ -10,6 +10,7 @@ import Loader from '../../../../../components/common/Loader';
 import useQueryDelete from '../../../../../services/useQueryDelete';
 import useQuerygetSpacficIteam from '../../../../../services/QuerygetSpacficIteam';
 import { format } from 'date-fns';
+import CardLevelCategoray from '../../../../../components/ui/assets/CardLevelCategoray';
 const GetAssetsByCategoray = () => {
     const {id , continued} = useParams()
     const {data , isLoading} = useQuerygetSpacficIteam("assets/category" , "assets/category" , id)
@@ -92,7 +93,11 @@ const GetAssetsByCategoray = () => {
   }
   return (
     <div>
-        <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل" />
+    
+               <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل" />
+
+   
+       <CardLevelCategoray continued={continued === "first" ? "second" :"third"}  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :"categoryAssets"}`}/>
         <CustomeTabel columns={columns} data={data?.data} />
     </div>
   )

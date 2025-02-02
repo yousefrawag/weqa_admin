@@ -232,7 +232,7 @@ module.exports = {
         6: '6px',
       },
       boxShadow: {
-        default: '0px 8px 13px -3px rgba(0, 0, 0, 0.07)',
+        default: '0px 3px 4px 0px rgba(0, 0, 0, 0.03)',
         card: '0px 1px 3px rgba(0, 0, 0, 0.12)',
         'card-2': '0px 1px 2px rgba(0, 0, 0, 0.05)',
         switcher:

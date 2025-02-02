@@ -21,21 +21,21 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
  } 
 
   return (
-    <div className="mt-4 flex flex-col items-center">
+    <div className=" flex w-full flex-col items-center border-main">
     {/* Vertical line */}
-    <div className="h-10 w-[2px] bg-main"></div>
+    <div className="relative mb-4 h-8 w-[2px] bg-main after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-main"></div>
 
     {/* Horizontal grid for sub-subcategories */}
     <div className="grid gap-6 lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1 w-full max-w-4xl">
     <div
           
-          className="py-2 px-4 bg-white rounded-md text-center w-full max-w-sm"
+          className="py-2 rounded-md text-center w-full max-w-sm relative"
         >
-          <div className='flex justify-between w-full '> 
-            <span className='text-black'>{subcategory?.name}</span>
+          <div className='py-2 px-4 w-full bg-blue-900 shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer'> 
+            <span className='text-white'>{subcategory?.name}</span>
             <div className="relative">
                 <button
-                  className="text-main text-bold text-2xl hover:text-gray-700"
+                  className="text-white text-bold text-2xl hover:text-gray-200"
                   onClick={() => toggleDropdown(subcategory._id)}
                 >
                   ⋮

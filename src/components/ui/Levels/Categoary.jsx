@@ -24,7 +24,6 @@ const Categoary = ({ level, isDropdownVisible, toggleDropdown }) => {
   return (
     <div className="relative w-full max-w-4xl">
       {/* Horizontal line spanning all subcategories */}
-      <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-main"></div>
 
       {/* Subcategories rendered in a row */}
       <div className="grid gap-6 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 relative">
@@ -33,19 +32,19 @@ const Categoary = ({ level, isDropdownVisible, toggleDropdown }) => {
             key={index}
             className={`flex flex-col items-center 
               
-            border-2 border-main p-3`}
+            border-t-2 border-b-2 shadow-card px-2 pb-2 rounded-lg border-main `}
           >
             {/* Vertical line connecting individual subcategory */}
-            <div className="h-6 w-[2px] bg-main"></div>
+            <div className="relative mb-4 h-8 w-[2px] bg-main after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-main"></div>
 
             {/* Subcategory box */}
             <div className="relative w-full max-w-sm">
-              <div className="py-2 px-4 bg-white shadow-md rounded-md text-center flex justify-between items-center cursor-pointer">
-                <span className="text-black">{subcategory.name}</span>
+              <div className="py-2 px-4 bg-main2 shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer">
+                <span className="text-white">{subcategory.name}</span>
                 {/* Dropdown dots */}
                 <div className="relative">
                   <button
-                    className="text-main text-bold text-2xl hover:text-gray-700"
+                    className="text-white text-bold text-2xl hover:text-gray-200"
                     onClick={() => toggleDropdown(subcategory._id)}
                   >
                     ⋮

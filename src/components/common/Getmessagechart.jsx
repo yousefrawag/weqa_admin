@@ -9,7 +9,7 @@ const Getmessagechart = () => {
     }
   return (
     <div className='mt-5'>
-        <h1>إحصائات رسائل الدعم الفنى</h1>
+        <h1 className='font-bold'>إحصائات رسائل الدعم الفنى</h1>
         <CustomeChart data={data?.data?.data} seriesName="إجمالى الرسائل" chartType="area"/>
     </div>
   )

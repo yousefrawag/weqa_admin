@@ -14,10 +14,10 @@ const DropdownUser = () => {
         to="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+          <span className="block text-sm font-bold text-black dark:text-white">
+            محمد كمال
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">مدير مشاريع</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -44,13 +44,13 @@ const DropdownUser = () => {
       {/* <!-- Dropdown Start --> */}
       {dropdownOpen && (
         <div
-          className={`absolute left-0 lg:right-[-4rem] left-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark`}
+          className={`absolute left-0 lg:left-[-1rem] left-0 mt-4 flex w-50 flex-col rounded-bl-lg rounded-br-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark`}
         >
-          <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-4 dark:border-strokedark">
+          <ul className="flex flex-col gap-5 border-b border-stroke px-4 duration-300 ease-in-out hover:px-6 py-4 dark:border-strokedark">
             <li>
               <Link
                 to="/profile"
-                className=" w-full h-full flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-white p-2 hover:bg-main lg:text-base"
+                className=" w-full h-full flex items-center gap-3.5 text-[16px] font-medium duration-300 ease-in-out hover:text-white  hover:text-main"
               >
                 <svg
                   className="fill-current"
@@ -75,7 +75,7 @@ const DropdownUser = () => {
            
          
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button className="flex items-center gap-3.5 px-4 hover:px-6 py-4 text-sm font-medium duration-300 ease-in-out text-red-400 hover:text-red-800 text-[16px]">
             <svg
               className="fill-current"
               width="22"

@@ -30,12 +30,12 @@ const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")
     <div className="flex flex-col items-center">
       {/* Parent category */}
       <div className="relative w-full max-w-sm">
-        <div className="py-2 px-4 bg-white shadow-md rounded-md text-center flex justify-between items-center cursor-pointer">
-          <span className="text-black">{level.name}</span>
+        <div className="py-2 text-white px-4 bg-main shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer">
+          <span className="text-white">{level.name}</span>
           {/* Dropdown dots */}
           <div className="relative">
             <button
-              className="text-main text-bold text-2xl hover:text-gray-700"
+              className="text-white text-bold text-2xl hover:text-gray-700"
               onClick={() => toggleDropdown(level._id)}
             >
               ⋮
@@ -62,10 +62,9 @@ const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")
 
       {/* Render subcategories */}
       {level.categories && level.categories.length > 0 && (
-        <div className="mt-4 flex flex-col items-center">
+        <div className="flex flex-col items-center">
           {/* Vertical line connecting parent to subcategories */}
-          <div className="h-10 w-[2px] bg-main"></div>
-
+          <div className="relative mb-4 h-12 w-[2px] bg-main after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-main"></div>
           {/* Container for horizontal connections and subcategories */}
        <Categoary  level ={level}  isDropdownVisible ={isDropdownVisible} toggleDropdown ={toggleDropdown} />
         </div>

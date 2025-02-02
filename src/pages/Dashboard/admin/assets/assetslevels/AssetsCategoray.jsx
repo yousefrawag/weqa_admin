@@ -76,7 +76,7 @@ console.log(categories);
             <div className="p-3 min-h-screen grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10 space-x-8">
                 {renderCategories()}
             </div>
-            <AddAssethook endpoint ="categoryAssets" keyName ="mainCategoryAssets"  fectParentKEY ="mainCategoryAssets"  ismainLevel = {false} />
+            <AddAssethook id={id} endpoint ="categoryAssets" keyName ="mainCategoryAssets"  fectParentKEY ="mainCategoryAssets"  ismainLevel = {false} />
 
         </div>
     );

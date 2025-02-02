@@ -8,8 +8,8 @@ const GetestbilsmentChart = () => {
         return <SmailLoader />
     }
   return (
-    <div className='mt-5'>
-        <h1>إحصائات المنشأت</h1>
+    <div className='mt-10'>
+        <h1 className='font-bold'> إحصائيات المنشأت</h1>
         <CustomeChart data={data?.data?.data} seriesName="إجمالى المنشأت" chartType="line"/>
     </div>
   )

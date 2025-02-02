@@ -167,7 +167,9 @@ if(isLoading) {
               <CreateFormAsset   formData={formDatainput}
           handleInputChange={handleInputChange}  SelectedType={SelectedType} endpointKey={continued === "first" ? "mainCategoryAssets" : continued === "second" ? "categoryAssets" : "subCategoryAssets"} id={id} />
                 <UploadPdf  pdfs={pdfs} handelFiles={handleFiles} setPdfs={setPdfs}/>
-                <Wrapbtn to={"/all-assets"} />
+              {
+                 SelectedType === "genarlildata" ? <Wrapbtn to={"/all-assets"} /> :<span  className='text-red-500'>يجب رجوع للبيانات الرئيسيه لحفظ جميع البيانات</span>
+              }  
    </form> 
     </div>
   )

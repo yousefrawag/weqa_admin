@@ -73,7 +73,7 @@ const AssetsSubcategoray = () => {
               renderCategories()
             }
              </div>
-             <AddAssethook endpoint ="subCategoryAssets" keyName ="categoryAssets"  fectParentKEY ="categoryAssets"  ismainLevel = {false} />
+             <AddAssethook id={id} endpoint ="subCategoryAssets" keyName ="categoryAssets"  fectParentKEY ="categoryAssets"  ismainLevel = {false} />
 
     </div>
   )

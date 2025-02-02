@@ -9,7 +9,7 @@ const GetusersChart = () => {
     }
   return (
     <div className='mt-5'>
-        <h1>إحصائات المستخدمين</h1>
+        <h1 className='font-bold'>إحصائات المستخدمين</h1>
         <CustomeChart data={data?.data?.data} seriesName="إجمالى المستخدمين" chartType="area"/>
     </div>
   )
