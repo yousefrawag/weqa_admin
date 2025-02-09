@@ -7,10 +7,14 @@ import Loader from '../../../../../components/common/Loader';
 import { useDashboardContext } from '../../../../../context/DashboardProviedr';
 import AddAssethook from '../../../../../hooks/AddAssethook';
 import { useState } from 'react';
+import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
+
 const AssetsCategoray = () => {
     const { id } = useParams();
     const { data, isLoading } = useQuerygetSpacficIteam("mainCategoryAssets", "mainCategoryAssets", id);
       const {setModuleAddAsset } = useDashboardContext()
+      const {isOwner, iscanAdd} = useGetUserAuthentications ("mainCategoryAssets")
+
     const [isDropdownVisible, setDropdownVisible] = useState(null);
   const toggleDropdown = (id) => {
     setDropdownVisible((prev) => (prev === id ? null : id));
@@ -63,13 +67,16 @@ console.log(categories);
             {/* HEAD PAGE STYLE */}
             <div className="flex justify-between w-full">
                 <Breadcrumb pageName={' /خراطيم مرشات / ${الأمن والسلامة}'} />
-                <button
-                     onClick={() => setModuleAddAsset(true)}
-                    className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-blue-800"
-                    type="button"
-                >
-                    إضافه فرع جديد
-                </button>
+                {
+                    iscanAdd || isOwner ?    <button
+                    onClick={() => setModuleAddAsset(true)}
+                   className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-blue-800"
+                   type="button"
+               >
+                   إضافه فرع جديد
+               </button> : null
+                }
+             
             </div>
 
             {/* CARD ASSET STYLE */}

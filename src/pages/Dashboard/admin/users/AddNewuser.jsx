@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Breadcrumb from '../../../../components/common/Breadcrumbs/Breadcrumb'
 import { Link } from 'react-router-dom'
 import Wrapbtn from '../../../../components/common/Wrapbtn'
@@ -6,96 +6,75 @@ import useQuerygetiteams from '../../../../services/Querygetiteams'
 import useQueryadditeam from '../../../../services/Queryadditeam'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import SelectoptionHook from '../../../../hooks/SelectoptionHook'
+import { AdduserVildions } from '../../../../Validations/AdduserVildions'
 const AddNewuser = () => {
  const {data} =  useQuerygetiteams("building" , "building")
  const {addIteam} = useQueryadditeam("employee" , "employee")
+const usersType = [{name:"مسؤل" , key:"admin"} , {name:"تابع لمنشأه" , key:"user"}]
+const [type , setType] = useState("admin")
+ const [value , setvalue] = useState("")
 const navigate = useNavigate()
- const handelSubmit = (e) => {
+const handelSubmit = (e) => {
   e.preventDefault();
   try {
-      const formData = new FormData(e.currentTarget);
-
-      const data = Object.fromEntries(formData);
-        data.address = {
-          area:data.area,
-          city:data.city,
-          street:data.street
-        }
-      if(!data.username){
-        toast.error("يجب إضافه اسم المستخدم")
-          return ;
-      }
-      if(!data.email){
-        toast.error("يجب إضافه  البريد الإلكترونى")
-        return ;
-    }
-      if(!data.identity){
-        toast.error("يجب إضافه رقم الهوية ")
-        return ;
-    }
-    if(!data.employeeNumber){
-      toast.error("يجب إضافه  الرقم الوظيفى")
-      return ;
-      
-  }
-  if(!data.grander){
-    toast.error("يجب إضافه   جنس الموظف")
-    return ;
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
     
-}
-if(!data.phone){
-  toast.error("يجب إضافه   رقم الجوال")
-  return ;
-  
-}
-if(!data.role){
-  toast.error("يجب إضافه  صلاحية المستخدم")
-  return ;
-  
-}
-if(!data.area){
-  toast.error("يجب إضافه  منطقة المستخدم")
-  return ;
-  
-}
-if(!data.city){
-  toast.error("يجب إضافه  مدينة المستخدم")
-  return ;
-  
-}if(!data.area){
-  toast.error("يجب إضافه  منطقة المستخدم")
-  return ;
-  
-}if(!data.street){
-  toast.error("يجب إضافه  عنوان المستخدم")
-  return ;
-  
-}
-if(!data.password){
-  toast.error("يجب إضافه  كلمة مرور المستخدم")
-  return ;
-  
-}
+    data.permissions = value; // Ensure permissions are set
+    data.address = {
+      area: data.area,
+      city: data.city,
+      street: data.street,
+    };
+    data.type = type
+    // Validate Required Fields First
+    for (const field of AdduserVildions) {
+      if (!data[field.key]) {
+        toast.error(field.message);
+        return; // Stop execution
+      }
+    }
 
-if(!data.passwordConfirm){
-  toast.error("يجب إضافه  تأكيد كلمة مرور المستخدم")
-  return ;
-  
-}
-      
-      addIteam(data , {
-          onSuccess:() =>{
-            
-              e.target.reset()
-              toast.success("تم إضافه مستخدم جديد")
-              navigate("/All-users")
-          }
-      })
+    // User Type Validation
+    console.log(data);
+    
+    const validateUser = () => {
+      if (type === "admin") {
+        if (!data.role) return "يجب اختيار نوع المستخدم";
+        if (data.role === "employee" && !data.permissions) return "يجب اختيار صلاحية المستخدم";
+      } else if (type === "employee") {
+        if (!data.permissions || data.permissions === "") return "يجب اختيار صلاحية المستخدم";
+      } else if (type === "user") {
+        if (!data.building) return "يجب اختيار المنشأة التابع لها المستخدم";
+        if (!data.permissions || data.permissions === "") return "يجب اختيار صلاحية المستخدم";
+      }
+      return null;
+    };
+
+    const validationError = validateUser();
+    if (validationError) {
+      toast.error(validationError);
+      return; // Stop execution
+    }
+    // If everything is valid, submit the data
+    addIteam(data, {
+      onSuccess: () => {
+        toast.success("تم إضافة مستخدم جديد");
+        e.target.reset();
+        navigate("/All-users");
+      },
+      onError:(error) => {
+      return toast.error(error?.response?.data?.errors[0]?.msg || "هناك خطأ ما")
+        
+      }
+    });
   } catch (error) {
-      console.log(error);
-      toast.error("هناك خطاء فى إضافة مستخدم يرجى التأكد من جميع البيانات ")
+    console.error(error);
+    toast.error("هناك خطأ في إضافة مستخدم يرجى التأكد من جميع البيانات");
   }
- }
+};
+
   return (
     <div className='w-full'>
         <Breadcrumb  pageName="إضافه مستخدم"/>
@@ -244,52 +223,8 @@ if(!data.passwordConfirm){
                         />
                       </div>
             
-                      <div className="mb-6 flex flex-col  gap-5">
-                            <label
-                              htmlFor="building"
-                              className="w-full  text-lg font-medium text-gray-700 dark:text-white"
-                            >
-                         المنشأه التابع لها
-                            </label>
-                          <select name='building' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
-                                  <option>
-                                    أختر
-                                    </option>
-                                {
-                                  data?.data?.data?.map((item) => {
-                                    return <option key={item?._id} value={item?._id}>{item.name}</option>
-                                  })
-                                }
-                                  
-                                   
-                          </select>
-                      </div>
-                      <div className="mb-6 flex flex-col gap-5">
-                        <label
-                          htmlFor="permissions"
-                          className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                        >
-                          الصلاحية
-                        </label>
-                        <select
-                          className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
-                          id="permissions"
-                          name='role'
-                        >
-                           <option value="">أختر صلاحية </option>
-                          <option value="owner">مالك المنصة</option>
-                          <option value="manager">مدير</option>
-                          <option value="facility_manager">مدير المنشأة</option>
-                          <option value="safety_manager">مدير السلامة</option>
-                          <option value="security_manager">مدير الأمن</option>
-                          <option value="contracts_manager">مدير العقود والمشتريات</option>
-                          <option value="safety_officer">مسؤول السلامة</option>
-                          <option value="security_officer">مسؤول الأمن</option>
-                          <option value="supervisor">مشرف القطاع للمراكز الصحية</option>
-                          <option value="health_manager">مدير المركز الصحي</option>
-                          <option value="security_guard">حارس الأمن</option>
-                        </select>
-                        </div>
+    
+                  
 
                       <div className="mb-6  flex flex-col  gap-2">
                         <label
@@ -324,6 +259,75 @@ if(!data.passwordConfirm){
                   
                  
           </div>
+                 <div >
+                     <span  className="w-full text-lg font-medium text-gray-700 dark:text-white mb-5">نوع المستخدم</span>
+                    <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-2 w-full mt-2 mb-4'>
+                            {
+                                usersType.map((item) => {
+                                  return    <button
+                                  key={item.key}
+                                  onClick={() => setType(item.key)}
+                                  className={`block text-white  ${type === item.key ? "bg-main2" :"bg-main"}  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800`}
+                                  type="button"
+                                >
+                                    {item.name}
+                                </button>
+                                })
+                          }
+                    </div>
+                    {
+                      type ==="user" ? 
+                      <>
+                      <div className="mb-6 flex flex-col  gap-5">
+                      <label
+                        htmlFor="building"
+                        className="w-full  text-lg font-medium text-gray-700 dark:text-white"
+                      >
+                   المنشأه التابع لها
+                      </label>
+                    <select name='building' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+                            <option value="">
+                              أختر
+                              </option>
+                            
+                          {
+                            data?.data?.data?.map((item) => {
+                              return <option key={item?._id} value={item?._id}>{item.name}</option>
+                            })
+                          }
+                            
+                             
+                    </select>
+                </div>
+                <SelectoptionHook title="أختر الصلاحية" value={value} setvalue={setvalue} fectParentKEY="permission" keyName="permissions" /> </>: 
+                 <div className="mb-6 flex flex-col  gap-5">
+                          
+                            <label
+                              htmlFor="grander"
+                              className="w-full  text-lg font-medium text-gray-700 dark:text-white"
+                            >
+                         نوع المستخدم
+                            </label>
+                          <select name='role' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+                                  <option value="">
+                                    أختر
+                                    </option>
+                                    <option value="owner">
+                                    مالك المنصة
+                                    </option>
+                                    <option value="employee">
+                                    موظف
+                                    </option>
+                                  
+                                   
+                          </select>
+
+                          <SelectoptionHook title="أختر الصلاحية" value={value} setvalue={setvalue} fectParentKEY="permission" keyName="permissions" /> 
+
+                      </div>
+                    }
+               
+                 </div>
         
               {/* wrrap button layout */}
               <Wrapbtn to={"/all-users"} />

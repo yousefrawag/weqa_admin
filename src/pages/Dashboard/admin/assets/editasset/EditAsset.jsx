@@ -164,7 +164,7 @@ if(Currentasset){
     setFormData(dynamicData);
   
 }
-} , [])
+} , [Currentasset])
 
 
 if(isLoading || loadingget) {
@@ -172,9 +172,9 @@ if(isLoading || loadingget) {
 }
   return (
     <div className='w-full'>
-        <Breadcrumb  pageName="إضافه منشأه"/>
+        <Breadcrumb  pageName="تعديل اصل"/>
        
-        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4'>
+        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4  mt-10'>
         {
           AssetDataType?.map((item) => {
             return <button   

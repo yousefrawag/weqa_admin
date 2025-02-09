@@ -6,9 +6,11 @@ import AddAssethook from '../../../../../hooks/AddAssethook'
 import { useDashboardContext } from '../../../../../context/DashboardProviedr'
 import { useState } from 'react'
 import Loader from '../../../../../components/common/Loader'
+import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
 const AssetsLevels = () => {
   const {data , isLoading} = useQuerygetiteams("mainCategoryAssets" , "mainCategoryAssets")
   const {setModuleAddAsset } = useDashboardContext()
+  const {isOwner, iscanAdd} = useGetUserAuthentications ("mainCategoryAssets")
     const [isDropdownVisible, setDropdownVisible] = useState(null);
   const toggleDropdown = (id) => {
     setDropdownVisible((prev) => (prev === id ? null : id));
@@ -20,20 +22,23 @@ const AssetsLevels = () => {
     <div className='w-full h-full'>
          <div className="flex justify-between w-full">
               <Breadcrumb pageName="فئات الإصول" />
-              <button
-             onClick={() => setModuleAddAsset(true)}
-                className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800"
-                type="button"
-              >
-                إضافه فئة جديد
-              </button>
+              {
+                iscanAdd || isOwner ?   <button
+                onClick={() => setModuleAddAsset(true)}
+                   className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800"
+                   type="button"
+                 >
+                   إضافه فئة جديد
+                 </button> : null
+              }
+            
             </div>
             <div className="p-3  min-h-screen grid grid-cols-1 lg:grid-cols-3 gap-5 mt-10 space-x-8">
               {
                 data?.data?.data?.map((item) => {
                   const {name , image , _id} = item 
                   return   <CardAsset   keydelete="mainCategoryAssets" isDropdownVisible={isDropdownVisible === _id}
-                  toggleDropdown={toggleDropdown} key={_id} id={_id} item={item} enddpointDelete="mainCategoryAssets" hasSub={true} tosub={`/Assets-category/${_id}`}  img={image} to={ `/Assets/${_id}/first` } title={name} />
+                  toggleDropdown={toggleDropdown} key={_id} id={_id} ismainLevel = {true} item={item} enddpointDelete="mainCategoryAssets" hasSub={true} tosub={`/Assets-category/${_id}`}  img={image} to={ `/Assets/${_id}/first` } title={name} />
 
                 })
               }

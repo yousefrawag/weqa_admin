@@ -9,9 +9,13 @@ import { inputFields } from '../data/index'; // Import the inputFields array
 import SelectSection from '../components/ui/assets/Addasset/SelectSection';
 import useQueryupdate from '../services/useQueryupdate';
 import SelectoptionHook from './SelectoptionHook';
+import useQuerygetSpacficIteam from '../services/QuerygetSpacficIteam';
+import Loader from '../components/common/Loader';
 const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, ismainLevel , mdoule , setModule }) => {
+  const {data , isLoading:loadinget} = useQuerygetSpacficIteam(endpoint , keyName , id)
   const { isError, isLoading, updateiteam } = useQueryupdate(endpoint, keyName);
-  const [level , setlevel] = useState("")
+
+  const [value , setvalue] = useState("")
 
   const [images, setImages] = useState({
     file: "",
@@ -114,15 +118,23 @@ const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, isma
       toast.error('هناك خطأ في فئة الموقع');
     }
   }
+  console.log("Item received:", data); // Check if item is received properly
   useEffect(() => {
-    if(item) {
-        setSelectedInputs([...item?.data] ||[] )
-        setImages((prev) => ({...images , view:item.image}))
-        console.log(item);
-        
-    }
-  } , [item])
+ 
+    if (item) {
+      
 
+      setSelectedInputs(item?.data || []);
+      setImages((prev) => ({ ...prev, view: item.image }));
+      const categoryData = endpoint === "categoryAssets" ? item.mainCategoryAssets : item.categoryAssets;
+      setvalue(categoryData || "");
+    }
+  
+  }, [item]);
+  
+if( isLoading){
+  return <Loader />
+}
   return (
     <div className={`px-7 lg:px-0 fixed inset-0 bg-black bg-opacity-50 z-20 flex items-center justify-center top-0 right-0 bottom-0 ${mdoule ? "flex" : "hidden"}`}>
       <div className="relative bg-white p-4 lg:p-6 rounded-md shadow-lg w-full lg:max-w-[60%] h-[90%] mx-auto flex flex-col">
@@ -137,7 +149,7 @@ const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, isma
         <div className="flex-1 overflow-y-auto mb-4 px-5">
           {isLoading ? <SmailLoader /> :
             <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4 w-full'>
-              {ismainLevel ? null : <SelectoptionHook  title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
+              {ismainLevel ? null : <SelectoptionHook value={value}  title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
               <div className="mb-4 flex flex-col gap-2">
                 <label htmlFor="name" className="w-full text-lg font-medium text-gray-700 dark:text-black">
                   إسم الفئه
@@ -163,6 +175,8 @@ const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, isma
                           type="checkbox"
                           id={input.id}
                           name={input.key}
+                          checked={selectedInputs.some(item => item.id === input.id)} // Add this line
+
                           onChange={(e) => handleInputSelection(e, input)}
                           className="form-checkbox h-5 w-5 text-main rounded"
                         />

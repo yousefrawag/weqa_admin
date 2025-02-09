@@ -2,8 +2,10 @@ import { useState } from 'react';
 import Breadcrumb from '../../components/common/Breadcrumbs/Breadcrumb';
 import userThree from '../../images/user/user-03.png';
 import UploadImage from '../../hooks/UploadImage';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
+  const user = useSelector((state) => state.userState.userinfo)
   const [image , setImage] = useState({
     file:"",
     view:""
@@ -69,10 +71,11 @@ const Profile = () => {
                         <input
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-gray-800 dark:text-white dark:focus:border-primary"
                           type="text"
-                          name="fullName"
+                          name="username"
                           id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          defaultValue={user?.username}
+                        
+                          
                         />
                       </div>
                     </div>
@@ -80,34 +83,32 @@ const Profile = () => {
                     <div className="w-full">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="idNumber"
+                        htmlFor="identity"
                       >
                         رقم الهويه / الإقامة
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-gray-800 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="idNumber"
-                        id="idNumber"
-                        placeholder="12sdasd12sad4545asd"
-                        defaultValue="asdasd112asd2asda1"
+                        name="identity"
+                        id="identity"
+                        defaultValue={user?.identity}
                       />
                     </div>
 
                     <div className="w-full">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="jobNumber"
+                        htmlFor="employeeNumber"
                       >
                         الرقم الوظيفى
                       </label>
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-gray-800 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="jobNumber"
-                        id="jobNumber"
-                        placeholder="das222s"
-                        defaultValue="das222s"
+                        name="employeeNumber"
+                        id="employeeNumber"
+                        defaultValue={user?.employeeNumber}
                       />
                     </div>
                     <div className="w-full">
@@ -146,10 +147,9 @@ const Profile = () => {
                         <input
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-gray-800 dark:text-white dark:focus:border-primary"
                           type="email"
-                          name="emailAddress"
-                          id="emailAddress"
-                          placeholder="devidjond45@gmail.com"
-                          defaultValue="devidjond45@gmail.com"
+                          name="email"
+                          id="email"
+                          defaultValue={user?.email}
                         />
                       </div>
                     </div>
@@ -164,10 +164,9 @@ const Profile = () => {
                       <input
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-gray-800 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="phoneNumber"
+                        name="phone"
                         id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        defaultValue={user?.phone}
                       />
                     </div>
 
@@ -184,8 +183,7 @@ const Profile = () => {
                       type="text"
                       name="address"
                       id="address"
-                      placeholder="الدناويه - العياط - الجيزه"
-                      defaultValue="الدناويه - العياط - الجيزه"
+                      defaultValue={user?.address?.area}
                     />
                   </div>
 
@@ -202,8 +200,7 @@ const Profile = () => {
                       name="building"
                       id="building"
                       disabled
-                      placeholder="منشأه كاسب"
-                      defaultValue="منشأه كاسب"
+                      defaultValue={user?.building}
                     />
                   </div>
 
@@ -220,8 +217,7 @@ const Profile = () => {
                       name="permissions"
                       id="permissions"
                       disabled
-                      placeholder="مدير"
-                      defaultValue="مدير"
+                      defaultValue={user?.permissions?.roles?.ar}
                     />
                   </div>
 

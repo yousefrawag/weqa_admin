@@ -6,10 +6,11 @@ import useQueryDelete from "../../../services/useQueryDelete";
 import Categoary from "./Categoary";
 import EditModal from "../../common/popupmdules/EditModal";
 import useQueryupdate from "../../../services/useQueryupdate"
+import useGetUserAuthentications  from "../../../middleware/GetuserAuthencations";
 const LevelItem = ({ level }) => {
   const { deleteIteam } = useQueryDelete("mainCategory", "mainCategory");
 const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")
-
+const {isOwner , iscanDelete , iscanPut  } = useGetUserAuthentications ("mainCategory")
   // State to track dropdown visibility
   const [isDropdownVisible, setDropdownVisible] = useState(null);
   const [isEditVisible, setEditVisible] = useState(false);
@@ -42,18 +43,23 @@ const {updateiteam} = useQueryupdate("mainCategory" , "mainCategory")
             </button>
             {isDropdownVisible === level._id && (
               <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md z-10">
-                <button
+                {
+                 isOwner ||  iscanPut ? <button
                   className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                   onClick={() => handelUpdate(level)}
                 >
                   تعديل
-                </button>
-                <button
-                  className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
-                  onClick={() => deleteIteam(level._id)}
-                >
-                  حذف
-                </button>
+                </button> : null
+                }
+               {
+              isOwner ||  iscanDelete  ?   <button
+                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                onClick={() => deleteIteam(level._id)}
+              >
+                حذف
+              </button> : null
+               }
+              
               </div>
             )}
           </div>

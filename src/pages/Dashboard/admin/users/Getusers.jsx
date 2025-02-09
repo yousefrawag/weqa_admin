@@ -10,9 +10,46 @@ import useQuerygetiteams from '../../../../services/Querygetiteams';
 import HeadPagestyle from '../../../../components/common/HeadPagestyle';
 import Loader from '../../../../components/common/Loader';
 import useQueryDelete from '../../../../services/useQueryDelete';
+import GetuserAuthencations from '../../../../middleware/GetuserAuthencations'
+import { useState } from 'react';
+import FiltertionHook from '../../../../hooks/FiltertionHook';
 const Getusers = () => {
+    const [params , setParams] = useState({
+      field: "",
+      searTerm: "",
+      startDate: "",
+      endDate: "",
+    })
+  const filters = [
+    {
+      value:"username",
+      name:"الإسم"
+    },
+    {
+      value:"phone",
+      name:"رقم الجوال"
+    },
+    {
+      value:"email",
+      name:"الإيميل"
+    },
+    {
+      value:"address.city",
+      name:"المدينة"
+    },
+    {
+      value:"identity",
+      name:"رقم الهوية"
+    },
+    {
+      value:"permissions",
+      name:"الصلاحية"
+    },
+  
+  ]
   const {isError , isLoading , data} = useQuerygetiteams("employee" , "employee")
   const {deleteIteam} = useQueryDelete("employee" , "employee")
+   const {isOwner , iscanAdd , iscanDelete , iscanPut} = GetuserAuthencations("employee")
     const columns = [
         {
             name:"الإسم",
@@ -42,7 +79,7 @@ const Getusers = () => {
    
         {
             name:"الصلاحية",
-            selector: (row) => <span className='text-wrap'> { row.role}</span> ,
+            selector: (row) => <span className='text-wrap'> { row?.role}</span> ,
 
         },
         {
@@ -57,15 +94,21 @@ const Getusers = () => {
                    name:"إجراء",
                    cell:(row) => (
                        <div className="flex items-center justify-center space-x-3.5">
-                       <Link to={`/Establishment-overView/${row._id}`} className="hover:text-primary">
+                       <Link to={`/user-overview/${row._id}`} className="hover:text-primary">
                        <GrFormView size={20} />
                        </Link>
-                       <Link to={`/update-Establishment/${row._id}`}  className="hover:text-primary">
-                         <MdOutlineEditNote size={20}/>
-                       </Link>
-                       <button className="hover:text-primary" onClick={() => deleteIteam(row._id)}>
-                         <AiTwotoneDelete size={20}/>
-                       </button>
+                       {
+                        isOwner || iscanPut ? 
+                        <Link to={`/update-user/${row._id}`}  className="hover:text-primary">
+                        <MdOutlineEditNote size={20}/>
+                      </Link> : null
+                       }
+                    {
+                      isOwner || iscanDelete ?  <button className="hover:text-primary" onClick={() => deleteIteam(row._id)}>
+                      <AiTwotoneDelete size={20}/>
+                    </button> : null
+                    }
+                      
                      </div>
                    )
               
@@ -76,9 +119,10 @@ if(isLoading){
 }
   return (
     <div>
-        <HeadPagestyle  pageName="المستخدمين" to="/Add-user" title={"إضافة مستخدم"} />
+        <HeadPagestyle  pageName="المستخدمين" to="/Add-user" isOwner={isOwner} iscanAdd={iscanAdd} title={"إضافة مستخدم"} />
 
-    
+        <FiltertionHook filters={filters} params={params} setParams={setParams} />
+
     <div className='shadow-[#EFEEF4] w-full h-full rounded-md'>
     <CustomeTabel columns={columns} data={data?.data?.data}/>
     </div>

@@ -31,7 +31,7 @@ const Addassets = () => {
   const [CurrentArea , setCurrentArea] = useState("")
   const [CurrentSection , setCurrentSection] = useState("")
   const [CurrentRoom , setCurrentRoom] = useState("")
-  const AssetDataType  = [{name:"بيانات أساسيه" , key:"genarlildata"} , {name: "بيانات مالية" , key:"finnincedata"} , {name:"بيانات تشغيلية" , key:"genarlildataWorks"}]
+  const AssetDataType  = [{name:"بيانات أساسيه" , key:"genarlildata"} , {name: "بيانات مالية" , key:"finnincedata"} , {name:"بيانات تشغيلية" , key:"genarlildataWorks"} ]
   const [SelectedType , setSelectedType] = useState("genarlildata")
   const params =  {
     building
@@ -91,9 +91,9 @@ const handelSubmit = (e) =>{
      formData.set("room" , CurrentRoom )
      formData.set("subCategoryAssets" , id )
 
-  //   pdfs.forEach((item) =>
-  //     formData.append("pdf", item.file)
-  // )
+    pdfs.forEach((item) =>
+      formData.append("pdf", item.file)
+  )
 
       if(!data.assetsName){
         toast.error("يجب إضافه اسم الاصل")
@@ -121,7 +121,7 @@ if(!data.room){
   return ;
 }
 
-console.log(data);
+
 
      
       addIteam(formData , {
@@ -147,7 +147,7 @@ if(isLoading) {
     <div className='w-full'>
         <Breadcrumb  pageName="إضافه منشأه"/>
        
-        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4'>
+        <div className='w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5'>
         {
           AssetDataType?.map((item) => {
             return <button   

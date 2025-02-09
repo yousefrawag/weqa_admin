@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import {inputFields} from '../../../data/index';
+import FilesCard from './FilesCard';
 const AssetOverviewui = ({ CurrentAsset }) => {
   const data = CurrentAsset?.data;
   const locationDetails = CurrentAsset?.locationDetails;
@@ -20,6 +21,7 @@ const AssetOverviewui = ({ CurrentAsset }) => {
     { name: "بيانات أساسيه", key: "genarlildata" },
     { name: "بيانات مالية", key: "finnincedata" },
     { name: "بيانات تشغيلية", key: "genarlildataWorks" },
+    {name:"مرفقات" , key:"files"}
   ];
 
   const [SelectedType, setSelectedType] = useState("genarlildata");
@@ -92,6 +94,9 @@ const fillterfinnincedatalData = inputFields.filter((item) => item.category === 
           </div>
         ))}
       </div>
+      {
+        SelectedType === "files" && <FilesCard  CurrentAsset={CurrentAsset}/>
+      }
     </div>
   );
 };

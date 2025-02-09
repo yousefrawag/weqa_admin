@@ -30,8 +30,9 @@ const SignIn = () => {
        }
        setLoading(true)
         const res = await authFetch.post("/auth/login" ,data)
-      const user = res.data.user
-      
+      const user = res.data?.data
+    console.log(user);
+    
       if(res.status === 200) {
         localStorage.setItem("token" , JSON.stringify(res.data.token))
         dispatch(login(user))

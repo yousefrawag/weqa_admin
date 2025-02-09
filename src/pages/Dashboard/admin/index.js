@@ -10,7 +10,6 @@ import UserOverview from "./users/UserOverview";
 import ChatOverview from "./chat/ChatOverview";
 import EstablishmentUsers from "./estbilshments/users/EstablishmentUsers";
 import Adduser from "./estbilshments/users/Adduser";
-import Updateuser from "./estbilshments/users/Updateuser";
 import Useroverview from "./estbilshments/users/Useroverview";
 import Getlocations from "./locations/Getlocations";
 import AddLocations from "./locations/AddLocations";
@@ -30,6 +29,9 @@ import AddPermission from "./permissions/AddPermission";
 import EditAsset from "./assets/editasset/EditAsset";
 import GetEsbilshAssets from "./estbilshments/estbilshAssets/GetEsbilshAssets";
 import GetEsbilshLocation from "./estbilshments/EsstbilshLocation/GetEsbilshLocation";
+import AddTicket from "./chat/AddTicket";
+import Updateuser from "./users/Updateuser";
+import TicketOverview from "./chat/TicketOverview";
 export {
     ECommerce ,
        
@@ -49,7 +51,7 @@ export {
     ChatOverview,
     EstablishmentUsers,
     Adduser,
-    Updateuser,
+ 
     Useroverview,
 
      // locations Routes
@@ -75,6 +77,9 @@ export {
       AddPermission,
       EditAsset , 
       GetEsbilshAssets , 
-      GetEsbilshLocation
+      GetEsbilshLocation , 
+      AddTicket , 
+      Updateuser , 
+      TicketOverview
 
 }

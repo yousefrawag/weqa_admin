@@ -8,8 +8,13 @@ import { IoLocation } from 'react-icons/io5';
 import { FaGripHorizontal, FaUsers } from 'react-icons/fa';
 import { BsFillBuildingsFill } from 'react-icons/bs';
 import { MdContactSupport, MdOutlineSecurity } from 'react-icons/md';
+import useGetUserAuthentications  from '../../../middleware/GetuserAuthencations';
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
+  const {iscanView , isOwner} = useGetUserAuthentications ("mainCategory")
+  const user = useSelector((state) => state.userState.userinfo) || {};
+  const permissions = user.permissions || {};
   const location = useLocation();
   const { pathname } = location;
 
@@ -143,7 +148,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
               {/* <!-- Menu Item Dashboard --> */}
               {/* <!-- Menu Item main categoary --> */}
-              <li>
+              {
+                isOwner || iscanView ?    <li>
                 <NavLink
                   to="/main-categoary"
                   className={`${liststyle} ${
@@ -154,11 +160,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <PiTreeStructureBold />
                   الهيكل الإدارى
                 </NavLink>
-              </li>
+              </li> : null
+              }
+           
 
               {/* <!-- Menu Item categoary --> */}
               {/* <!-- Menu Item main categoary --> */}
-              <li>
+              {
+                isOwner || permissions?.building?.actions?.some((key) => key === "get") ?
+                <li>
                 <NavLink
                   to="/Est-ablishments"
                   className={`${liststyle} ${
@@ -169,11 +179,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <BsFillBuildingsFill />
                   المنشأات
                 </NavLink>
-              </li>
+              </li> : null
+              }
+              
 
               {/* <!-- Menu Item categoary --> */}
               {/* <!-- Menu Item locations --> */}
-              <li>
+              {
+                isOwner || permissions?.location?.actions?.some((key) => key === "get") ?
+                <li>
                 <NavLink
                   to="/locations"
                   className={`${liststyle} ${
@@ -184,42 +198,53 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   <IoLocation />
                   المواقع
                 </NavLink>
-              </li>
+              </li> : null
+              }
+          
 
               {/* <!-- Menu Item locations --> */}
 
               {/* <!-- Menu Item assets --> */}
-              <li>
-                <NavLink
-                  to="/Assets-Onboarding"
-                  className={`${liststyle} ${
-                    pathname.includes('Assets-Onboarding') &&
-                    'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
-                  }`}
-                >
-                  <FaGripHorizontal />
-                  الأصول
-                </NavLink>
-              </li>
+              {
+                 isOwner || permissions?.assets?.actions?.some((key) => key === "get") ?
+                 <li>
+                 <NavLink
+                   to="/Assets-Onboarding"
+                   className={`${liststyle} ${
+                     pathname.includes('Assets-Onboarding') &&
+                     'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
+                   }`}
+                 >
+                   <FaGripHorizontal />
+                   الأصول
+                 </NavLink>
+               </li> : null
+              }
+           
 
               {/* <!-- Menu Item assets --> */}
               {/* <!-- Menu Item users --> */}
-              <li>
-                <NavLink
-                  to="/all-users"
-                  className={`${liststyle} ${
-                    pathname.includes('all-users') &&
-                    'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
-                  }`}
-                >
-                  <FaUsers />
-                  جميع المستخدمين
-                </NavLink>
-              </li>
+              {
+                 isOwner || permissions?.employee?.actions?.some((key) => key === "get") ?
+                 <li>
+                 <NavLink
+                   to="/all-users"
+                   className={`${liststyle} ${
+                     pathname.includes('all-users') &&
+                     'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
+                   }`}
+                 >
+                   <FaUsers />
+                   جميع المستخدمين
+                 </NavLink>
+               </li> : null
+              }
+          
 
               {/* <!-- Menu Item user --> */}
               {/* <!-- Menu Item users --> */}
-              <li>
+              {
+                isOwner  &&   <li>
                 <NavLink
                   to="permissions"
                   className={`${liststyle} ${
@@ -231,21 +256,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   الصلاحيات
                 </NavLink>
               </li>
+              }
+            
 
               {/* <!-- Menu Item user --> */}
               {/* <!-- Menu Item support --> */}
-              <li>
-                <NavLink
-                  to="/support-weqa"
-                  className={`${liststyle} ${
-                    pathname.includes('support-weqa') &&
-                    'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
-                  }`}
-                >
-                  <MdContactSupport />
-                  الدعم الفنى
-                </NavLink>
-              </li>
+              {
+                  isOwner || permissions?.assets?.Support?.some((key) => key === "get") ?
+                  <li>
+                  <NavLink
+                    to="/support-weqa"
+                    className={`${liststyle} ${
+                      pathname.includes('support-weqa') &&
+                      'text-main border-main mr-6 dark:!text-main bg-gray-100 dark:bg-gray-800'
+                    }`}
+                  >
+                    <MdContactSupport />
+                    الدعم الفنى
+                  </NavLink>
+                </li>:null
+              }
+            
 
               {/* <!-- Menu Item support --> */}
             </ul>

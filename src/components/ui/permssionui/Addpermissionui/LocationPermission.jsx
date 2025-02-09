@@ -1,25 +1,37 @@
 import React from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const LocationPermission = () => {
-    const [permissions, setPermissions] = React.useState({
-        viewLocation: false,
-        editLocation: false,
-        deleteLocation: false,
-        createLocation: false,
+const LocationPermission = ({setLocationPermissions}) => {
+    const [permissions, setLocalPermissions] = React.useState({
+        get: false,
+        post: false,
+        put: false,
+        delete: false,
       });
     
       const handlePermissionChange = (key) => {
-        setPermissions((prev) => ({
-          ...prev,
-          [key]: !prev[key],
-        }));
+        const newPermissions = {
+          ...permissions,
+          [key]: !permissions[key],
+        };
+        setLocalPermissions(newPermissions);
+    
+        const actions = [];
+        if (newPermissions.get) actions.push('get');
+        if (newPermissions.post) actions.push('post');
+        if (newPermissions.put) actions.push('put');
+        if (newPermissions.delete) actions.push('delete');
+    
+        setLocationPermissions({
+          actions
+        
+        });
       };
     
       const permissionsData = [
-        { key: "createLocation", label: "إضافة موقع", value: permissions.createAssets },
-        { key: "viewLocation", label: "عرض المواقع", value: permissions.viewAssets },
-        { key: "editLocation", label: "تعديل المواقع", value: permissions.editAssets },
-        { key: "deleteLocation", label: "حذف موقع", value: permissions.deleteAssets },
+        { key: "post", label: "إضافة موقع", value: permissions.createAssets },
+        { key: "get", label: "مشاهده المواقع", value: permissions.viewAssets },
+        { key: "put", label: "تعديل المواقع", value: permissions.editAssets },
+        { key: "delete", label: "حذف موقع", value: permissions.deleteAssets },
         
       ];
   return (

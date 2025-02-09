@@ -16,7 +16,7 @@ if(isLoading){
     
             <HeadPagestyle  to={"/Est-ablishments"} pageName={"بيانات المنشأه"}  title={"عوده"}/>
         <Overview CurrenEstbilshment={CurrenEstbilshment?.building || []} />
-        <EstbilshAbout OverviewData={CurrenEstbilshment?.building || []} />
+        <EstbilshAbout OverviewData={CurrenEstbilshment || []} />
         <h2 className='w-full h-full mt-10 text-black dark:text-white text-2xl'>هيكل المنشأه الإدارى</h2>
         <div className='flex items-center justify-center'>
         <EstbilshLevel data={CurrenEstbilshment || []}/>

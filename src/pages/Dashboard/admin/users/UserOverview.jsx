@@ -1,12 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Breadcrumb from '../../../../components/common/Breadcrumbs/Breadcrumb'
+import useQuerygetSpacficIteam from '../../../../services/QuerygetSpacficIteam'
+import Loader from '../../../../components/common/Loader'
 const UserOverview = () => {
+  const {id}  = useParams()
+  const {data , isLoading} = useQuerygetSpacficIteam("employee" , "employee" , id)
+  const Currentuser = data?.data
+if(isLoading) {
+  return <Loader />
+}  
   return (
     <div className='w-full'>
               {/* wrrap button layout */}
               <div className='w-full flex justify-between items-center'>
-              <Breadcrumb  pageName="بيانات المستخدم محمد كمال"/>
+              <Breadcrumb  pageName="بيانات المستخدم  "/>
               <Link to="/All-users" className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800" >
                     عودة
                   </Link>
@@ -22,12 +30,30 @@ const UserOverview = () => {
                    
                     className="w-full text-lg font-medium text-gray-700 dark:text-white"
                   >
-                    إسم الموظف
+                    إسم المستخدم
                   </span>
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                    محمد كمال 
+                    {
+                      Currentuser?.username
+                    }
+                  </p>
+              
+                </div>
+                <div className="mb-6 flex flex-col  gap-2">
+                  <span
+                   
+                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
+                  >
+                    نوع المستخدم
+                  </span>
+                  <p 
+                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
+                  >
+                    {
+                      Currentuser?.type === "admin" ||   Currentuser?.type === "employee"  ? "مسؤل" : "مستخدم تابع لمنشأه"
+                    }
                   </p>
               
                 </div>
@@ -41,7 +67,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                    3784غ293883
+                 {
+                  Currentuser?.identity
+                 }
                   </p>
               
                 </div>
@@ -56,7 +84,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                   763487973
+                 {
+                  Currentuser?.employeeNumber
+                 }
                   </p>
               
                 </div>
@@ -70,7 +100,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                   ذكر
+                 {
+                  Currentuser?.grander
+                 }
                   </p>
               
                 </div>
@@ -79,12 +111,14 @@ const UserOverview = () => {
                    
                     className="w-full text-lg font-medium text-gray-700 dark:text-white"
                   >
-                   تاريخ الميلاد
+                  البريد الإلكترونى
                   </span>
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                    3784غ293883
+                  {
+                  Currentuser?.email
+                 }
                   </p>
               
                 </div>
@@ -94,99 +128,41 @@ const UserOverview = () => {
                    
                     className="w-full text-lg font-medium text-gray-700 dark:text-white"
                   >
-                  الجنسية
+                  الجوال
                   </span>
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                    سعودى
+                         {
+                  Currentuser?.phone
+                 }
                   </p>
               
                 </div>
-                <div className="mb-6 flex flex-col  gap-2">
+                {
+                  Currentuser?.building && <div className="mb-6 flex flex-col  gap-2">
                   <span
                    
                     className="w-full text-lg font-medium text-gray-700 dark:text-white"
                   >
-                  المؤهل العلمى
+                 المنشأه التابع لها 
                   </span>
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                    3784غ293883
+                           {
+                  Currentuser?.building?.name
+                 }
                   </p>
               
                 </div>
-                <div className="mb-6 flex flex-col  gap-2">
-                  <span
-                   
-                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                  >
-                  المسمى الوظيفى
-                  </span>
-                  <p 
-                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
-                  >
-                 مهندس تقنى
-                  </p>
+                }
+                
               
-                </div>
-                <div className="mb-6 flex flex-col  gap-2">
-                  <span
-                   
-                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                  >
-                   المنشأه التابع لها
-                  </span>
-                  <p 
-                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
-                  >
-                   فرع القاهره
-                  </p>
+             
               
-                </div>
-                <div className="mb-6 flex flex-col  gap-2">
-                  <span
-                   
-                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                  >
-                   الصلاحية
-                  </span>
-                  <p 
-                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
-                  >
-                   مدير
-                  </p>
-              
-                </div>
-                <div className="mb-6 flex flex-col  gap-2">
-                  <span
-                   
-                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                  >
-                  رقم الجوال
-                  </span>
-                  <p 
-                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
-                  >
-                    3784غ293883
-                  </p>
-              
-                </div>
-                <div className="mb-6 flex flex-col  gap-2">
-                  <span
-                   
-                    className="w-full text-lg font-medium text-gray-700 dark:text-white"
-                  >
-                 البريد الإلكترونى
-                  </span>
-                  <p 
-                   className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
-                  >
-                  yousefrawag908@gmail.com
-                  </p>
-              
-                </div>
+             
+             
                 <div className="mb-6 flex flex-col  gap-2">
                   <span
                    
@@ -197,7 +173,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                        جده   
+                               {
+                  Currentuser?.address?.area
+                 }     
                   </p>
               
                 </div>
@@ -211,7 +189,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                 الدمام
+                               {
+                  Currentuser?.address?.city
+                 } 
                   </p>
               
                 </div>
@@ -225,7 +205,9 @@ const UserOverview = () => {
                   <p 
                    className=" dark:border-form-strokedark dark:bg-form-input  text-main p-3 w-full  rounded-md border border-gray-300 shadow-sm "
                   >
-                13 شارع الجلاء 
+                               {
+                  Currentuser?.address?.street
+                 } 
                   </p>
               
                 </div>

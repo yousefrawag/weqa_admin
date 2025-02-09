@@ -1,25 +1,37 @@
 import React from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid'
-const LevelsPermission = () => {
-    const [permissions, setPermissions] = React.useState({
-        viewAssets: false,
-        editAssets: false,
-        deleteAssets: false,
-        createAssets: false,
+const LevelsPermission = ({setMainCategoryPermissions}) => {
+    const [permissions, setLocalPermissions] = React.useState({
+        get: false,
+        put: false,
+        delete: false,
+        post: false,
       });
     
       const handlePermissionChange = (key) => {
-        setPermissions((prev) => ({
-          ...prev,
-          [key]: !prev[key],
-        }));
+        const newPermissions = {
+          ...permissions,
+          [key]: !permissions[key],
+        };
+        setLocalPermissions(newPermissions);
+    
+        const actions = [];
+        if (newPermissions.get) actions.push('get');
+        if (newPermissions.post) actions.push('post');
+        if (newPermissions.put) actions.push('put');
+        if (newPermissions.delete) actions.push('delete');
+    
+        setMainCategoryPermissions({
+          actions
+        
+        });
       };
     
       const permissionsData = [
-        { key: "viewAssets", label: "عرض الهيكل الإدارى", value: permissions.viewAssets },
-        { key: "editAssets", label: "تعديل الهيكل", value: permissions.editAssets },
-        { key: "deleteAssets", label: "حذف هيكل", value: permissions.deleteAssets },
-        { key: "createAssets", label: "إضافة هيكل", value: permissions.createAssets },
+        { key: "get", label: "مشاهده الهيكل الإدارى", value: permissions.get },
+        { key: "put", label: "تعديل الهيكل", value: permissions.put },
+        { key: "delete", label: "حذف هيكل", value: permissions.delete },
+        { key: "post", label: "إضافة هيكل", value: permissions.post },
       ];
   return (
     <div className='w-full h-full shadow-lg'>

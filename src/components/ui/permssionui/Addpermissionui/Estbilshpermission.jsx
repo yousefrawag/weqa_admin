@@ -1,25 +1,37 @@
 import React from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const Estbilshpermission = () => {
-    const [permissions, setPermissions] = React.useState({
-        viewBuilding: false,
-        editBuilding: false,
-        deleteBuilding: false,
-        createBuilding: false,
+const Estbilshpermission = ({setBuildingPermissions}) => {
+    const [permissions, setLocalPermissions] = React.useState({
+        get: false,
+        post: false,
+        put: false,
+        delete: false,
       });
     
       const handlePermissionChange = (key) => {
-        setPermissions((prev) => ({
-          ...prev,
-          [key]: !prev[key],
-        }));
+        const newPermissions = {
+          ...permissions,
+          [key]: !permissions[key],
+        };
+        setLocalPermissions(newPermissions);
+    
+        const actions = [];
+        if (newPermissions.get) actions.push('get');
+        if (newPermissions.post) actions.push('post');
+        if (newPermissions.put) actions.push('put');
+        if (newPermissions.delete) actions.push('delete');
+    
+        setBuildingPermissions({
+          actions
+        
+        });
       };
     
       const permissionsData = [
-        { key: "createBuilding", label: "إضافة منشأه", value: permissions.createBuilding },
-        { key: "viewBuilding", label: "مشاهده بيانات المنشأت", value: permissions.viewBuilding },
-        { key: "editBuilding", label: "تعديل بيانات المنشات", value: permissions.editBuilding },
-        { key: "deleteBuilding", label: "حذف منشأت", value: permissions.deleteBuilding },
+        { key: "post", label: "إضافة منشأه", value: permissions.post },
+        { key: "get", label: "مشاهده بيانات المنشأت", value: permissions.get },
+        { key: "put", label: "تعديل بيانات المنشات", value: permissions.put },
+        { key: "delete", label: "حذف منشأت", value: permissions.delete },
         
       ];
   return (

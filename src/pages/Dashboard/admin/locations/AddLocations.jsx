@@ -16,7 +16,7 @@ const AddLocations = () => {
 
     const navigate = useNavigate()
     const [floors, setFloors] = useState([]);
-    const [loading , setLoading] = useState(false)
+
 
   
     const handleSubmit =  (e) => {
@@ -32,7 +32,7 @@ const AddLocations = () => {
             longitude , 
             latitude
         }
-      setLoading(true)
+
       try {
          addIteam(
           data,
@@ -44,10 +44,8 @@ const AddLocations = () => {
           }
         );
       } catch (error) {
-        setLoading(false)
+      
         toast.error('هناك خطأ في إضافة الموقع');
-      }finally {
-        setLoading(false)
       }
     };
   if(isLoading){

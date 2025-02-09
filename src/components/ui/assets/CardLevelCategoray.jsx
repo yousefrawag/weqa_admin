@@ -7,9 +7,10 @@ import Loader from '../../../components/common/Loader';
 import { useDashboardContext } from '../../../context/DashboardProviedr';
 import AddAssethook from '../../../hooks/AddAssethook';
 import { useState } from 'react';
+import useGetUserAuthentications  from '../../../middleware/GetuserAuthencations';
 
 const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
-    
+    const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("mainCategoryAssets")
     const { data, isLoading } = useQuerygetSpacficIteam(fetchkey, fetchkey, id);
       const {setModuleAddAsset } = useDashboardContext()
     const [isDropdownVisible, setDropdownVisible] = useState(null);
@@ -33,6 +34,7 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
                 <CardAsset
                     key={category._id}
                     img={category.image}
+                    item={category}
                     enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" :"subCategoryAssets" }
                     id={category._id}
                     to={ `/Assets/${category?._id}/${continued}` }
@@ -48,6 +50,7 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
                 <CardAsset
                     key={categories._id}
                     img={categories.image}
+                    item={category}
                     enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" :"subCategoryAssets" }
                     keydelete={fetchkey === "mainCategoryAssets" ?  "mainCategoryAssets" :"categoryAssets" }                    to={ `/Assets/${category?._id}/${continued}` }
                     hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`}                   title={categories.name}
@@ -63,13 +66,13 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
             {/* HEAD PAGE STYLE */}
               <div className="flex justify-between w-full">
                {
-                continued === "third" ? null : <button
+                continued === "third" ? null : isOwner || iscanAdd ? <button
                 onClick={() => setModuleAddAsset(true)}
                className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-blue-800"
                type="button"
            >
                إضافه فرع جديد
-           </button>
+           </button> :null
                }
                  
               </div>

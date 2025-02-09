@@ -9,9 +9,38 @@ import useQuerygetiteams from '../../../../services/Querygetiteams';
 import { format } from "date-fns";
 import useQueryDelete from '../../../../services/useQueryDelete';
 import Loader from '../../../../components/common/Loader';
+import useGetUserAuthentications  from '../../../../middleware/GetuserAuthencations';
+import { useState } from 'react';
+import FiltertionHook from '../../../../hooks/FiltertionHook';
 const Getlocations = () => {
+    const [params , setParams] = useState({
+      field: "",
+      searTerm: "",
+      startDate: "",
+      endDate: "",
+    })
+  const filters = [
+    {
+      value:"name",
+      name:"إسم الموقع"
+    },
+    {
+      value:"kind",
+      name:"نوع الموقع"
+    },
+    {
+      value:"building.name",
+      name:" المنشأه"
+    },
+  
+  ]
+
+  // HOKS FETCH AND DELEET WITH PERMISSIONS
     const { isError , isLoading , data} =  useQuerygetiteams("location" , "location")
     const {deleteIteam} = useQueryDelete("location" , "location")
+    const {isOwner, iscanAdd, iscanDelete, iscanPut} = useGetUserAuthentications ("location")
+ // HOKS FETCH AND DELEET WITH PERMISSIONS
+
 // tabel colums
     const columns = [
         {
@@ -51,12 +80,17 @@ const Getlocations = () => {
                        <Link to={`/locations/${row._id}`} className="hover:text-primary">
                        <GrFormView size={20} />
                        </Link>
-                       <Link to={`/locations-edit/${row._id}`}  className="hover:text-primary">
-                         <MdOutlineEditNote size={20}/>
-                       </Link>
-                       <button className="hover:text-red-500" onClick={() => deleteIteam(row._id)}>
-                         <AiTwotoneDelete size={20}/>
-                       </button>
+                       {
+                        isOwner || iscanPut ? <Link to={`/locations-edit/${row._id}`}  className="hover:text-primary">
+                        <MdOutlineEditNote size={20}/>
+                      </Link>: null
+                       }
+                   {
+                    iscanDelete  || isOwner ?    <button className="hover:text-red-500" onClick={() => deleteIteam(row._id)}>
+                    <AiTwotoneDelete size={20}/>
+                  </button> :null
+                   }
+                    
                      </div>
                    )
               
@@ -68,8 +102,9 @@ if(isLoading){
   return (
     <div>
         
-        <HeadPagestyle pageName="المواقع" to={"/Add-Location"} title={"إضافة موقع"} />
+        <HeadPagestyle pageName="المواقع" to={"/Add-Location"} title={"إضافة موقع"} isOwner={isOwner}  iscanAdd={iscanAdd}/>
     
+    <FiltertionHook filters={filters} params={params} setParams={setParams} />
     <div className='shadow-[#EFEEF4] w-full h-full rounded-md'>
     <CustomeTabel columns={columns} data={data?.data?.data}/>
     </div>

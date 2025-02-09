@@ -1,11 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 import UserOne from '../../../images/user/user-01.png';
-
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../store/userSlice';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const user = useSelector((state) => state.userState.userinfo)
 
+  const navigate = useNavigate()
+const dispatch = useDispatch()
+const handelLogout = () => {
+  dispatch(logout());
+  navigate('/auth/signin');
+  toast.success("تم تسجيل الخروج بنجاح");
+};
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -15,9 +26,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-bold text-black dark:text-white">
-            محمد كمال
+            {user?.username}
           </span>
-          <span className="block text-xs">مدير مشاريع</span>
+          <span className="block text-xs mt-2">{user?.role} </span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -75,7 +86,7 @@ const DropdownUser = () => {
            
          
           </ul>
-          <button className="flex items-center gap-3.5 px-4 hover:px-6 py-4 text-sm font-medium duration-300 ease-in-out text-red-400 hover:text-red-800 text-[16px]">
+          <button onClick={handelLogout} className="flex items-center gap-3.5 px-4 hover:px-6 py-4 text-sm font-medium duration-300 ease-in-out text-red-400 hover:text-red-800 text-[16px]">
             <svg
               className="fill-current"
               width="22"

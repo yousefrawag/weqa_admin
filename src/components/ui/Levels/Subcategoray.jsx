@@ -5,9 +5,12 @@ import useQueryDelete from '../../../services/useQueryDelete'
 import EditModal from '../../common/popupmdules/EditModal'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import useGetUserAuthentications  from '../../../middleware/GetuserAuthencations'
 const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
   const {deleteIteam:deleteCategory} = useQueryDelete("subCategory" , "mainCategory")
   const {updateiteam} = useQueryupdate( "subCategory", "mainCategory")
+  const {isOwner , iscanDelete , iscanPut  } = useGetUserAuthentications ("mainCategory")
+
   const [isEditVisible , setEditVisible] = useState(false)
   const [selectedItem , setSelectedItem]  = useState(null)
   const handelUpdate = (item) =>{
@@ -42,18 +45,23 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
                 </button>
                 {isDropdownVisible === subcategory._id && (
                   <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md z-10">
-                    <button
+                    {
+                    isOwner ||  iscanPut ?    <button
                       className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => handelUpdate(subcategory)}
                     >
                       تعديل
-                    </button>
-                    <button
-                      className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
-                      onClick={() => deleteCategory(subcategory._id)}
-                    >
-                      حذف
-                    </button>
+                    </button> :null
+                    }
+                 {
+                isOwner ||  iscanDelete ?   <button
+                  className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                  onClick={() => deleteCategory(subcategory._id)}
+                >
+                  حذف
+                </button> : null
+                 }
+                  
                   </div>
                 )}
               </div>

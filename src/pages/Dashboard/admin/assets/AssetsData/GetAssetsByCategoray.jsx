@@ -11,10 +11,61 @@ import useQueryDelete from '../../../../../services/useQueryDelete';
 import useQuerygetSpacficIteam from '../../../../../services/QuerygetSpacficIteam';
 import { format } from 'date-fns';
 import CardLevelCategoray from '../../../../../components/ui/assets/CardLevelCategoray';
+import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
+import FiltertionHook from '../../../../../hooks/FiltertionHook';
+
+import { useState } from 'react';
 const GetAssetsByCategoray = () => {
     const {id , continued} = useParams()
+        const [params , setParams] = useState({
+          field: "",
+          searTerm: "",
+          startDate: "",
+          endDate: "",
+        })
+      const filters = [
+        {
+          value:"assetsName",
+          name:"إسم الإصل"
+        },
+        {
+          value:"subCategoryAssets",
+          name:"فئة الإصل"
+        },
+        {
+          value:"location",
+          name:" المنشأه"
+        },
+        {
+          value:"location",
+          name:"الموقع"
+        },
+        {
+          value:"location",
+          name:"الدور"
+        },
+        {
+          value:"location",
+          name:"المنطقة"
+        },
+        {
+          value:"location",
+          name:"القسم"
+        },
+        {
+          value:"location",
+          name:"الغرفة"
+        },
+        {
+          value:"location",
+          name:"الموقع"
+        },
+      
+      ]
     const {data , isLoading} = useQuerygetSpacficIteam("assets/category" , "assets/category" , id)
     const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
+    const {isOwner, iscanAdd, iscanDelete, iscanPut} = useGetUserAuthentications ("assets")
+
        const columns = [
         {
             name:"إسم الإصل",
@@ -77,12 +128,17 @@ const GetAssetsByCategoray = () => {
                            <Link to={`/assetOverview/${row._id}`} className="hover:text-primary">
                            <GrFormView size={20} />
                            </Link>
-                           <Link to={`/asset-edit/${row._id}`}  className="hover:text-primary">
-                             <MdOutlineEditNote size={20}/>
-                           </Link>
-                           <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => deleteIteam(row._id)}>
-                             <AiTwotoneDelete size={20}/>
-                           </button>
+                           {
+                            isOwner || iscanPut ?   <Link to={`/asset-edit/${row._id}`}  className="hover:text-primary">
+                            <MdOutlineEditNote size={20}/>
+                          </Link> :null
+                           }
+                         {
+                          isOwner || iscanDelete ?     <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => deleteIteam(row._id)}>
+                          <AiTwotoneDelete size={20}/>
+                        </button> : null
+                         }
+                       
                          </div>
                        )
                   
@@ -94,10 +150,12 @@ const GetAssetsByCategoray = () => {
   return (
     <div>
     
-               <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل" />
+               <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل"  iscanAdd={iscanAdd} isOwner={isOwner}/>
 
    
        <CardLevelCategoray continued={continued === "first" ? "second" :"third"}  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :"categoryAssets"}`}/>
+       <FiltertionHook filters={filters} params={params} setParams={setParams} />
+
         <CustomeTabel columns={columns} data={data?.data} />
     </div>
   )

@@ -1,12 +1,13 @@
 import React from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const UsersPermissions = ({setEmployeePermissions}) => {
+const SupportPermissions = ({setSupportPermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
-        post: false,
-        delete: false,
         put: false,
+        delete: false,
+        post: false,
       });
+    
       const handlePermissionChange = (key) => {
         const newPermissions = {
           ...permissions,
@@ -20,25 +21,24 @@ const UsersPermissions = ({setEmployeePermissions}) => {
         if (newPermissions.put) actions.push('put');
         if (newPermissions.delete) actions.push('delete');
     
-        setEmployeePermissions({
+        setSupportPermissions({
           actions
         
         });
       };
     
       const permissionsData = [
-        { key: "post", label: "إضافة مستخدم", value: permissions.createAssets },
-        { key: "get", label: "عرض بيانات المستخدم", value: permissions.viewAssets },
-        { key: "put", label: "تعديل بيانات المستخدم", value: permissions.editAssets },
-        { key: "delete", label: "حذف مستخدم", value: permissions.deleteAssets },
-        
-        
+        { key: "get", label: "مشاهده تذاكر الدعم الفنى", value: permissions.get },
+        { key: "put", label: "متابعه التذكره ", value: permissions.put },
+        { key: "delete", label: "حذف تذكره", value: permissions.delete },
+        { key: "post", label: "إضافة تذكره", value: permissions.post },
       ];
   return (
     <div className='w-full h-full shadow-lg'>
-        <PermissionsGrid  sectionName = " المستخدمين" permissions = {permissionsData} handlePermissionChange = {handlePermissionChange} />
+      
+        <PermissionsGrid  sectionName = "الدعم الفنى" permissions = {permissionsData} handlePermissionChange = {handlePermissionChange} />
     </div>
   )
 }
 
-export default UsersPermissions
+export default SupportPermissions

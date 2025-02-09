@@ -57,12 +57,8 @@ const GetEsbilshLocation = () => {
                          <Link to={`/locations/${row._id}`} className="hover:text-primary">
                          <GrFormView size={20} />
                          </Link>
-                         <Link to={`/locations-edit/${row._id}`}  className="hover:text-primary">
-                           <MdOutlineEditNote size={20}/>
-                         </Link>
-                         <button className="hover:text-red-500" onClick={() => deleteIteam(row._id)}>
-                           <AiTwotoneDelete size={20}/>
-                         </button>
+                      
+                
                        </div>
                      )
                 

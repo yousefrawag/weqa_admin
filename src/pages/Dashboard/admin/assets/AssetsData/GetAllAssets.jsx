@@ -10,10 +10,60 @@ import Loader from '../../../../../components/common/Loader';
 import useQueryDelete from '../../../../../services/useQueryDelete';
 import { format } from 'date-fns';
 import HeadPagestyle from '../../../../../components/common/HeadPagestyle';
+import { useState } from 'react';
+import FiltertionHook from '../../../../../hooks/FiltertionHook';
+import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations';
 const GetAllAssets = () => {
+    const [params , setParams] = useState({
+      field: "",
+      searTerm: "",
+      startDate: "",
+      endDate: "",
+    })
+  const filters = [
+    {
+      value:"assetsName",
+      name:"إسم الإصل"
+    },
+    {
+      value:"subCategoryAssets",
+      name:"فئة الإصل"
+    },
+    {
+      value:"location",
+      name:" المنشأه"
+    },
+    {
+      value:"location",
+      name:"الموقع"
+    },
+    {
+      value:"location",
+      name:"الدور"
+    },
+    {
+      value:"location",
+      name:"المنطقة"
+    },
+    {
+      value:"location",
+      name:"القسم"
+    },
+    {
+      value:"location",
+      name:"الغرفة"
+    },
+    {
+      value:"location",
+      name:"الموقع"
+    },
   
+  ]
+
+
     const {data , isLoading} = useQuerygetiteams("assets" , "assets")
     const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
+    const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
        const columns = [
         {
             name:"إسم الإصل",
@@ -76,12 +126,17 @@ const GetAllAssets = () => {
                            <Link to={`/assetOverview/${row._id}`} className="hover:text-primary">
                            <GrFormView size={20} />
                            </Link>
-                           <Link to={`/asset-edit/${row._id}`}  className="hover:text-primary">
-                             <MdOutlineEditNote size={20}/>
-                           </Link>
-                           <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => deleteIteam(row._id)}>
-                             <AiTwotoneDelete size={20}/>
-                           </button>
+                           {
+                            isOwner || iscanPut ?     <Link to={`/asset-edit/${row._id}`}  className="hover:text-primary">
+                            <MdOutlineEditNote size={20}/>
+                          </Link> : null
+                           }
+                       {
+                        isOwner || iscanDelete ? <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => deleteIteam(row._id)}>
+                        <AiTwotoneDelete size={20}/>
+                      </button> : null
+                       }
+                           
                          </div>
                        )
                   
@@ -92,7 +147,9 @@ const GetAllAssets = () => {
   }
   return (
     <div>
-        <HeadPagestyle  pageName="جميع الإصول" to="/Assets-Onboarding" title="عوده"/>
+        <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="جميع الإصول" to="/Assets-Onboarding" title="عوده"/>
+
+        <FiltertionHook filters={filters} params={params} setParams={setParams} />
         <CustomeTabel columns={columns} data={data?.data?.data} />
     </div>
   )

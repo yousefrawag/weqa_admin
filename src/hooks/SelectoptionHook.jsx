@@ -12,7 +12,7 @@ const SelectoptionHook = ({fectParentKEY  , keyName , title , value , setvalue ,
      {title}
       </label>
       <select value={value} onChange={(e) => setvalue(e.target.value)} name={keyName} className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
-                    <option>
+                    <option value="">
                           قم بالإختيار
                     </option>
                     {isLoadding ? (
@@ -20,7 +20,7 @@ const SelectoptionHook = ({fectParentKEY  , keyName , title , value , setvalue ,
                   ) : (
                       data?.data?.data?.map((item) => (
                           <option key={item._id} value={item._id}>
-                              {item.name}
+                              {item.name ? item.name : item.roles?.ar}
                           </option>
                       ))
                   )}

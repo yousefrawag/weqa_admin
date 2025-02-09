@@ -11,14 +11,16 @@ import { format } from 'date-fns';
 import HeadPagestyle from '../../../../components/common/HeadPagestyle';
 import employeesImage from "../../../../images/user/download.jpg"
 import employeesImage2 from "../../../../images/user/sauid-user.png"
+import useGetUserAuthentications  from '../../../../middleware/GetuserAuthencations';
 const Getpermissions = () => {
   
-  const {data , isLoading} = useQuerygetiteams("assets" , "assets")
-  const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
+  const {data , isLoading} = useQuerygetiteams("permission" , "permission")
+  const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("permission" , "permission")
+  const {isOwner, iscanAdd,} = useGetUserAuthentications ("permissions")
      const columns = [
       {
           name:"إسم الصلاحية",
-          selector: (row) =><span className='text-wrap'>{row.name}</span> ,
+          selector: (row) =><span className='text-wrap'>{row.roles?.ar || row?.name}</span> ,
 
       },
       {
@@ -73,42 +75,11 @@ const Getpermissions = () => {
 if(isLoading){
   return <Loader />
 }
-const fakedata = [
-  {
-    _d:"01" ,
-    name:"مالك المنصة",
-    count:4,
-    createdAt:'2025-01-20T09:05:00Z'
-  },
-  {
-    _d:"02" ,
-    name:"مدير المنصة",
-    count:3,
-    createdAt:'2025-01-20T09:05:00Z'
-  },
-  {
-    _d:"06" ,
-    name:"مدير المنشأت",
-    count:4,
-    createdAt:'2025-01-20T09:05:00Z'
-  },
-  {
-    _d:"07" ,
-    name:"مدير فئات الإصول الامن والسلامة",
-    count:8,
-    createdAt:'2025-01-20T09:05:00Z'
-  },
-  {
-    _d:"07" ,
-    name:"مدير المواقع",
-    count:9,
-    createdAt:'2025-01-20T09:05:00Z'
-  },
-]
+
 return (
   <div>
-      <HeadPagestyle  pageName="الصلاحيات" to="/Add-permission" title="إضافة صلاحية"/>
-      <CustomeTabel columns={columns} data={fakedata} />
+      <HeadPagestyle isOwner={isOwner} iscanAdd={iscanAdd}  pageName="الصلاحيات" to="/Add-permission" title="إضافة صلاحية"/>
+      <CustomeTabel columns={columns} data={data?.data?.data} />
   </div>
 )
 }
