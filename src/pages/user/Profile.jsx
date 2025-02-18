@@ -3,9 +3,15 @@ import Breadcrumb from '../../components/common/Breadcrumbs/Breadcrumb';
 import userThree from '../../images/user/user-03.png';
 import UploadImage from '../../hooks/UploadImage';
 import { useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/userSlice';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import authFetch from '../../utils/axiosAuthfetch';
 const Profile = () => {
   const user = useSelector((state) => state.userState.userinfo)
+  const dispatch = useDispatch()
+  const navigate  = useNavigate()
   const [image , setImage] = useState({
     file:"",
     view:""
@@ -19,6 +25,31 @@ const Profile = () => {
       });
     }
   };
+  const onSubmit = async (e) => {
+    e.preventDefault();
+   const formData = new FormData(e.currentTarget);
+        formData.set("image" , image.file)
+    const data = Object.fromEntries(formData)
+  if(!image.file) {
+    data.image = user.image
+  }
+    
+  const res = await authFetch.put(`/employee/updateMe` , formData)
+console.log(res)
+    if(res.status === 200){
+      toast.success("تم التعديل بنجاح")
+      dispatch(login(res.data.data))
+
+      
+      // navigate("/")
+
+
+}
+  
+  
+  
+  
+  }
   return (
     <>
       <div className="mx-auto max-w-270">
@@ -33,7 +64,7 @@ const Profile = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={onSubmit} >
                   <div className="mb-5.5 grid flex-col gap-5.5 sm:grid-cols-2">
                     <div className="w-full">
                       <label
@@ -209,6 +240,22 @@ const Profile = () => {
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
                       htmlFor="permissions"
                     >
+                      نوع الحساب
+                    </label>
+                    <input
+                      className="w-full rounded border border-stroke bg-gray-200 py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none  dark:border-strokedark dark:bg-gray-600  dark:text-white dark:focus:border-primary"
+                      type="text"
+                      name="permissions"
+                      id="permissions"
+                      disabled
+                      defaultValue={user?.type}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <label
+                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      htmlFor="permissions"
+                    >
                       الصلاحية
                     </label>
                     <input
@@ -217,25 +264,26 @@ const Profile = () => {
                       name="permissions"
                       id="permissions"
                       disabled
-                      defaultValue={user?.permissions?.roles?.ar}
+                      defaultValue={user?.permissions?.roles?.name}
                     />
                   </div>
 
                   </div>
 
                   <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      الغاء
-                    </button>
-                    <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                      type="submit"
-                    >
-                      حفظ
-                    </button>
+           <Link to="/auth/changepassword-user"                 className="flex justify-center rounded bg-main py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+           >
+            تغير كلمه المرور
+           </Link>
+                <button
+                className="flex justify-center rounded bg-main py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+                type="submit"
+              >
+                حفظ
+              </button>
+              
+           
+                    
                   </div>
                 </form>
               </div>
@@ -252,7 +300,7 @@ const Profile = () => {
                 <form action="#">
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
-                      <img src={userThree} alt="User" />
+                      <img src={user?.image || userThree} alt="User" className='w-full h-full object-cover rounded-full'/>
                     </div>
                     <div>
                       <span className="mb-1.5 text-black dark:text-white">
@@ -269,20 +317,7 @@ const Profile = () => {
                     <UploadImage images={image} handelFiles={handleFiles}  />
                   </div>
 
-                  <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      الغاء
-                    </button>
-                    <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                      type="submit"
-                    >
-                      حفظ
-                    </button>
-                  </div>
+                 
                 </form>
               </div>
             </div>

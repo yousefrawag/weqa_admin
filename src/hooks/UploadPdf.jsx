@@ -26,6 +26,7 @@ const UploadPdf = ({ pdfs, handelFiles ,setPdfs }) => {
           hidden
           onChange={handelFiles}
           accept="application/pdf"
+          multiple
         />
       </div>
 

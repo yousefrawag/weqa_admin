@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const Estbilshpermission = ({setBuildingPermissions}) => {
+const Estbilshpermission = ({setBuildingPermissions , buildingPermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         post: false,
         put: false,
         delete: false,
       });
-    
+    useEffect(() => {
+      if(buildingPermissions?.actions){
+        setLocalPermissions({
+      get: buildingPermissions.actions.includes('get'),
+    put: buildingPermissions.actions.includes('put'),
+    delete: buildingPermissions.actions.includes('delete'),
+    post: buildingPermissions.actions.includes('post'),
+        })
+      }
+    }  , [buildingPermissions])
       const handlePermissionChange = (key) => {
         const newPermissions = {
           ...permissions,

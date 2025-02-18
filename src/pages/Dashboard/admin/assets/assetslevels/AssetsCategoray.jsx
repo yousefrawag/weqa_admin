@@ -36,7 +36,9 @@ console.log(categories);
                 <CardAsset
                     key={category._id}
                     img={category.image}
+                    parentid={id}
                     enddpointDelete="categoryAssets" 
+                    item={category}
                     id={category._id}
                     to={ `/Assets/${category?._id}/second` }
                       keydelete="mainCategoryAssets"
@@ -52,6 +54,8 @@ console.log(categories);
                     key={categories._id}
                     img={categories.image}
                     enddpointDelete="categoryAssets" 
+                    parentid={id}
+                    item={category}
                     keydelete="mainCategoryAssets"
                     to={ `/Assets/${category?._id}/second` }
                     hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`}                   title={categories.name}

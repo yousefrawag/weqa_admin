@@ -13,5 +13,5 @@ export const AdminRoutes = [
     { path: "/main-categoary", element: <Levels /> ,  loader:Checkuserautherzationview(store , "mainCategory" , "get")},
     { path: "/support-weqa", element: <ChatOverview /> },
     { path: "/support-weqa/Add-ticket", element: <AddTicket /> },
-    { path: "/support-weqa/:userid/:tiketid", element: <TicketOverview /> },
+    { path: "/support-weqa/:Ticketid/:userId", element: <TicketOverview /> },
   ];

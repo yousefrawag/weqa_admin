@@ -11,9 +11,11 @@ import useQueryupdate from '../services/useQueryupdate';
 import SelectoptionHook from './SelectoptionHook';
 import useQuerygetSpacficIteam from '../services/QuerygetSpacficIteam';
 import Loader from '../components/common/Loader';
-const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, ismainLevel , mdoule , setModule }) => {
+const EditCagorayassetHook = ({id ,parentid, endpoint, keyName,item , fectParentKEY, ismainLevel , mdoule , setModule }) => {
   const {data , isLoading:loadinget} = useQuerygetSpacficIteam(endpoint , keyName , id)
   const { isError, isLoading, updateiteam } = useQueryupdate(endpoint, keyName);
+  const [levelName , setLevelName] = useState("")
+console.log("edit" , parentid);
 
   const [value , setvalue] = useState("")
 
@@ -126,11 +128,15 @@ const EditCagorayassetHook = ({id , endpoint, keyName,item , fectParentKEY, isma
 
       setSelectedInputs(item?.data || []);
       setImages((prev) => ({ ...prev, view: item.image }));
-      const categoryData = endpoint === "categoryAssets" ? item.mainCategoryAssets : item.categoryAssets;
-      setvalue(categoryData || "");
+   setLevelName(item?.name)
+    }
+    if (parentid) {
+      console.log("parentid:", parentid); 
+      console.log("Current value:", value);
+      setvalue(parentid);
     }
   
-  }, [item]);
+  }, [item, parentid , value ]);
   
 if( isLoading){
   return <Loader />
@@ -149,7 +155,7 @@ if( isLoading){
         <div className="flex-1 overflow-y-auto mb-4 px-5">
           {isLoading ? <SmailLoader /> :
             <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4 w-full'>
-              {ismainLevel ? null : <SelectoptionHook value={value}  title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
+              {ismainLevel ? null : <SelectoptionHook value={value} setvalue={setvalue}  title="الفئه التابع لها" fectParentKEY={fectParentKEY} keyName={keyName} />}
               <div className="mb-4 flex flex-col gap-2">
                 <label htmlFor="name" className="w-full text-lg font-medium text-gray-700 dark:text-black">
                   إسم الفئه
@@ -158,7 +164,8 @@ if( isLoading){
                   type="text"
                   id="name"
                   name="name"
-                  defaultValue={item?.name}
+                  value={levelName}
+                  onChange={(e) => setLevelName(e.target.value)}
                   className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
                 />
               </div>

@@ -10,60 +10,77 @@ import Loader from '../../../../../components/common/Loader';
 import useQueryDelete from '../../../../../services/useQueryDelete';
 import { format } from 'date-fns';
 import HeadPagestyle from '../../../../../components/common/HeadPagestyle';
-import { useState } from 'react';
+import { useState , useMemo } from 'react';
 import FiltertionHook from '../../../../../hooks/FiltertionHook';
 import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations';
 const GetAllAssets = () => {
-    const [params , setParams] = useState({
+const params = {
+  status:"fulfilled"
+} 
+    const {data , isLoading} = useQuerygetiteams("assets" , "assets" , params)
+    const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
+    const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
+    const [paramsearch , setParams] = useState({
       field: "",
-      searTerm: "",
+      searchTerm: "",
       startDate: "",
       endDate: "",
     })
-  const filters = [
-    {
-      value:"assetsName",
-      name:"إسم الإصل"
-    },
-    {
-      value:"subCategoryAssets",
-      name:"فئة الإصل"
-    },
-    {
-      value:"location",
-      name:" المنشأه"
-    },
-    {
-      value:"location",
-      name:"الموقع"
-    },
-    {
-      value:"location",
-      name:"الدور"
-    },
-    {
-      value:"location",
-      name:"المنطقة"
-    },
-    {
-      value:"location",
-      name:"القسم"
-    },
-    {
-      value:"location",
-      name:"الغرفة"
-    },
-    {
-      value:"location",
-      name:"الموقع"
-    },
-  
-  ]
+    const filters = [
+      {
+        value:"assetsName",
+        name:"إسم الإصل"
+      },
+      {
+        value:"subCategoryAssets[0].name",
+        name:"فئة الإصل"
+      },
+      {
+        value:"location[0].build.name",
+        name:" المنشأه"
+      },
+      {
+        value:"location[0].name",
+        name:"الموقع"
+      },
+      {
+        value:"locationDetails[0].floorName",
+        name:"الدور"
+      },
+      {
+        value:"locationDetails[0].areaName",
+        name:"المنطقة"
+      },
+      {
+        value:"locationDetails[0].sectionName",
+        name:"القسم"
+      },
+      {
+        value:"locationDetails[0].roomName",
+        name:"الغرفة"
+      },
 
+    
+    ]
 
-    const {data , isLoading} = useQuerygetiteams("assets" , "assets")
-    const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
-    const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
+    const filteredData = useMemo(() => {
+      if (!data?.data.data) return [];
+    
+      return data.data?.data.filter(item => {
+        if (paramsearch.searchTerm && paramsearch.field) {
+          // Fix array index access in params.field
+          const fieldValue = paramsearch.field
+            .replace(/\[(\d+)\]/g, '.$1')
+            .split('.')
+            .reduce((obj, key) => obj?.[key], item);
+    
+          return fieldValue?.toString().toLowerCase().includes(paramsearch.searchTerm.toLowerCase());
+        }
+        return true;
+      });
+    }, [data, paramsearch]);
+      
+ // TABEL DATA COLUMS 
        const columns = [
         {
             name:"إسم الإصل",
@@ -77,7 +94,7 @@ const GetAllAssets = () => {
       },
         {
             name:"المنشأه",
-            selector: (row) => <span className='text-wrap'>{row?.location[0]?.build?.name}</span> ,
+            selector: (row) => <span className='text-wrap'>{row?.building?.name}</span> ,
 
         },
         {
@@ -142,6 +159,51 @@ const GetAllAssets = () => {
                   
                    }
         ]
+
+       //EXPORT DATA IN EXCEL COLUMS 
+      const exportColumns = [
+        {
+          name: "إسم الإصل",
+          value: "assetsName", // Direct property access
+        },
+        {
+          name: "فئه الاصل",
+          value: "subCategoryAssets[0].name", // Direct property access
+        },
+        {
+          name: "المنشأه",
+          value: "building.name", // Nested property access
+        },
+        {
+          name: "الموقع ",
+          value: "location[0].name"
+        },
+   
+        {
+          name: "الدور",
+          value: "locationDetails[0].floorName"
+        },
+        {
+          name: "المنطقة ",
+          value: "locationDetails[0].areaName"
+        },
+        {
+          name: "القسم ",
+          value: "locationDetails[0].sectionName "
+        },
+        {
+          name: "المنطقة ",
+          value: "locationDetails[0].areaName"
+        },
+        {
+          name: "الغرفة ",
+          value: "locationDetails[0].roomName"
+        },
+        {
+          name: "تاريخ الانشاء",
+          selector: (row) => format(new Date(row.createdAt), "dd MMMM, yyyy"), // Custom date formatting
+        },
+      ];        
   if(isLoading){
     return <Loader />
   }
@@ -149,8 +211,8 @@ const GetAllAssets = () => {
     <div>
         <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="جميع الإصول" to="/Assets-Onboarding" title="عوده"/>
 
-        <FiltertionHook filters={filters} params={params} setParams={setParams} />
-        <CustomeTabel columns={columns} data={data?.data?.data} />
+        <FiltertionHook filteredData={filteredData} columns={exportColumns} filters={filters} params={paramsearch} setParams={setParams} />
+        <CustomeTabel columns={columns} data={filteredData} />
     </div>
   )
 }

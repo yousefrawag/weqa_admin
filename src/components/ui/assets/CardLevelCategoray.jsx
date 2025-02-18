@@ -23,7 +23,7 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
     }
 
     // Extract categories safely
-    const categories = fetchkey === "mainCategoryAssets" ? data?.data?.categoryAssets : data?.data?.subCategoryAssets || [];
+    const categories = fetchkey === "mainCategoryAssets" ? data?.data?.categoryAssets : fetchkey === "subCategoryAssets" ? data?.data?.nestSubCategoryAssets : data?.data?.subCategoryAssets   || [];
 
 
     // Helper function to render categories
@@ -35,11 +35,12 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
                     key={category._id}
                     img={category.image}
                     item={category}
-                    enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" :"subCategoryAssets" }
+                    parentid={id}
+                    enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" : fetchkey === "subCategoryAssets" ? "nestSubCategoryAssets" :"subCategoryAssets" }
                     id={category._id}
                     to={ `/Assets/${category?._id}/${continued}` }
                       keydelete={fetchkey === "mainCategoryAssets" ?  "mainCategoryAssets" :"categoryAssets" }
-                    hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`} 
+                    hasSub={continued === "third" ? false : continued === "fourth" ? false : continued === "second" ? true :""} tosub={`/Assets-Subcategory/${category?._id}`} 
                     title={category.name}
                     isDropdownVisible={isDropdownVisible === category._id } toggleDropdown={toggleDropdown}
                 />
@@ -51,7 +52,8 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
                     key={categories._id}
                     img={categories.image}
                     item={category}
-                    enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" :"subCategoryAssets" }
+                    parentid={id}
+                    enddpointDelete={fetchkey === "mainCategoryAssets" ?  "categoryAssets" : fetchkey === "subCategoryAssets" ? "nestSubCategoryAssets" :"subCategoryAssets" }
                     keydelete={fetchkey === "mainCategoryAssets" ?  "mainCategoryAssets" :"categoryAssets" }                    to={ `/Assets/${category?._id}/${continued}` }
                     hasSub={true} tosub={`/Assets-Subcategory/${category?._id}`}                   title={categories.name}
                     isDropdownVisible={isDropdownVisible === category?._id}
@@ -85,9 +87,9 @@ const CardLevelCategoray = ({id , fetchkey , keyname , continued}) => {
             </div>
             <AddAssethook 
             id={id} 
-            endpoint={fetchkey === "mainCategoryAssets" ? "categoryAssets" : "subCategoryAssets"} 
-            keyName={fetchkey === "mainCategoryAssets" ? "mainCategoryAssets" : "categoryAssets"}  
-            fectParentKEY={fetchkey === "mainCategoryAssets" ? "mainCategoryAssets" : "categoryAssets"}  
+            endpoint={fetchkey === "mainCategoryAssets" ?  "categoryAssets" : fetchkey === "subCategoryAssets" ? "nestSubCategoryAssets" :"subCategoryAssets" }
+            keyName={fetchkey === "mainCategoryAssets" ? "mainCategoryAssets" : fetchkey === "categoryAssets" ? "categoryAssets" : fetchkey === "subCategoryAssets" ? "subCategoryAssets" :"nestSubCategoryAssets"}  
+            fectParentKEY={fetchkey === "mainCategoryAssets" ? "mainCategoryAssets" : fetchkey === "categoryAssets" ? "categoryAssets" : fetchkey === "subCategoryAssets" ? "subCategoryAssets" :"nestSubCategoryAssets"}  
             ismainLevel={false} 
 />
 

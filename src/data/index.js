@@ -148,13 +148,7 @@ export const EsbilshesLevel = [
         key: "Serialnumber",
         category: "genarlildata",
       },
-      {
-        id: "16",
-        type: "text",
-        name: "الرقم التسلسلي",
-        key: "Serialnumber",
-        category: "genarlildata",
-      },
+   
       {
         id: "17", // Unique ID for this field
         type: "select",

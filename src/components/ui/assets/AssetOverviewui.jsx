@@ -40,14 +40,14 @@ const fillterfinnincedatalData = inputFields.filter((item) => item.category === 
   // Filtered data based on selected tab
   const filteredData = {
     genarlildata: [
-      { label: "إسم الإصل", value: data?.assetsName },
-      { label: "فئة الإصل", value: data?.subCategoryAssets[0]?.name || "غير متوفر" },
-      { label: "المنشأه", value: data?.location[0]?.building?.name },
-      { label: "الموقع", value: locationDetails[0]?.locationName },
-      { label: "الدور", value: locationDetails[0]?.floorName || "غير محدد" },
-      { label: "المنطقة", value: locationDetails[0]?.areaName || "غير محدد" },
-      { label: "القسم", value: locationDetails[0]?.sectionName || "غير محدد" },
-      { label: "الغرفة", value: locationDetails[0]?.roomName || "غير محدد" },
+      { label: "إسم الإصل", value: data?.assetsName || "غير متوفر" },
+      { label: "فئة الإصل", value: data?.subCategoryAssets?.[0]?.name || "غير متوفر" },
+      { label: "المنشأه", value: data?.location?.[0]?.building?.name || "غير متوفر" },
+      { label: "الموقع", value: locationDetails?.[0]?.locationName || "غير محدد" },
+      { label: "الدور", value: locationDetails?.[0]?.floorName || "غير محدد" },
+      { label: "المنطقة", value: locationDetails?.[0]?.areaName || "غير محدد" },
+      { label: "القسم", value: locationDetails?.[0]?.sectionName || "غير محدد" },
+      { label: "الغرفة", value: locationDetails?.[0]?.roomName || "غير محدد" },
     ...filltergnerailData,
     ].filter((item) => item.value !== "غير متوفر"),
     finnincedata: [

@@ -13,58 +13,69 @@ import { format } from 'date-fns';
 import CardLevelCategoray from '../../../../../components/ui/assets/CardLevelCategoray';
 import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
 import FiltertionHook from '../../../../../hooks/FiltertionHook';
+import { useState , useMemo } from 'react';
 
-import { useState } from 'react';
 const GetAssetsByCategoray = () => {
     const {id , continued} = useParams()
-        const [params , setParams] = useState({
-          field: "",
-          searTerm: "",
-          startDate: "",
-          endDate: "",
-        })
-      const filters = [
-        {
-          value:"assetsName",
-          name:"إسم الإصل"
-        },
-        {
-          value:"subCategoryAssets",
-          name:"فئة الإصل"
-        },
-        {
-          value:"location",
-          name:" المنشأه"
-        },
-        {
-          value:"location",
-          name:"الموقع"
-        },
-        {
-          value:"location",
-          name:"الدور"
-        },
-        {
-          value:"location",
-          name:"المنطقة"
-        },
-        {
-          value:"location",
-          name:"القسم"
-        },
-        {
-          value:"location",
-          name:"الغرفة"
-        },
-        {
-          value:"location",
-          name:"الموقع"
-        },
-      
-      ]
+  
     const {data , isLoading} = useQuerygetSpacficIteam("assets/category" , "assets/category" , id)
     const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
     const {isOwner, iscanAdd, iscanDelete, iscanPut} = useGetUserAuthentications ("assets")
+
+//FILTER SECTION 
+const [params , setParams] = useState({
+  field: "",
+  searchTerm: "",
+  startDate: "",
+  endDate: "",
+})
+const filters = [
+{
+  value:"assetsName",
+  name:"إسم الإصل"
+},
+{
+  value:"subCategoryAssets[0].name",
+  name:"فئة الإصل"
+},
+{
+  value:"location[0].build.name",
+  name:" المنشأه"
+},
+{
+  value:"location[0].name",
+  name:"الموقع"
+},
+{
+  value:"locationDetails[0].floorName",
+  name:"الدور"
+},
+{
+  value:"locationDetails[0].areaName",
+  name:"المنطقة"
+},
+{
+  value:"locationDetails[0].sectionName",
+  name:"القسم"
+},
+{
+  value:"locationDetails[0].roomName",
+  name:"الغرفة"
+},
+
+
+]
+const filteredData = useMemo(() => {
+ if (!data?.data) return [];
+
+ return data.data?.filter(item => {
+   if (params.searchTerm && params.field) {
+     const fieldValue = params.field.split('.').reduce((obj, key) => obj?.[key], item);
+     return fieldValue?.toLowerCase().includes(params.searchTerm.toLowerCase());
+   }
+   return true;
+ });
+}, [data, params]);
 
        const columns = [
         {
@@ -144,19 +155,64 @@ const GetAssetsByCategoray = () => {
                   
                    }
         ]
+
+       //EXPORT DATA IN EXCEL COLUMS 
+        const exportColumns = [
+          {
+            name: "إسم الإصل",
+            value: "assetsName", // Direct property access
+          },
+          {
+            name: "فئه الاصل",
+            value: "subCategoryAssets[0].name", // Direct property access
+          },
+          {
+            name: "المنشأه",
+            value: "building.name", // Nested property access
+          },
+          {
+            name: "الموقع ",
+            value: "location[0].name"
+          },
+     
+          {
+            name: "الدور",
+            value: "locationDetails[0].floorName"
+          },
+          {
+            name: "المنطقة ",
+            value: "locationDetails[0].areaName"
+          },
+          {
+            name: "القسم ",
+            value: "locationDetails[0].sectionName "
+          },
+          {
+            name: "المنطقة ",
+            value: "locationDetails[0].areaName"
+          },
+          {
+            name: "الغرفة ",
+            value: "locationDetails[0].roomName"
+          },
+          {
+            name: "تاريخ الانشاء",
+            selector: (row) => format(new Date(row.createdAt), "dd MMMM, yyyy"), // Custom date formatting
+          },
+        ];       
   if(isLoading){
     return <Loader />
   }
   return (
     <div>
     
-               <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل"  iscanAdd={iscanAdd} isOwner={isOwner}/>
+         <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل"  iscanAdd={iscanAdd} isOwner={isOwner}/>
 
    
-       <CardLevelCategoray continued={continued === "first" ? "second" :"third"}  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :"categoryAssets"}`}/>
-       <FiltertionHook filters={filters} params={params} setParams={setParams} />
+       <CardLevelCategoray continued={continued === "first" ? "second" :continued === "third" ? "fourth":"third" }  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :continued === "second" ? "categoryAssets" : continued === "third" ? "subCategoryAssets" : continued === "fourth" ? "nestSubCategoryAssets":"mainCategoryAssets"}`}/>
+       <FiltertionHook filteredData={filteredData} columns={exportColumns} filters={filters} params={params} setParams={setParams} />
 
-        <CustomeTabel columns={columns} data={data?.data} />
+        <CustomeTabel columns={columns} data={filteredData} />
     </div>
   )
 }

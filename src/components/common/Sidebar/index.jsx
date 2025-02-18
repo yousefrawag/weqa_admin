@@ -262,7 +262,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               {/* <!-- Menu Item user --> */}
               {/* <!-- Menu Item support --> */}
               {
-                  isOwner || permissions?.assets?.Support?.some((key) => key === "get") ?
+                  isOwner || permissions?.Support?.actions?.some((key) => key === "get") ?
                   <li>
                   <NavLink
                     to="/support-weqa"

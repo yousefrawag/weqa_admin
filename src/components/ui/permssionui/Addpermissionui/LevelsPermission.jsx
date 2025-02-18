@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid'
-const LevelsPermission = ({setMainCategoryPermissions}) => {
+const LevelsPermission = ({setMainCategoryPermissions ,  mainCategoryPermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         put: false,
         delete: false,
         post: false,
       });
+   useEffect(() => {
+if(mainCategoryPermissions?.actions){
+  setLocalPermissions({
+    get: mainCategoryPermissions.actions.includes('get'),
+    put: mainCategoryPermissions.actions.includes('put'),
+    delete: mainCategoryPermissions.actions.includes('delete'),
+    post: mainCategoryPermissions.actions.includes('post'),
+  });
+}
+   } , [mainCategoryPermissions])   
     
       const handlePermissionChange = (key) => {
         const newPermissions = {

@@ -87,7 +87,7 @@ useEffect(() => {
     setType(CurrentUser?.type)
     setvalue(CurrentUser?.permissions?._id)
     setRole(CurrentUser?.role)
-    setBuilding(CurrentUser?.building?._id)
+    setBuilding(CurrentUser?.building)
   }
 } , [CurrentUser])
 if(isLoading || getloading) {

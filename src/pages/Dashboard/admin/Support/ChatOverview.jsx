@@ -45,29 +45,62 @@ const filters = [
   },
 
 ]
-const {isError , isLoading , data} = useQuerygetiteams("employee" , "employee")
-const {deleteIteam} = useQueryDelete("employee" , "employee")
- const {isOwner , iscanAdd} = GetuserAuthencations("employee")
+const {isError , isLoading , data} = useQuerygetiteams("Tickets" , "Tickets")
+const {deleteIteam} = useQueryDelete("Tickets" , "Tickets")
+ const {isOwner , iscanAdd} = GetuserAuthencations("Support")
+
  const columns = [
   {
+    name: "رقم التذكرة", // Ticket Category
+    selector: (row) => row._id,
+  },
+  {
     name: "قسم التذكرة", // Ticket Category
-    selector: (row) => row.category,
+    selector: (row) => row.Categoray,
   },
   {
     name: "أولوية التذكرة", // Ticket Priority
-    selector: (row) => <span className="text-wrap">{row.priority}</span>,
+    cell: (row) => (
+      <span
+        className={`px-3 py-1 rounded-md text-white whitespace-nowrap ${
+          row.priority === "low"
+            ? "bg-green-500"
+            : row.priority === "high"
+            ? "bg-yellow-500"
+            : "bg-red-500"
+        }`}
+      >
+        {row.priority === "low"
+          ? "طبيعية"
+          : row.priority === "high"
+          ? "متوسطه"
+          : "عاجلة"}
+      </span>
+    ),
   },
   {
     name: "حالة التذكرة", // Ticket Status
-    selector: (row) => <span className="text-wrap">{row.status}</span>,
+    cell: (row) => (
+      <span
+        className={`px-3 py-1 rounded-md text-white whitespace-nowrap ${
+          row.status === "open" ? "bg-blue-500" : "bg-gray-500"
+        }`}
+      >
+        {row.status === "open" ? "مفتوحة" : "مغلقة"}
+      </span>
+    ),
+  },
+  {
+    name: "نوع المستخدم", // User
+    selector: (row) => row.user?.role,
   },
   {
     name: "المستخدم", // User
-    selector: (row) => row.user,
+    selector: (row) => row.user?.username,
   },
   {
     name: "المنشأة", // Establishment
-    selector: (row) => <span className="text-wrap">{row.establishment}</span>,
+    selector: (row) => <span className="text-wrap">{row.user?.building?.name || "ليس تابع لمنشأه مسؤل"}</span>,
   },
   {
     name: "تاريخ الإنشاء", // Creation Date
@@ -79,55 +112,18 @@ const {deleteIteam} = useQueryDelete("employee" , "employee")
     cell: (row) => (
       <div className="flex items-center justify-center space-x-3.5">
         {/* Chat Icon */}
-        <button className="hover:text-primary" onClick={() => openChat(row._id)}>
+        <Link to={`/support-weqa/${row?._id}/${row?.user?._id}`} className="hover:text-primary" onClick={() => openChat(row._id)}>
           <BsChatDots size={20} />
-        </button>
+        </Link>
         {/* Delete Icon */}
-        <button className="hover:text-primary" onClick={() => deleteItem(row._id)}>
+        <button className="hover:text-primary" onClick={() => deleteIteam(row._id)}>
           <AiTwotoneDelete size={20} />
         </button>
       </div>
     ),
   },
 ];
-const fakeData = [
-  {
-    _id: "1",
-    category: "الأصول",
-    priority: "عاجلة",
-    status: "مفتوحة",
-    user: "أحمد علي",
-    establishment: "مستشفى النور",
-    createdAt: new Date(),
-  },
-  {
-    _id: "2",
-    category: "المواقع",
-    priority: "متوسطة",
-    status: "قيد المراجعة",
-    user: "محمد حسن",
-    establishment: "مستشفى السلام",
-    createdAt: new Date(),
-  },
-  {
-    _id: "3",
-    category: "المواقع",
-    priority: "متوسطة",
-    status: "قيد المراجعة",
-    user: "محمد حسن",
-    establishment: "مستشفى السلام",
-    createdAt: new Date(),
-  },
-  {
-    _id: "4",
-    category: "المستخدمين",
-    priority: "متوسطة",
-    status: "قيد المراجعة",
-    user: "محمد حسن",
-    establishment: "مستشفى السلام",
-    createdAt: new Date(),
-  },
-];
+
 if(isLoading){
 return <Loader />
 }
@@ -138,7 +134,7 @@ return (
       <FiltertionHook filters={filters} params={params} setParams={setParams} />
 
   <div className='shadow-[#EFEEF4] w-full h-full rounded-md'>
-  <CustomeTabel columns={columns} data={fakeData}/>
+  <CustomeTabel columns={columns} data={data?.data?.data}/>
   </div>
   
       </div>

@@ -11,45 +11,63 @@ import HeadPagestyle from '../../../../components/common/HeadPagestyle';
 import Loader from '../../../../components/common/Loader';
 import useQueryDelete from '../../../../services/useQueryDelete';
 import GetuserAuthencations from '../../../../middleware/GetuserAuthencations'
-import { useState } from 'react';
+import { useState  , useMemo } from 'react';
 import FiltertionHook from '../../../../hooks/FiltertionHook';
 const Getusers = () => {
-    const [params , setParams] = useState({
-      field: "",
-      searTerm: "",
-      startDate: "",
-      endDate: "",
-    })
-  const filters = [
-    {
-      value:"username",
-      name:"الإسم"
-    },
-    {
-      value:"phone",
-      name:"رقم الجوال"
-    },
-    {
-      value:"email",
-      name:"الإيميل"
-    },
-    {
-      value:"address.city",
-      name:"المدينة"
-    },
-    {
-      value:"identity",
-      name:"رقم الهوية"
-    },
-    {
-      value:"permissions",
-      name:"الصلاحية"
-    },
-  
-  ]
+  // HOOKS FETCH AND DELEET ITEMS
   const {isError , isLoading , data} = useQuerygetiteams("employee" , "employee")
   const {deleteIteam} = useQueryDelete("employee" , "employee")
    const {isOwner , iscanAdd , iscanDelete , iscanPut} = GetuserAuthencations("employee")
+
+   // FILTER SECTION
+ const [params, setParams] = useState({
+   field: "",
+   searchTerm: "",
+   startDate: "",
+   endDate: "",
+ });
+ 
+ const filters = [
+   {
+     value: "username",
+     name: "إسم المستخدم"
+   },
+ 
+   {
+     value: "phone",
+     name: "الجوال"
+   },
+   {
+     value: "email",
+     name: "الأيميل"
+   },
+   {
+    value: "address.city",
+    name: "المدينة"
+  },
+  {
+    value: "identity",
+    name: "رقم الهوية"
+  },
+  {
+    value: "role",
+    name: "نوع الحساب "
+  },
+ 
+ ];
+ 
+ const filteredData = useMemo(() => {
+   if (!data?.data?.data) return [];
+ 
+   return data.data.data.filter(item => {
+     if (params.searchTerm && params.field) {
+       const fieldValue = params.field.split('.').reduce((obj, key) => obj?.[key], item);
+       return fieldValue?.toLowerCase().includes(params.searchTerm.toLowerCase());
+     }
+     return true;
+   });
+ }, [data, params]);
+
     const columns = [
         {
             name:"الإسم",
@@ -78,7 +96,7 @@ const Getusers = () => {
       },
    
         {
-            name:"الصلاحية",
+            name:"نوع الحساب",
             selector: (row) => <span className='text-wrap'> { row?.role}</span> ,
 
         },
@@ -121,10 +139,10 @@ if(isLoading){
     <div>
         <HeadPagestyle  pageName="المستخدمين" to="/Add-user" isOwner={isOwner} iscanAdd={iscanAdd} title={"إضافة مستخدم"} />
 
-        <FiltertionHook filters={filters} params={params} setParams={setParams} />
+        <FiltertionHook filteredData={filteredData} columns={columns} filters={filters} params={params} setParams={setParams} />
 
     <div className='shadow-[#EFEEF4] w-full h-full rounded-md'>
-    <CustomeTabel columns={columns} data={data?.data?.data}/>
+    <CustomeTabel columns={columns} data={filteredData}/>
     </div>
     
         </div>

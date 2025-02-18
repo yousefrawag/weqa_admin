@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HeadPagestyle from '../../../../components/common/HeadPagestyle';
 import LevelsPermission from '../../../../components/ui/permssionui/Addpermissionui/LevelsPermission';
 import LocationPermission from '../../../../components/ui/permssionui/Addpermissionui/LocationPermission';
 import Estbilshpermission from '../../../../components/ui/permssionui/Addpermissionui/Estbilshpermission';
 import AssetsPermission from '../../../../components/ui/permssionui/Addpermissionui/AssetsPermission';
 import UsersPermissions from '../../../../components/ui/permssionui/Addpermissionui/UsersPermissions';
-import CategoryAssetPermission from '../../../../components/ui/permssionui/CategoryAssetPermission';
 import Wrapbtn from '../../../../components/common/Wrapbtn';
 import toast from 'react-hot-toast';
-import useQueryadditeam from '../../../../services/Queryadditeam';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useQueryupdate from '../../../../services/useQueryupdate';
 import SupportPermissions from '../../../../components/ui/permssionui/Addpermissionui/SupportPermissions';
+import useQuerygetSpacficIteam from '../../../../services/QuerygetSpacficIteam';
 import Loader from '../../../../components/common/Loader';
-const AddPermission = () => {
-  const {addIteam , isLoading} = useQueryadditeam("permission" , "permission")
+const UpdatePermissions = () => {
+    const {id} = useParams()
+    const {data , isLoading:getloading} = useQuerygetSpacficIteam("permission" , "permission" , id)
+   const CurrentPermission = data?.data 
+  const {updateiteam , isLoading} = useQueryupdate("permission" , "permission")
   const [permissionName, setPermissionName] = React.useState('');
   const navigate = useNavigate()
   const [assetsPermissions, setAssetsPermissions] = React.useState({
@@ -52,16 +55,16 @@ const AddPermission = () => {
       location:locationPermissions,
       building: buildingPermissions,
       Support: supportPermissions ,
-      mainCategoryAssets: mainCategoryAssetsPermissions,
+      // mainCategoryAssets: mainCategoryAssetsPermissions,
     };
 console.log(permissionData);
 
 try {
-  addIteam(
-    permissionData,
+    updateiteam(
+    {data:permissionData , id},
    {
      onSuccess: () => {
-       toast.success('تم إضافة صلاحيه جديده');
+       toast.success('تم تعديل صلاحيه بنجاح');
        navigate('/permissions');
      },
    }
@@ -71,12 +74,23 @@ try {
  toast.error('هناك خطأ في إضافة الموقع');
 }
   };
-if(isLoading){
-  return <Loader />
+ useEffect(() => {
+   if(CurrentPermission){
+    setPermissionName(CurrentPermission?.name)
+    setAssetsPermissions(CurrentPermission?.assets)
+    setBuildingPermissions(CurrentPermission?.building)
+   setMainCategoryPermissions(CurrentPermission?.mainCategory)
+   setLocationPermissions(CurrentPermission?.location)
+   setEmployeePermissions(CurrentPermission?.employee)
+   setSupportPermissions(CurrentPermission?.Support)
+   } 
+ } , [CurrentPermission]) 
+if(isLoading || getloading){
+    return <Loader />
 }
   return (
     <div className='w-full h-full'>
-      <HeadPagestyle pageName="إضافة صلاحية" to="/permissions" title="عوده" />
+      <HeadPagestyle pageName="تعديل صلاحية" to="/permissions" title="عوده" />
       <form onSubmit={handleSubmit}>
         <div className="mb-6 flex flex-col gap-2">
           <label htmlFor="name" className="w-full text-lg font-medium text-gray-700 dark:text-white">
@@ -94,14 +108,13 @@ if(isLoading){
         </div>
       
         <LevelsPermission mainCategoryPermissions={mainCategoryPermissions} setMainCategoryPermissions={setMainCategoryPermissions} />
-        <Estbilshpermission  setBuildingPermissions={setBuildingPermissions}/>
-        <LocationPermission  setLocationPermissions={setLocationPermissions} />
-        <AssetsPermission setPermissions={setAssetsPermissions} setMainCategoryAssetsPermissions={setMainCategoryAssetsPermissions}/>
-       <CategoryAssetPermission mainCategoryAssetsPermissions={mainCategoryAssetsPermissions} setMainCategoryAssetsPermissions={setMainCategoryAssetsPermissions} />
+        <Estbilshpermission buildingPermissions={buildingPermissions} setBuildingPermissions={setBuildingPermissions}/>
+        <LocationPermission locationPermissions={locationPermissions} setLocationPermissions={setLocationPermissions} />
+        <AssetsPermission assetsPermissions={assetsPermissions} setPermissions={setAssetsPermissions} setMainCategoryAssetsPermissions={setMainCategoryAssetsPermissions}/>
         <UsersPermissions setEmployeePermissions={setEmployeePermissions} />
         <SupportPermissions setSupportPermissions={setSupportPermissions} />
         <div className='mt-10'>
-          <Wrapbtn to="/permissions" />
+          <Wrapbtn to="/" />
         
         </div>
       </form>
@@ -109,4 +122,4 @@ if(isLoading){
   );
 };
 
-export default AddPermission;
+export default UpdatePermissions;

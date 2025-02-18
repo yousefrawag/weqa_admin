@@ -7,7 +7,7 @@ import Estbilshmentoverview from "./estbilshments/Estbilshmentoverview";
 import Getusers from "./users/Getusers";
 import AddNewuser from "./users/AddNewuser";
 import UserOverview from "./users/UserOverview";
-import ChatOverview from "./chat/ChatOverview";
+import ChatOverview from "./Support/ChatOverview";
 import EstablishmentUsers from "./estbilshments/users/EstablishmentUsers";
 import Adduser from "./estbilshments/users/Adduser";
 import Useroverview from "./estbilshments/users/Useroverview";
@@ -29,9 +29,12 @@ import AddPermission from "./permissions/AddPermission";
 import EditAsset from "./assets/editasset/EditAsset";
 import GetEsbilshAssets from "./estbilshments/estbilshAssets/GetEsbilshAssets";
 import GetEsbilshLocation from "./estbilshments/EsstbilshLocation/GetEsbilshLocation";
-import AddTicket from "./chat/AddTicket";
+import AddTicket from "./Support/AddTicket";
 import Updateuser from "./users/Updateuser";
-import TicketOverview from "./chat/TicketOverview";
+import TicketOverview from "./Support/TicketOverview";
+import UpdatePermissions from "./permissions/UpdatePermissions";
+import NestsubCategoray from "./assets/assetslevels/NestsubCategoray";
+import AllAssetsStauts from "./assets/AssetsData/AllAssetsStauts";
 export {
     ECommerce ,
        
@@ -80,6 +83,9 @@ export {
       GetEsbilshLocation , 
       AddTicket , 
       Updateuser , 
-      TicketOverview
+      TicketOverview , 
+      UpdatePermissions ,
+      NestsubCategoray ,
+      AllAssetsStauts
 
 }

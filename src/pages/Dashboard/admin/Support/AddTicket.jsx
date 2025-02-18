@@ -12,10 +12,11 @@ const AddTicket = () => {
   // react hooks && custome fetch and add
  
   const {addIteam , isLoading} =  useQueryadditeam("Tickets" , "Tickets")
+  
    // react hooks && custome fetch and add
 
     const navigate = useNavigate()
-    const [floors, setFloors] = useState([]);
+   
 
 
   
@@ -24,28 +25,23 @@ const AddTicket = () => {
       const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData);
  
-        data.floors = floors
       
-        const longitude = data.longitude
-        const latitude = data.latitude
-        data.location = {
-            longitude , 
-            latitude
-        }
+     formData.set("message" , data.message)
+   
 
       try {
          addIteam(
           data,
           {
             onSuccess: () => {
-              toast.success('تم إضافه الموقع بنجاح');
-              navigate('/locations');
+              toast.success('تم إضافه تذكره جديده بنجاح');
+              navigate('/support-weqa');
             },
           }
         );
       } catch (error) {
       
-        toast.error('هناك خطأ في إضافة الموقع');
+        toast.error('هناك خطأ في إضافة التذكره');
       }
     };
   if(isLoading){
@@ -59,7 +55,7 @@ const AddTicket = () => {
        
         <div className="mb-1 flex flex-col gap-2">
           <label  className="w-full text-lg font-medium text-gray-700 dark:text-white">قسم التذكره </label>
-          <select name="kind"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+          <select name="Categoray"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
             <option value="">قم بالإختيار</option>
             <option value="أصول">أصول</option>
             <option value="مواقع">مواقع</option>
@@ -71,17 +67,18 @@ const AddTicket = () => {
         </div>
         <div className="mb-1 flex flex-col gap-2">
           <label  className="w-full text-lg font-medium text-gray-700 dark:text-white">أولويه التذكره </label>
-          <select name="kind"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+          <select name="priority"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
             <option value="">قم بالإختيار</option>
-            <option value="طبيعية">طبيعية</option>
-            <option value="متوسطة">متوسطة</option>
-            <option value="عاجلة">عاجلة</option>
+            <option value="low">طبيعية</option>
+           
+            <option value="high">متوسطه</option>
+            <option value="critical">عاجلة</option>
            
           </select>
         </div>
         <div className=" mb-4 flex flex-col gap-2">
           <label  className="w-full text-lg font-medium text-gray-700 dark:text-white"> محتوى التذكره </label>
-    <textarea   className="w-full rounded-[10px] min-h-[200px] max-h-[220px] outline-none p-4 border-[1px] border-main dark:bg-form-input dark:text-white text-lg font-medium text-gray-700 " name='conetent'>
+    <textarea name="message"  className="w-full rounded-[10px] min-h-[200px] max-h-[220px] outline-none p-4 border-[1px] border-main dark:bg-form-input dark:text-white text-lg font-medium text-gray-700 " >
 
     </textarea>
         </div>

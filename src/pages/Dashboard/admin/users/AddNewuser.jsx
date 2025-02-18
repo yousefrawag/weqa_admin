@@ -8,9 +8,10 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import SelectoptionHook from '../../../../hooks/SelectoptionHook'
 import { AdduserVildions } from '../../../../Validations/AdduserVildions'
+import Loader from '../../../../components/common/Loader'
 const AddNewuser = () => {
  const {data} =  useQuerygetiteams("building" , "building")
- const {addIteam} = useQueryadditeam("employee" , "employee")
+ const {addIteam , isLoading} = useQueryadditeam("employee" , "employee")
 const usersType = [{name:"مسؤل" , key:"admin"} , {name:"تابع لمنشأه" , key:"user"}]
 const [type , setType] = useState("admin")
  const [value , setvalue] = useState("")
@@ -74,7 +75,9 @@ const handelSubmit = (e) => {
     toast.error("هناك خطأ في إضافة مستخدم يرجى التأكد من جميع البيانات");
   }
 };
-
+if(isLoading){
+  return <Loader />
+}
   return (
     <div className='w-full'>
         <Breadcrumb  pageName="إضافه مستخدم"/>
@@ -237,7 +240,7 @@ const handelSubmit = (e) => {
                           type="password"
                           id="password"
                           name="password"
-                        
+                        defaultValue="weqa1234"
                           className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
                         />
                       </div>
@@ -252,7 +255,7 @@ const handelSubmit = (e) => {
                           type="password"
                           id="passwordConfirm"
                           name="passwordConfirm"
-                        
+                           defaultValue="weqa1234"
                           className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
                         />
                       </div>
@@ -278,6 +281,30 @@ const handelSubmit = (e) => {
                     {
                       type ==="user" ? 
                       <>
+                           <div className="mb-6 flex flex-col  gap-5">
+                          
+                          <label
+                            htmlFor="grander"
+                            className="w-full  text-lg font-medium text-gray-700 dark:text-white"
+                          >
+                       نوع المستخدم
+                          </label>
+                        <select name='role' className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+                                <option value="">
+                                  أختر
+                                  </option>
+                                  <option value="manager">
+                                  مدير المنشأه
+                                  </option>
+                                  <option value="user">
+                                  مستخدم
+                                  </option>
+                                
+                                 
+                        </select>
+
+
+                    </div>
                       <div className="mb-6 flex flex-col  gap-5">
                       <label
                         htmlFor="building"

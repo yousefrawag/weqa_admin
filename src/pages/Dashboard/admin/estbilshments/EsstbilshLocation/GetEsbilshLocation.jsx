@@ -19,6 +19,7 @@ const GetEsbilshLocation = () => {
   const {data , isLoading} = useQuerygetiteams("location" , "location" , params)
   const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("location" , "location")
   const CurrentesbilshAsset = data?.data?.data
+
   const columns = [
           {
               name:"الموقع",

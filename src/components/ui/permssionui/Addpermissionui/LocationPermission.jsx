@@ -1,13 +1,23 @@
 import React from 'react'
+import { useEffect } from 'react';
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const LocationPermission = ({setLocationPermissions}) => {
+const LocationPermission = ({setLocationPermissions , locationPermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         post: false,
         put: false,
         delete: false,
       });
-    
+       useEffect(() => {
+    if(locationPermissions?.actions){
+      setLocalPermissions({
+        get: locationPermissions.actions.includes('get'),
+        put: locationPermissions.actions.includes('put'),
+        delete: locationPermissions.actions.includes('delete'),
+        post: locationPermissions.actions.includes('post'),
+      });
+    }
+       } , [locationPermissions]) 
       const handlePermissionChange = (key) => {
         const newPermissions = {
           ...permissions,

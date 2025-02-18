@@ -6,7 +6,7 @@ import SmailLoader from './Loader/SmailLoader'
 import EditCagorayassetHook from '../../hooks/EditCagorayassetHook'
 import { useDashboardContext } from '../../context/DashboardProviedr'
 import useGetUserAuthentications  from '../../middleware/GetuserAuthencations'
-const CardAsset = ({id ,to , ismainLevel , img , title ,tosub , item ,  enddpointDelete , isDropdownVisible ,toggleDropdown , hasSub , keydelete}) => {
+const CardAsset = ({id ,to ,  parentid, ismainLevel , img , title ,tosub , item ,  enddpointDelete , isDropdownVisible ,toggleDropdown , hasSub , keydelete}) => {
     const {deleteIteam , isLoading} = useQueryDelete(enddpointDelete , keydelete )
    const [mdoule , setModule] = useState(false)
    const {isOwner, iscanAdd, iscanDelete, iscanPut} = useGetUserAuthentications ("mainCategoryAssets")
@@ -56,7 +56,7 @@ const CardAsset = ({id ,to , ismainLevel , img , title ,tosub , item ,  enddpoin
               
                   <Link   to={to} className="text-md text-main2 font-medium dark:text-white">{title}</Link>
                   </div>
-                  <EditCagorayassetHook ismainLevel={ismainLevel} item={item} mdoule ={mdoule} setModule={setModule} endpoint={enddpointDelete} id={id} fectParentKEY={enddpointDelete === "categoryAssets" ? "mainCategoryAssets": "categoryAssets" } keyName={keydelete}/>
+                  <EditCagorayassetHook  parentid={parentid} ismainLevel={ismainLevel} item={item} mdoule ={mdoule} setModule={setModule} endpoint={enddpointDelete} id={id} fectParentKEY={enddpointDelete === "categoryAssets" ? "mainCategoryAssets": enddpointDelete === "subCategoryAssets" ? "categoryAssets" :enddpointDelete === "nestSubCategoryAssets" ? "subCategoryAssets" :"nestSubCategoryAssets"} keyName={keydelete}/>
           </div>
         
   )}

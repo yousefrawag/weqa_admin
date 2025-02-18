@@ -9,9 +9,9 @@ import useQuerygetSpacficIteam from '../../../../../services/QuerygetSpacficItea
 import { useState } from 'react';
 import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
 
-const AssetsSubcategoray = () => {
+const NestsubCategoray = () => {
   const { id } = useParams();
-  const { data, isLoading } = useQuerygetSpacficIteam("categoryAssets", "categoryAssets", id);
+  const { data, isLoading } = useQuerygetSpacficIteam("subCategoryAssets", "subCategoryAssets", id);
     const {setModuleAddAsset } = useDashboardContext()
     const [isDropdownVisible, setDropdownVisible] = useState(null);
     const {isOwner, iscanAdd} = useGetUserAuthentications ("mainCategoryAssets")
@@ -25,7 +25,7 @@ const AssetsSubcategoray = () => {
     }
 
     // Extract categories safely
-    const categories = data?.data?.subCategoryAssets;
+    const categories = data?.data?.nestSubCategoryAssets;
 
 
     // Helper function to render categories
@@ -37,12 +37,11 @@ const AssetsSubcategoray = () => {
                     key={category._id}
                     img={category.image}
                     parentid={id}
-                    hasSub={true}
+                    hasSub={false}
                     item={categories}
-                    keydelete="categoryAssets" 
-                     enddpointDelete="subCategoryAssets"
-                    to={`/Assets/${category._id}/third`}
-                    tosub={`/Assets-NestSubcategory/${category?._id}`} 
+                    keydelete="nestSubCategoryAssets" 
+                     enddpointDelete="nestSubCategoryAssets"
+                    to={`/Assets/${category._id}/fourth`}
                     title={category.name}
                     isDropdownVisible={isDropdownVisible === categories._id } toggleDropdown={toggleDropdown}
                 />
@@ -54,13 +53,12 @@ const AssetsSubcategoray = () => {
                     key={categories._id}
                     img={categories.image}
                     parentid={id}
-                    hasSub={true}
+                    hasSub={false}
                     item={categories}
-                    enddpointDelete="subCategoryAssets"
-                    to={`/Assets/${categories._id}/third`}
-                    tosub={`/Assets-NestSubcategory/${category?._id}`} 
+                    enddpointDelete="nestSubCategoryAssets"
+                    to={`/Assets/${categories._id}/fourth`}
                     title={categories.name}
-                    keydelete="categoryAssets" 
+                    keydelete="nestSubCategoryAssets" 
                     isDropdownVisible={isDropdownVisible === categories._id } toggleDropdown={toggleDropdown}
                 />
             );
@@ -70,7 +68,8 @@ const AssetsSubcategoray = () => {
     <div className='w-full h-full'>
         {/* HEAD PAGE STYLE */}
      <div className="flex justify-between w-full">
-     <Breadcrumb pageName="فئات الإصول" />              {
+              <Breadcrumb pageName="فئات الإصول" />
+              {
                 iscanAdd || isOwner ? <button
                 onClick={() => setModuleAddAsset(true)}
               className="block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800"
@@ -87,10 +86,10 @@ const AssetsSubcategoray = () => {
               renderCategories()
             }
              </div>
-             <AddAssethook id={id} endpoint ="subCategoryAssets" keyName ="categoryAssets"  fectParentKEY ="categoryAssets"  ismainLevel = {false} />
+             <AddAssethook id={id} endpoint ="nestSubCategoryAssets" keyName ="subCategoryAssets"  fectParentKEY ="subCategoryAssets"  ismainLevel = {false} />
 
     </div>
   )
 }
 
-export default AssetsSubcategoray
+export default NestsubCategoray

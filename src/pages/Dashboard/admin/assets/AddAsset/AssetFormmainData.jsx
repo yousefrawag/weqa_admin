@@ -16,7 +16,7 @@ const AssetFormmainData = ({continued , id ,location , CurrentFloor , params, se
                   <SelectSection  location={location} CurrentFloor={CurrentFloor} CurrentSection={CurrentSection} CurrentArea={CurrentArea} setCurrentSection={setCurrentSection}/>
                 <SelectRooms  location={location} CurrentFloor={CurrentFloor} CurrentSection={CurrentSection} CurrentArea={CurrentArea} setCurrentSection={setCurrentSection} CurrentRoom={CurrentRoom} setCurrentRoom={setCurrentRoom} />
               <FetchassetName  id={id}
-              endpointKey={continued === "first" ? "mainCategoryAssets" : continued === "second" ? "categoryAssets" : "subCategoryAssets"}/>
+              endpointKey={continued === "first" ? "mainCategoryAssets" : continued === "second" ? "categoryAssets" :  continued === "third" ? "subCategoryAssets" : "nestSubCategoryAssets"}/>
     </div>
   )
 }
