@@ -22,6 +22,10 @@
     "url": "https://yousef-rawag7.netlify.app/"
   },
   "dependencies": {
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
     "@reduxjs/toolkit": "^2.5.1",
     "@tanstack/react-query": "^4.0.0",
     "@tanstack/react-query-devtools": "^4.0.0",

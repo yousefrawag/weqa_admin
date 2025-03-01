@@ -1,18 +1,107 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
+import useQuerygetSpacficIteam from '../../../services/QuerygetSpacficIteam';
+import { useSelector } from 'react-redux';
+import { formatDistanceToNow } from 'date-fns';
+import useQuerygetiteams from '../../../services/Querygetiteams';
+import Logo from "../../../images/logo/weqa.png";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
+  const [notifying, setNotifying] = useState(false);
+  const user = useSelector((state) => state.userState.userinfo);
+  const { data, isLoading, refetch } = useQuerygetiteams("notifacation", "notifacation");
+  const notifications = data?.data?.data;
+
+  useEffect(() => {
+    if (notifications?.length > 0) {
+      setNotifying(true);
+    } else {
+      setNotifying(false);
+    }
+  }, [notifications]);
+
+  const renderNotvcation = notifications?.map((notfiy) => {
+    switch (notfiy.levels) {
+      case "Ticket":
+        return (
+          <Link
+            key={notfiy._id}
+            to={`/support-weqa/${notfiy?.allowed._id}/${notfiy?.allowed.user?._id}`}
+            className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+          >
+            <div className='w-full flex flex flex-col gap-3 items-center'>
+              <div className='w-full flex gap-3'>
+              <img src={user?._id === notfiy?.user?._id ? Logo : notfiy?.user?.image } alt={notfiy?.user?.username}  className='w-10 h-10 rounded-full object-center' />
+                {notfiy?.allowed?.user?.username}
+              </div>
+              <p className="text-sm text-main font-bold">
+                <span className="text-main font-bold"> {user?._id === notfiy?.user?._id ? "تم إرسال تذكرتك" :"دعم فنى"}</span>{' '}
+                {notfiy?.text}
+              </p>
+              <span>{notfiy?.allowed._id} رقم التذكره</span>
+            </div>
+            <span>{notfiy?.allowed?.messages[0]?.text}</span>
+            {notfiy?.createdAt ? formatDistanceToNow(new Date(notfiy?.createdAt), { addSuffix: true }) : "N/A"}
+          </Link>
+        );
+      case "assets":
+        return (
+          <Link
+            key={notfiy._id}
+            to={`/assetOverview/${notfiy?.allowed._id}`}
+            className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+          >
+            <div className='w-full flex flex flex-col gap-3 items-center'>
+              <div className='w-full flex gap-3'>
+              <img src={user?._id === notfiy?.user?._id ?Logo : notfiy?.user?.image } alt={notfiy?.user?.username}  className='w-10 h-10 rounded-full object-center' />
+              {notfiy?.user?.username}
+              </div>
+              <p className="text-sm text-main font-bold">
+                <span className="text-main font-bold"> {user?._id === notfiy?.user?._id ? "تهانينا 🎉" : "أصول"}</span>{' '}
+                {notfiy?.text}
+              </p>
+            
+            </div>
+            <span>{notfiy?.allowed?.assetsName}</span>
+            {notfiy?.createdAt ? formatDistanceToNow(new Date(notfiy?.createdAt), { addSuffix: true }) : "N/A"}
+          </Link>
+        );
+        case "employee":
+          return (
+            <div
+              key={notfiy._id}
+              to={`/all-edit-requests`}
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+            >
+              <div className='w-full flex flex flex-col gap-3 items-center'>
+                <div className='w-full flex gap-3'>
+                  <img src={user?._id === notfiy?.user?._id ?Logo : notfiy?.user?.image } alt={notfiy?.user?.username}  className='w-10 h-10 rounded-full object-center' />
+                  {notfiy?.user?.username}
+                </div>
+                <p className="text-sm text-main font-bold">
+                  <span className="text-main font-bold"> {user?._id === notfiy?.user?._id ? "تم إرسال طلبك" : "موظفين"}</span>{' '}
+                  {notfiy?.text}
+                </p>
+              
+              </div>
+              <span>{notfiy?.allowed?.assetsName}</span>
+              {notfiy?.createdAt ? formatDistanceToNow(new Date(notfiy?.createdAt), { addSuffix: true }) : "N/A"}
+            </div>
+          )
+      default:
+        return null;
+    }
+  });
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <li>
-        <Link
+        <button
           onClick={() => {
-            setNotifying(false);
             setDropdownOpen(!dropdownOpen);
+         
           }}
           to="#"
           className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
@@ -38,82 +127,16 @@ const DropdownNotification = () => {
               fill=""
             />
           </svg>
-        </Link>
+        </button>
 
         {dropdownOpen && (
-          <div
-            className={`absolute -right-27 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:right-0 sm:w-80`}
-          >
+          <div className="absolute inset-0 translate-x-60 lg:translate-x-30 mt-15 flex h-90 w-80 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="px-4.5 py-3">
-              <h5 className="text-sm font-medium text-bodydark2">
-                Notification
-              </h5>
+              <h5 className="text-sm font-medium text-bodydark2">الإشعارات</h5>
             </div>
 
             <ul className="flex h-auto flex-col overflow-y-auto">
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      Edit your information in a swipe
-                    </span>{' '}
-                    Sint occaecat cupidatat non proident, sunt in culpa qui
-                    officia deserunt mollit anim.
-                  </p>
-
-                  <p className="text-xs">12 May, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      It is a long established fact
-                    </span>{' '}
-                    that a reader will be distracted by the readable.
-                  </p>
-
-                  <p className="text-xs">24 Feb, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      There are many variations
-                    </span>{' '}
-                    of passages of Lorem Ipsum available, but the majority have
-                    suffered
-                  </p>
-
-                  <p className="text-xs">04 Jan, 2025</p>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-                  to="#"
-                >
-                  <p className="text-sm">
-                    <span className="text-black dark:text-white">
-                      There are many variations
-                    </span>{' '}
-                    of passages of Lorem Ipsum available, but the majority have
-                    suffered
-                  </p>
-
-                  <p className="text-xs">01 Dec, 2024</p>
-                </Link>
-              </li>
+              {renderNotvcation}
             </ul>
           </div>
         )}

@@ -17,12 +17,15 @@ import CreateFormAsset from '../../../../../hooks/CreateFormAsset'
 import AssetFormmainData from '../AddAsset/AssetFormmainData'
 import useQueryupdate from '../../../../../services/useQueryupdate'
 import {inputFields} from '../../../../../data/index'
+import useGetUserAuthentications from '../../../../../middleware/GetuserAuthencations'
 const EditAsset = () => {
   // react hooks && custome fetch and add
  const {id } = useParams()
  const {data , isLoading:loadingget} = useQuerygetSpacficIteam("assets" , "assets" , id)
   const {updateiteam  ,isLoading} =  useQueryupdate("assets" , "assets")
   const Currentasset = data?.data
+  const {isOwner,  canviewtAssetFinancial , canEditFinancial} = useGetUserAuthentications("assets")
+
    // react hooks && custome fetch and add
   
  

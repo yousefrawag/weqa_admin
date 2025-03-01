@@ -12,6 +12,7 @@ const Profile = () => {
   const user = useSelector((state) => state.userState.userinfo)
   const dispatch = useDispatch()
   const navigate  = useNavigate()
+  const [issendRequest , setIssend] = useState(false)
   const [image , setImage] = useState({
     file:"",
     view:""
@@ -33,29 +34,70 @@ const Profile = () => {
   if(!image.file) {
     data.image = user.image
   }
-    
+    setIssend(true)
   const res = await authFetch.put(`/employee/updateMe` , formData)
-console.log(res)
-    if(res.status === 200){
-      toast.success("تم التعديل بنجاح")
-      dispatch(login(res.data.data))
+
+    if(res.status === 200 && res.data?.msg === "تم ارسال طلب تعديل بياناتك بنجاح"){
+      toast.success("لا يمكنك تعديل بياناتك وتم إرسال طلبك للمسؤل")
+      
 
       
-      // navigate("/")
+      
 
 
+}else {
+dispatch(login(res.data.data))
 }
   
   
   
   
   }
+  const handelsendRequest = async  () => {
+    const formData = {
+      username:"مالك"
+    }
+try {
+  const res = await authFetch.put(`/employee/updateMe` , formData)
+
+  if(res.status === 200 && res.data?.msg === "تم ارسال طلب تعديل بياناتك بنجاح"){
+    toast.success("لا يمكنك تعديل بياناتك وتم إرسال طلبك للمسؤل")
+    
+
+    
+    
+
+
+}else {
+dispatch(login(res.data.data))
+}
+} catch (error) {
+  
+}
+  }
   return (
     <>
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="ملف الشخصى" />
+        {
+         ( user?.role === "employee"  )?    <p className={`w-full p-5 rounded-[10px] ${user?.status ? "bg-green-400" : "bg-red-400"}  text-white mt-5`}>
+        {
+          user?.status ? "تمت الموافقة على طلبك بشأن تعديل بياناتك الأن يمكنك التعديل على بياناتك الأساسية":
+          <span>
+            <button  onClick={handelsendRequest}   className="flex justify-center rounded bg-main py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+            >
+                إرسال طلب
+            </button>
+  "غير مسموح لك بتعديل البيانات الخاصة بك قبم بإرسال طلب للمسؤل المختص"
 
-        <div className="grid grid-cols-5 gap-8">
+          </span>
+        
+        }    
+          </p> : null
+        }
+     
+        <div className="grid grid-cols-5 gap-8 mt-10">
+        
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -218,22 +260,7 @@ console.log(res)
                     />
                   </div>
 
-                  <div className="w-full">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="building"
-                    >
-                      المنشأه التابع لها
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray-200 py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none  dark:border-strokedark dark:bg-gray-600 dark:text-white dark:focus:border-primary"
-                      type="text"
-                      name="building"
-                      id="building"
-                      disabled
-                      defaultValue={user?.building}
-                    />
-                  </div>
+               
 
                   <div className="w-full">
                     <label
@@ -248,7 +275,7 @@ console.log(res)
                       name="permissions"
                       id="permissions"
                       disabled
-                      defaultValue={user?.type}
+                      defaultValue={user?.role}
                     />
                   </div>
                   <div className="w-full">
@@ -275,12 +302,16 @@ console.log(res)
            >
             تغير كلمه المرور
            </Link>
-                <button
-                className="flex justify-center rounded bg-main py-2 px-6 font-medium text-gray hover:bg-opacity-90"
-                type="submit"
-              >
-                حفظ
-              </button>
+           {
+            ( user?.role === "employee" && user?.status === false ) ? null  :
+            <button
+            className="flex justify-center rounded bg-main py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+            type="submit"
+          >
+            حفظ
+          </button>
+           }
+           
               
            
                     

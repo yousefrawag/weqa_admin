@@ -11,8 +11,10 @@ const useGetUserAuthentications  = ( permissionmodule ) => {
     const iscanView = modulePermissions?.actions?.some((per) => per === "get");
     const iscanPut = modulePermissions?.actions?.some((per) => per === "put");
     const iscanDelete = modulePermissions?.actions?.some((per) => per === "delete");
+    const canviewtAssetFinancial = modulePermissions?.actions?.some((per)  => per === "canviewtFinancial")
+    const canEditFinancial = modulePermissions?.actions?.some((per)  => per === "canEditFinancial")
     const isOwner = user?.role === "owner";
 
-    return { isOwner, iscanAdd, iscanDelete, iscanPut, iscanView };
+    return { isOwner, iscanAdd, iscanDelete, iscanPut, iscanView  , canviewtAssetFinancial , canEditFinancial};
 };
 export default useGetUserAuthentications 

@@ -16,12 +16,17 @@ import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthenc
 import DropdownDefault from '../../../../../components/common/Dropdowns/DropdownDefault';
 import useQueryupdate from '../../../../../services/useQueryupdate';
 import toast from 'react-hot-toast';
-const AllAssetsStauts = () => {
-
-    const {data , isLoading} = useQuerygetiteams("assets" , "assets")
+import { useSelector } from 'react-redux';
+const UserAssets = () => {
+    const user = useSelector((state) => state.userState.userinfo)
+const params = {
+    createBy:user?._id
+}
+    const {data , isLoading} = useQuerygetiteams("assets/myAssets" , "assets")
     const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
     const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
     const AllStauts = [{key:"all" , name:"الكل"} , {key:"underReview" , name:"قيد المراجعة"} ,{key:"reviewed" , name:"تمت المراجعه"}  ,  {key:"underDelete" , name:"قيد الحذف"} ,{key:"deleted" , name:"تم الحذف "} , {key:"underUpdate" , name:"قيد التعديل"}  , {key:"updated" , name:"تم التعديل"}]
+    const RquestSatuts = [{key:"underDelete" , name:"إرسال طلب حذف"} , {key:"underUpdate" , name:"إرسال طلب تعديل"}]
     const [SelectedType , setSelectedType] = useState("all")
     const {updateiteam} = useQueryupdate("assets/status" , "assets")
  const UpdateStuts  = (id , status) => {
@@ -32,7 +37,7 @@ try {
       
      
        
-        toast.success("تم تغير حالة الاصل بنجاح")
+        toast.success("تم إرسال طلبك بنجاح")
     }
 })
 } catch (error) {
@@ -101,7 +106,6 @@ try {
           </span>
         )
       },
-      
        
             {
                 name: "تاريخ الانشاء",
@@ -117,12 +121,10 @@ try {
                        cell:(row) => (
                         <DropdownDefault
                         row={row}
-                        isOwner={isOwner}
-                        iscanPut={iscanPut}
-                        iscanDelete={iscanDelete}
-                        deleteIteam={deleteIteam}
+                        
+                       
                         loaddingDelete={loaddingDelete}
-                        status={AllStauts}
+                        status={RquestSatuts}
                         UpdateStuts={UpdateStuts}
                       />
                        )
@@ -136,7 +138,7 @@ try {
   }
   return (
     <div>
-        <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="طلبات الإصول" to="/Assets-Onboarding" title="عوده"/>
+        <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="أصول قمت بإضافتها" to="/Assets-Onboarding" title="عوده"/>
         <div className='w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5 mb-10'>
         {
           AllStauts?.map((item) => {
@@ -153,4 +155,4 @@ try {
   )
 }
 
-export default AllAssetsStauts
+export default UserAssets

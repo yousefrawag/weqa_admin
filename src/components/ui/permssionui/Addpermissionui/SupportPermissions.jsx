@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const SupportPermissions = ({setSupportPermissions}) => {
+const SupportPermissions = ({setSupportPermissions , supportPermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         put: false,
@@ -26,7 +26,16 @@ const SupportPermissions = ({setSupportPermissions}) => {
         
         });
       };
-    
+    useEffect(() => {
+      if(supportPermissions?.actions){
+        setLocalPermissions({
+          get: supportPermissions.actions.includes('get'),
+          put: supportPermissions.actions.includes('put'),
+          delete: supportPermissions.actions.includes('delete'),
+          post: supportPermissions.actions.includes('post'),
+        });
+      }
+    } , [supportPermissions])
       const permissionsData = [
         { key: "get", label: "مشاهده تذاكر الدعم الفنى", value: permissions.get },
         { key: "put", label: "متابعه التذكره ", value: permissions.put },

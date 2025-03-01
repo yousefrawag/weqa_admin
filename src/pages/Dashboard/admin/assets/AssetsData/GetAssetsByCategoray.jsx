@@ -14,12 +14,12 @@ import CardLevelCategoray from '../../../../../components/ui/assets/CardLevelCat
 import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations'
 import FiltertionHook from '../../../../../hooks/FiltertionHook';
 import { useState , useMemo } from 'react';
-
+import useQueryupdate from '../../../../../services/useQueryupdate';
 const GetAssetsByCategoray = () => {
     const {id , continued} = useParams()
   
     const {data , isLoading} = useQuerygetSpacficIteam("assets/category" , "assets/category" , id)
-    const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
+    const {updateiteam , isLoading:loaddingDelete} = useQueryupdate("assets" , "assets")
     const {isOwner, iscanAdd, iscanDelete, iscanPut} = useGetUserAuthentications ("assets")
 
 //FILTER SECTION 
@@ -76,6 +76,23 @@ const filteredData = useMemo(() => {
    return true;
  });
 }, [data, params]);
+
+// update asset stauts to archev assets
+const UpdateStuts  = (id , status) => {
+  try {
+    updateiteam({data:{status} , id} , {
+      onSuccess:() =>{
+       
+        
+       
+         
+          toast.success("تم  إرسال الإصل الى الارشيف  بنجاح")
+      }
+  })
+  } catch (error) {
+    toast.error("هناك خطاء فى تعديل حاله الاصل")
+  }
+   }     
 
        const columns = [
         {
@@ -145,7 +162,7 @@ const filteredData = useMemo(() => {
                           </Link> :null
                            }
                          {
-                          isOwner || iscanDelete ?     <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => deleteIteam(row._id)}>
+                          isOwner || iscanDelete ?     <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => UpdateStuts(row._id , "deleted")}>
                           <AiTwotoneDelete size={20}/>
                         </button> : null
                          }
@@ -209,7 +226,7 @@ const filteredData = useMemo(() => {
          <HeadPagestyle  pageName=" بيانات الإصول"  to={`/add-assets/${id}/${continued}`} title="إضافة أصل"  iscanAdd={iscanAdd} isOwner={isOwner}/>
 
    
-       <CardLevelCategoray continued={continued === "first" ? "second" :continued === "third" ? "fourth":"third" }  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :continued === "second" ? "categoryAssets" : continued === "third" ? "subCategoryAssets" : continued === "fourth" ? "nestSubCategoryAssets":"mainCategoryAssets"}`}/>
+       <CardLevelCategoray continued={continued === "first" ? "second" : continued === "second" ? "third" :continued === "third"  ? "fourth" :""  }  id={id} fetchkey={`${continued === "first" ? "mainCategoryAssets" :continued === "second" ? "categoryAssets" : continued === "third" ? "subCategoryAssets" : continued === "fourth" ? "nestSubCategoryAssets":"mainCategoryAssets"}`}/>
        <FiltertionHook filteredData={filteredData} columns={exportColumns} filters={filters} params={params} setParams={setParams} />
 
         <CustomeTabel columns={columns} data={filteredData} />

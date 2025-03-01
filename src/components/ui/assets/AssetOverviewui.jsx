@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import {inputFields} from '../../../data/index';
 import FilesCard from './FilesCard';
+import useGetUserAuthentications from '../../../middleware/GetuserAuthencations';
 const AssetOverviewui = ({ CurrentAsset }) => {
   const data = CurrentAsset?.data;
   const locationDetails = CurrentAsset?.locationDetails;
+  const {isOwner,  canviewtAssetFinancial , canEditFinancial} = useGetUserAuthentications("assets")
 
   const formatDate = (date) => {
     if (!date) return 'غير متوفر';
@@ -83,7 +85,7 @@ const fillterfinnincedatalData = inputFields.filter((item) => item.category === 
 
       {/* Display filtered data */}
       <div className="w-full h-full grid grid-cols-1 gap-2 xl:grid-cols-2 shadow-md p-5">
-        {filteredData[SelectedType]?.map((item, index) => (
+        {filteredData[SelectedType === "canviewtFinancial" ? (isOwner || canviewtAssetFinancial) && SelectedType  : SelectedType]?.map((item, index) => (
           <div key={index} className="mb-6 flex flex-col gap-2">
             <span className="w-full text-lg font-medium text-gray-700 dark:text-white">
               {item.label}

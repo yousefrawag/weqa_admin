@@ -12,7 +12,7 @@ if(isLoading){
   return <Loader />
 }
     return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full '>
     
             <HeadPagestyle  to={"/Est-ablishments"} pageName={"بيانات المنشأه"}  title={"عوده"}/>
         <Overview CurrenEstbilshment={CurrenEstbilshment?.building || []} />

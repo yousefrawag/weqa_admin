@@ -1,12 +1,22 @@
 import React from 'react'
 import useQuerygetSpacficIteam from '../services/QuerygetSpacficIteam'
 import Loader from '../components/common/Loader'
-
+import useGetUserAuthentications from '../middleware/GetuserAuthencations'
 const CreateFormAsset = ({endpointKey , id , SelectedType , formData, handleInputChange  }) => {
     const {data , isLoading} = useQuerygetSpacficIteam(endpointKey , endpointKey , id)
+ 
+     const {isOwner,  canviewtAssetFinancial , canEditFinancial} = useGetUserAuthentications("assets")
    
     const Currentasset = data?.data
-    const filteredFields = Currentasset?.data?.filter((input) => input.category === SelectedType);
+    const filteredFields = Currentasset?.data?.filter((input) =>{
+        if (SelectedType === "finnincedata") {
+ 
+          return (isOwner || canviewtAssetFinancial || canEditFinancial) && input.category === SelectedType;
+        } else {
+          // Show other data types without permission checks
+          return input.category === SelectedType;
+        }
+      });
 
  if(isLoading){
     return <Loader />

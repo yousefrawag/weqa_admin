@@ -74,10 +74,10 @@ console.log("edit" , parentid);
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
   
-    if (images.view) {
-      formData.set("image", images.file);
+    if (!images.file) {
+      formData.set("image", images.view);
     } else {
-      return toast.error("يجب إضافة صوره للفئة");
+      formData.set("image", images.file)
     }
   
     if (!data.name) {
@@ -112,15 +112,15 @@ console.log("edit" , parentid);
           });
           setModule(false);
           setSelectedInputs([])
-          toast.success('تم إضافه فئه بنجاح');
+          toast.success('تم تعديل فئه بنجاح');
        
         },
       });
     } catch (error) {
-      toast.error('هناك خطأ في فئة الموقع');
+      toast.error('هناك خطأ في  إضافة الفئة');
     }
   }
-  console.log("Item received:", data); // Check if item is received properly
+ 
   useEffect(() => {
  
     if (item) {

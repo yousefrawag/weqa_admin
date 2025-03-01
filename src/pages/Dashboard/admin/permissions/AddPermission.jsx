@@ -64,11 +64,15 @@ try {
        toast.success('تم إضافة صلاحيه جديده');
        navigate('/permissions');
      },
+     onError:(error) => {
+      console.log("erro from erro " , error);
+      
+     }
    }
  );
 } catch (error) {
 
- toast.error('هناك خطأ في إضافة الموقع');
+ toast.error('هناك خطأ في إضافة صلاحية');
 }
   };
 if(isLoading){

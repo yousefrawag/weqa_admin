@@ -67,11 +67,11 @@ const DropdownDefault = ({ row, isOwner, iscanPut, iscanDelete, UpdateStuts, loa
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-[-60px] top-full z-40 w-40 space-y-1 rounded-sm border border-stroke bg-white p-1.5 shadow-default dark:border-strokedark dark:bg-boxdark ${
+        className={`absolute right-[-60px] top-full z-40 w-40 space-y-1 rounded-sm border border-stroke bg-boxdark p-1.5 shadow-default dark:border-strokedark dark:bg-boxdark ${
           dropdownOpen === true ? 'block' : 'hidden'
         }`}
       >
-        <Link to={`/assetOverview/${row._id}`} className="flex items-center p-2 hover:bg-main text-white">
+        <Link to={`/assetOverview/${row._id}`} className="flex items-center  p-2 hover:bg-main text-white">
           <GrFormView size={20} className="mr-2" />
           مشاهده
         </Link>

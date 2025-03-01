@@ -3,7 +3,7 @@ import PermissionsGrid from '../../../../hooks/PermissionsGrid';
 import useQuerygetiteams from '../../../../services/Querygetiteams';
 import { useEffect } from 'react';
 import GetCategoreisAllowdid from '../../../../hooks/GetCategoreisAllowdid';
-const AssetsPermission = ({ setPermissions , setMainCategoryAssetsPermissions , assetsPermissions }) => {
+const AssetsPermission = ({ setPermissions  , assetsPermissions }) => {
 
 
   const [permissions, setLocalPermissions] = React.useState({
@@ -11,17 +11,13 @@ const AssetsPermission = ({ setPermissions , setMainCategoryAssetsPermissions , 
     post: false,
     put: false,
     delete: false,
-    financial: false,
-    reports: false,
+    canviewtFinancial: false,
+    canEditFinancial: false,
+    fllowAssetsRequest:false ,
+    Canviewclanderassets:false
   });
-  const [allowidCatgeories, setLocalPermissionsCategoriesallowd] = React.useState({
-    get: false,
-    post: false,
-    put: false,
-    delete: false,
-  
-  });
-  const [allowedIds , setAllowdids] = React.useState([])
+
+
 
     useEffect(() => {
       if(assetsPermissions?.actions){
@@ -30,8 +26,10 @@ const AssetsPermission = ({ setPermissions , setMainCategoryAssetsPermissions , 
     put: assetsPermissions.actions.includes('put'),
     delete: assetsPermissions.actions.includes('delete'),
     post: assetsPermissions.actions.includes('post'),
-    financial:assetsPermissions?.financial,
-    reports:assetsPermissions?.reports
+    canviewtFinancial:assetsPermissions?.actions.includes('canviewtFinancial'),
+    canEditFinancial:assetsPermissions?.actions.includes('canEditFinancial'),
+    fllowAssetsRequest:assetsPermissions?.actions.includes('fllowAssetsRequest'),
+    Canviewclanderassets:assetsPermissions?.actions.includes('Canviewclanderassets')
         })
       }
     }  , [assetsPermissions])
@@ -48,21 +46,27 @@ const AssetsPermission = ({ setPermissions , setMainCategoryAssetsPermissions , 
     if (newPermissions.post) actions.push('post');
     if (newPermissions.put) actions.push('put');
     if (newPermissions.delete) actions.push('delete');
+    if (newPermissions.canviewtFinancial) actions.push('canviewtFinancial');
+    if (newPermissions.canEditFinancial) actions.push('canEditFinancial');
+    if (newPermissions.fllowAssetsRequest) actions.push('fllowAssetsRequest');
+    if (newPermissions.Canviewclanderassets) actions.push('Canviewclanderassets')
 
     setPermissions({
       actions,
-      financial: { financial: newPermissions.financial, reports: newPermissions.reports },
+   
       allowedIds: [], // You can add logic to handle allowedIds if needed
     });
   };
 
   const permissionsData = [
     { key: "post", label: "إضافة أصل", value: permissions.post },
-    { key: "get", label: "عرض الإصول", value: permissions.get },
+    { key: "get", label: "مشاهده الإصول", value: permissions.get },
     { key: "put", label: "تعديل الإصل", value: permissions.put },
     { key: "delete", label: "حذف أصل", value: permissions.delete },
-    { key: "financial", label: "رؤيه بيانات ماليه", value: permissions.financial },
-    { key: "reports", label: "تقارير تشغيلية", value: permissions.reports },
+    { key: "canviewtFinancial", label: "رؤيه بيانات ماليه", value: permissions.canviewtFinancial },
+    { key: "canEditFinancial", label: "تعديل البيانات المالية", value: permissions.canEditFinancial },
+    { key: "fllowAssetsRequest", label: "متابعة طلبات الإصول", value: permissions.fllowAssetsRequest },
+    { key: "Canviewclanderassets", label: "متابعة تقويم الإصول", value: permissions.fllowAssetsRequest },
   ];
 
   return (

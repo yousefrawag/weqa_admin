@@ -13,16 +13,18 @@ import HeadPagestyle from '../../../../../components/common/HeadPagestyle';
 import { useState , useMemo } from 'react';
 import FiltertionHook from '../../../../../hooks/FiltertionHook';
 import useGetUserAuthentications  from '../../../../../middleware/GetuserAuthencations';
+import { MdSettingsBackupRestore } from "react-icons/md";
 import useQueryupdate from '../../../../../services/useQueryupdate';
-import toast from 'react-hot-toast';
-const GetAllAssets = () => {
+const Assetsarchiev = () => {
 const params = {
   status:"reviewed"
 } 
     const {data , isLoading} = useQuerygetiteams("assets" , "assets" , params)
-    const {updateiteam , isLoading:loaddingDelete} = useQueryupdate("assets/status" , "assets")
     const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
-    const AssetsReviwed = data?.data?.data?.filter((item) => item.status === "reviewed")
+    const {updateiteam , isLoading:loaddingDelete} = useQueryupdate("assets/status" , "assets")
+
+const AssetsData = data?.data?.data?.filter((item) => item.status === "deleted")
+
     const [paramsearch , setParams] = useState({
       field: "",
       searchTerm: "",
@@ -67,9 +69,9 @@ const params = {
     ]
 
     const filteredData = useMemo(() => {
-      if (!AssetsReviwed) return [];
+      if (!AssetsData) return [];
     
-      return AssetsReviwed?.filter(item => {
+      return AssetsData?.filter(item => {
         if (paramsearch.searchTerm && paramsearch.field) {
           // Fix array index access in params.field
           const fieldValue = paramsearch.field
@@ -81,23 +83,24 @@ const params = {
         }
         return true;
       });
-    }, [AssetsReviwed, paramsearch]);
-    //handel update assets stauts 
+    }, [AssetsData, paramsearch]);
+
     const UpdateStuts  = (id , status) => {
-      try {
-        updateiteam({data:{status} , id} , {
-          onSuccess:() =>{
-           
-            
-           
+        try {
+          updateiteam({data:{status} , id} , {
+            onSuccess:() =>{
              
-              toast.success("تم  إرسال الإصل الى الارشيف  بنجاح")
-          }
-      })
-      } catch (error) {
-        toast.error("هناك خطاء فى تعديل حاله الاصل")
-      }
-       }     
+              
+             
+               
+                toast.success("تم إستعاده الاصل بنجاح والان اصبح قيد المراجعة")
+            }
+        })
+        } catch (error) {
+          toast.error("هناك خطاء فى تعديل حاله الاصل")
+        }
+         }    
+
  // TABEL DATA COLUMS 
        const columns = [
         {
@@ -161,14 +164,10 @@ const params = {
                            <Link to={`/assetOverview/${row._id}`} className="hover:text-primary">
                            <GrFormView size={20} />
                            </Link>
-                           {
-                            isOwner || iscanPut ?     <Link to={`/asset-edit/${row._id}`}  className="hover:text-primary">
-                            <MdOutlineEditNote size={20}/>
-                          </Link> : null
-                           }
+                     
                        {
-                        isOwner || iscanDelete ? <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => UpdateStuts(row?._id , "deleted")}>
-                        <AiTwotoneDelete size={20}/>
+                        isOwner || iscanPut ? <button className={`${loaddingDelete ? "cursor-wait" :""} hover:text-red-500`} onClick={() => UpdateStuts(row?._id , "underReview")}>
+                        <MdSettingsBackupRestore size={20}/>
                       </button> : null
                        }
                            
@@ -221,14 +220,13 @@ const params = {
           name: "تاريخ الانشاء",
           selector: (row) => format(new Date(row.createdAt), "dd MMMM, yyyy"), // Custom date formatting
         },
-      ]; 
-         
+      ];        
   if(isLoading){
     return <Loader />
   }
   return (
     <div>
-        <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="جميع الاصول التى تمت مراجعتها" to="/Assets-Onboarding" title="عوده"/>
+        <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="أرشيف الاصول" to="/Assets-Onboarding" title="عوده"/>
 
         <FiltertionHook filteredData={filteredData} columns={exportColumns} filters={filters} params={paramsearch} setParams={setParams} />
         <CustomeTabel columns={columns} data={filteredData} />
@@ -236,4 +234,4 @@ const params = {
   )
 }
 
-export default GetAllAssets
+export default Assetsarchiev

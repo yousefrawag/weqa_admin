@@ -6,14 +6,17 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../../store/userSlice';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { VscVerifiedFilled } from "react-icons/vsc";
+import { useQueryClient } from '@tanstack/react-query';
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const user = useSelector((state) => state.userState.userinfo)
-
+const queryclient = useQueryClient()
   const navigate = useNavigate()
 const dispatch = useDispatch()
 const handelLogout = () => {
   dispatch(logout());
+  queryclient.clear()
   navigate('/auth/signin');
   toast.success("تم تسجيل الخروج بنجاح");
 };
@@ -24,11 +27,15 @@ const handelLogout = () => {
         className="flex items-center gap-4"
         to="#"
       >
-        <span className="hidden text-right lg:block">
+              <span className="hidden text-right lg:block">
           <span className="block text-sm font-bold text-black dark:text-white">
             {user?.username}
           </span>
-          <span className="block text-xs mt-2">{user?.role} </span>
+          <div className="block text-xs mt-2">{user?.role === "owner" ? <span className='flex gap-2'>
+            <VscVerifiedFilled  className='text-green-500'/>
+
+            مالك المنصة
+          </span> : "مستخدم"} </div>
         </span>
 
         <span className="h-12 w-12 rounded-full">

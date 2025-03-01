@@ -1,10 +1,13 @@
 import React from 'react'
 import useQuerygetiteams from '../services/Querygetiteams'
+import SmailLoader from '../components/common/Loader/SmailLoader';
 
 const GetCategoreisAllowdid = ({fetchKey , sectionName  , handelAllowedid , allowedIds }) => {
     const {data , isLoading} = useQuerygetiteams(fetchKey , fetchKey)
 console.log("data" , data);
-
+if(isLoading){
+    return <SmailLoader />
+}
   return (
     <div className="mt-10 border border-gray-300 rounded-lg bg-white dark:bg-transparent">
     <h3 className="font-bold text-lg mb-4 w-full border-b-[1px] p-5">{sectionName}</h3>

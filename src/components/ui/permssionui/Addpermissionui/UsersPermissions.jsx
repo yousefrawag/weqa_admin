@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
-const UsersPermissions = ({setEmployeePermissions}) => {
+const UsersPermissions = ({setEmployeePermissions , employeePermissions}) => {
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         post: false,
@@ -25,12 +25,21 @@ const UsersPermissions = ({setEmployeePermissions}) => {
         
         });
       };
-    
+    useEffect(() => {
+      if(employeePermissions?.actions){
+        setLocalPermissions({
+          get: employeePermissions.actions.includes('get'),
+          put: employeePermissions.actions.includes('put'),
+          delete: employeePermissions.actions.includes('delete'),
+          post: employeePermissions.actions.includes('post'),
+        });
+      }
+    } , [employeePermissions])
       const permissionsData = [
-        { key: "post", label: "إضافة مستخدم", value: permissions.createAssets },
-        { key: "get", label: "عرض بيانات المستخدم", value: permissions.viewAssets },
-        { key: "put", label: "تعديل بيانات المستخدم", value: permissions.editAssets },
-        { key: "delete", label: "حذف مستخدم", value: permissions.deleteAssets },
+        { key: "post", label: "إضافة مستخدم", value: permissions.post },
+        { key: "get", label: "عرض بيانات المستخدم", value: permissions.get },
+        { key: "put", label: "تعديل بيانات المستخدم", value: permissions.put },
+        { key: "delete", label: "حذف مستخدم", value: permissions.delete },
         
         
       ];

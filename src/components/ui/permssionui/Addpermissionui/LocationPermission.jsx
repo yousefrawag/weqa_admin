@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import PermissionsGrid from '../../../../hooks/PermissionsGrid';
 const LocationPermission = ({setLocationPermissions , locationPermissions}) => {
+  console.log("locations-actions" , locationPermissions)
     const [permissions, setLocalPermissions] = React.useState({
         get: false,
         post: false,
@@ -38,10 +39,10 @@ const LocationPermission = ({setLocationPermissions , locationPermissions}) => {
       };
     
       const permissionsData = [
-        { key: "post", label: "إضافة موقع", value: permissions.createAssets },
-        { key: "get", label: "مشاهده المواقع", value: permissions.viewAssets },
-        { key: "put", label: "تعديل المواقع", value: permissions.editAssets },
-        { key: "delete", label: "حذف موقع", value: permissions.deleteAssets },
+        { key: "post", label: "إضافة موقع", value: permissions.post },
+        { key: "get", label: "مشاهده المواقع", value: permissions.get },
+        { key: "put", label: "تعديل المواقع", value: permissions.put },
+        { key: "delete", label: "حذف موقع", value: permissions.delete },
         
       ];
   return (

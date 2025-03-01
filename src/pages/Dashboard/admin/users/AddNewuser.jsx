@@ -12,7 +12,7 @@ import Loader from '../../../../components/common/Loader'
 const AddNewuser = () => {
  const {data} =  useQuerygetiteams("building" , "building")
  const {addIteam , isLoading} = useQueryadditeam("employee" , "employee")
-const usersType = [{name:"مسؤل" , key:"admin"} , {name:"تابع لمنشأه" , key:"user"}]
+const usersType = [{name:"مسؤل" , key:"manager"} , {name:"تابع لمنشأه" , key:"user"}]
 const [type , setType] = useState("admin")
  const [value , setvalue] = useState("")
 const navigate = useNavigate()
@@ -41,7 +41,7 @@ const handelSubmit = (e) => {
     console.log(data);
     
     const validateUser = () => {
-      if (type === "admin") {
+      if (type === "manager") {
         if (!data.role) return "يجب اختيار نوع المستخدم";
         if (data.role === "employee" && !data.permissions) return "يجب اختيار صلاحية المستخدم";
       } else if (type === "employee") {

@@ -17,7 +17,7 @@ const Updateuser = () => {
   const CurrentUser = getuser?.data
  const {data} =  useQuerygetiteams("building" , "building")
  const {updateiteam  , isLoading} = useQueryupdate("employee" , "employee")
-const usersType = [{name:"مسؤل" , key:"admin"} , {name:"تابع لمنشأه" , key:"user"}]
+const usersType = [{name:"مسؤل" , key:"manager"} , {name:"تابع لمنشأه" , key:"user"}]
 const [type , setType] = useState("")
  const [value , setvalue] = useState("")
  const [role , setRole] = useState("")

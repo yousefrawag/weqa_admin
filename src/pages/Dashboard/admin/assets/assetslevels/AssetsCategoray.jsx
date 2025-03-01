@@ -70,7 +70,7 @@ console.log(categories);
         <div className='w-full h-full'>
             {/* HEAD PAGE STYLE */}
             <div className="flex justify-between w-full">
-                <Breadcrumb pageName={' /خراطيم مرشات / ${الأمن والسلامة}'} />
+                <Breadcrumb pageName="فئة فرعيه ثانية" />
                 {
                     iscanAdd || isOwner ?    <button
                     onClick={() => setModuleAddAsset(true)}

@@ -15,6 +15,7 @@ import useQuerygetSpacficIteam from '../../../../../services/QuerygetSpacficItea
 import FetchassetName from '../../../../../hooks/FetchassetName'
 import CreateFormAsset from '../../../../../hooks/CreateFormAsset'
 import AssetFormmainData from './AssetFormmainData'
+import useGetUserAuthentications from '../../../../../middleware/GetuserAuthencations'
 const Addassets = () => {
   // react hooks && custome fetch and add
  const {id , continued} = useParams()
@@ -54,21 +55,29 @@ const Addassets = () => {
       if (file) {
         // Validate that the file is a PDF
         if (file.type !== "application/pdf") {
-          alert("Please upload a valid PDF file.");
+          toast.error("Please upload a valid PDF file.");
           return;
         }
-  
+    
+        // Check if the file already exists in state to prevent duplicates
+        if (pdfs.some((pdf) => pdf.name === file.name)) {
+          toast.error("This file is already uploaded.");
+          return;
+        }
+    
         // Generate a blob URL for previewing the PDF
         const newPdf = {
           name: file.name,
           url: URL.createObjectURL(file),
           file, // Optional: Store the actual file object for further use
         };
-  
-        // Update the state
-        setPdfs([...pdfs, newPdf]);
+    
+        // Update the state using the functional approach to prevent duplicates
+        setPdfs((prevPdfs) => [...prevPdfs, newPdf]);
+         event.target.value = ""
       }
     };
+    
 
 
 
@@ -99,6 +108,7 @@ const handelSubmit = (e) =>{
         toast.error("يجب إضافه اسم الاصل")
           return ;
       }
+console.log(pdfs);
 
 if(!data.building){
   toast.error("يجب اختيار الموقع الذى ينتمى اليه الإصل")

@@ -55,7 +55,7 @@ const AddTicket = () => {
        
         <div className="mb-1 flex flex-col gap-2">
           <label  className="w-full text-lg font-medium text-gray-700 dark:text-white">قسم التذكره </label>
-          <select name="Categoray"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
+          <select name="Category"className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
             <option value="">قم بالإختيار</option>
             <option value="أصول">أصول</option>
             <option value="مواقع">مواقع</option>

@@ -5,6 +5,7 @@ import LocationPermission from '../../../../components/ui/permssionui/Addpermiss
 import Estbilshpermission from '../../../../components/ui/permssionui/Addpermissionui/Estbilshpermission';
 import AssetsPermission from '../../../../components/ui/permssionui/Addpermissionui/AssetsPermission';
 import UsersPermissions from '../../../../components/ui/permssionui/Addpermissionui/UsersPermissions';
+import CategoryAssetPermission from '../../../../components/ui/permssionui/CategoryAssetPermission';
 import Wrapbtn from '../../../../components/common/Wrapbtn';
 import toast from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -41,7 +42,7 @@ const UpdatePermissions = () => {
   });
   const [mainCategoryAssetsPermissions, setMainCategoryAssetsPermissions] = React.useState({
     actions: [],
-    allowedIds: ["679e6c73985ef8aaed0891f2"],
+    allowedIds: [""],
   });
 
   const handleSubmit = async (e) => {
@@ -55,7 +56,7 @@ const UpdatePermissions = () => {
       location:locationPermissions,
       building: buildingPermissions,
       Support: supportPermissions ,
-      // mainCategoryAssets: mainCategoryAssetsPermissions,
+      mainCategoryAssets: mainCategoryAssetsPermissions,
     };
 console.log(permissionData);
 
@@ -83,6 +84,7 @@ try {
    setLocationPermissions(CurrentPermission?.location)
    setEmployeePermissions(CurrentPermission?.employee)
    setSupportPermissions(CurrentPermission?.Support)
+   setMainCategoryAssetsPermissions(CurrentPermission?.mainCategoryAssets)
    } 
  } , [CurrentPermission]) 
 if(isLoading || getloading){
@@ -111,8 +113,10 @@ if(isLoading || getloading){
         <Estbilshpermission buildingPermissions={buildingPermissions} setBuildingPermissions={setBuildingPermissions}/>
         <LocationPermission locationPermissions={locationPermissions} setLocationPermissions={setLocationPermissions} />
         <AssetsPermission assetsPermissions={assetsPermissions} setPermissions={setAssetsPermissions} setMainCategoryAssetsPermissions={setMainCategoryAssetsPermissions}/>
-        <UsersPermissions setEmployeePermissions={setEmployeePermissions} />
-        <SupportPermissions setSupportPermissions={setSupportPermissions} />
+        <CategoryAssetPermission mainCategoryAssetsPermissions={mainCategoryAssetsPermissions} setMainCategoryAssetsPermissions={setMainCategoryAssetsPermissions} />
+
+        <UsersPermissions employeePermissions={employeePermissions} setEmployeePermissions={setEmployeePermissions} />
+        <SupportPermissions setSupportPermissions={setSupportPermissions} supportPermissions={supportPermissions}/>
         <div className='mt-10'>
           <Wrapbtn to="/" />
         

@@ -20,29 +20,29 @@ const ChatOverview = () => {
   })
 const filters = [
   {
-    value:"username",
-    name:"الإسم"
+    value:"_id",
+    name:"رقم التذكره"
   },
   {
-    value:"phone",
-    name:"رقم الجوال"
+    value:"Categoray",
+    name:"قسم التذكره "
   },
   {
-    value:"email",
-    name:"الإيميل"
+    value:"role",
+    name:"نوع المستخدم"
   },
   {
-    value:"address.city",
-    name:"المدينة"
+    value:"user.username",
+    name:"المستخدم"
   },
-  {
-    value:"identity",
-    name:"رقم الهوية"
-  },
-  {
-    value:"permissions",
-    name:"الصلاحية"
-  },
+  // {
+  //   value:"identity",
+  //   name:"رقم الهوية"
+  // },
+  // {
+  //   value:"permissions",
+  //   name:"الصلاحية"
+  // },
 
 ]
 const {isError , isLoading , data} = useQuerygetiteams("Tickets" , "Tickets")
