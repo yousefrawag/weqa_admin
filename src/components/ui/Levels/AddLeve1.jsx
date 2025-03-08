@@ -4,7 +4,7 @@ import { useDashboardContext } from '../../../context/DashboardProviedr'
 import { useEffect , useState } from 'react'
 import toast from 'react-hot-toast'
 import SmailLoader from '../../common/Loader/SmailLoader'
-const AddLeve1 = () => {
+const AddLeve1 = ({placeholder}) => {
     const {module ,  setmodule} = useDashboardContext()
     const [requerFiled , setRequirefiled] = useState("")
     const { isError , isLoading , addIteam} = useQueryadditeam("mainCategory" , "mainCategory")
@@ -47,6 +47,7 @@ useEffect(() => {
             <input
             type="text"
             id="name"
+           defaultValue={placeholder?.name}
             name="name"
             placeholder="قم بكتابه الهيكل"
             className="mt-3 text-main p-3 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"

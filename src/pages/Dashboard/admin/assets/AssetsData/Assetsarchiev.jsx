@@ -17,7 +17,7 @@ import { MdSettingsBackupRestore } from "react-icons/md";
 import useQueryupdate from '../../../../../services/useQueryupdate';
 const Assetsarchiev = () => {
 const params = {
-  status:"reviewed"
+  status:"deleted"
 } 
     const {data , isLoading} = useQuerygetiteams("assets" , "assets" , params)
     const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
@@ -229,7 +229,7 @@ const AssetsData = data?.data?.data?.filter((item) => item.status === "deleted")
         <HeadPagestyle  isOwner={isOwner} iscanAdd={iscanAdd} pageName="أرشيف الاصول" to="/Assets-Onboarding" title="عوده"/>
 
         <FiltertionHook filteredData={filteredData} columns={exportColumns} filters={filters} params={paramsearch} setParams={setParams} />
-        <CustomeTabel columns={columns} data={filteredData} />
+        <CustomeTabel columns={columns} data={AssetsData} />
     </div>
   )
 }

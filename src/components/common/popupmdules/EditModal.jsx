@@ -1,7 +1,11 @@
 import React from "react";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const EditModal = ({ isVisible, onClose, onSubmit, entity, placeholder }) => {
+      const Levels = ["هيكل جديد" , "هيكل فرعى" , "هيكل فرعى ثالث" , "هيكل فرعى رابع"]
+      const [Currentlevel , SetCurrentLevel] = useState("هيكل جديد")
+  
   if (!isVisible) return null;
 
   const handleSubmit = (e) => {
@@ -30,24 +34,24 @@ const EditModal = ({ isVisible, onClose, onSubmit, entity, placeholder }) => {
         >
           ✕
         </button>
-        <div className="mb-5">
-          <label htmlFor="name" className="block text-lg font-medium mt-3">
-            تعديل {entity}
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            defaultValue={placeholder}
-            className="mt-2 w-full p-2 border rounded"
-          />
+        <div className="mb-5 p-3">
+        <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-2 w-full'>
+          {
+            Levels.map((item) => {
+              return    <button
+              key={item}
+              onClick={() => SetCurrentLevel(item)}
+              className={`block text-white  ${Currentlevel === item ? "bg-main2" :"bg-main"}  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800`}
+              type="button"
+            >
+                {item}
+            </button>
+            })
+          }
         </div>
-        <button
-          type="submit"
-          className="w-full bg-main py-2 text-white rounded hover:bg-main2"
-        >
-          حفظ
-        </button>
+        <RenderAddlevel Currentlevel={Currentlevel} placeholder={placeholder} />
+        </div>
+    
       </form>
     </div>
   );

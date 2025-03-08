@@ -26,7 +26,7 @@ const SubsubCategoray = ({nestSub , isDropdownVisible  , toggleDropdown}) => {
     {/* Vertical line */}
     <div className="relative mb-4 h-8 w-[2px] bg-main after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-main"></div>
     {/* Horizontal grid for sub-subcategories */}
-    <div className="grid grid-cols-2 gap-3 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 w-full max-w-2xl">
+    <div className="grid grid-cols-1 gap-3 xl:grid-cols-2 lg:grid-cols-1 md:grid-cols-2 w-full max-w-2xl">
     <div
           
           className="py-2 px-4 w-full bg-blue-700 shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer"
@@ -73,7 +73,7 @@ const SubsubCategoray = ({nestSub , isDropdownVisible  , toggleDropdown}) => {
         onClose={() => setEditVisible(false)}
         onSubmit={handelsubmit}
         entity="فرع"
-        placeholder={selectedItem?.name || ""}
+        placeholder={selectedItem}
       />
   </div>
   )

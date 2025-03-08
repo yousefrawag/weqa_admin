@@ -9,6 +9,7 @@ import timeGridDay from '@fullcalendar/timegrid';
 import { useNavigate } from 'react-router-dom';
 import useQuerygetiteams from '../../../../services/Querygetiteams';
 import Breadcrumb from '../../../../components/common/Breadcrumbs/Breadcrumb';
+import Loader from '../../../../components/common/Loader';
 
 const AssetsCalnder = () => {
   const { data, isLoading } = useQuerygetiteams("assets", "assets");
@@ -59,7 +60,9 @@ const AssetsCalnder = () => {
     const type = info.event.extendedProps.type;
     navigate(`/assetOverview/${id}`)
   };
-
+if(isLoading){
+  return <Loader />
+}
   return (
     <div className='w-full h-full'>
       <Breadcrumb pageName="التقويم" />

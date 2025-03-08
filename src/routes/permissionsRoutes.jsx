@@ -5,6 +5,8 @@ import {
     UpdatePermissions
  
    } from "../pages/Dashboard/admin"
+   import store from "../store/index"
+import  Checkuserautherzationview  from "../middleware/Checkuserautherzationview";
  export const permissionsRoutes = [
   
      { path: "/permissions", element: <Getpermissions /> },

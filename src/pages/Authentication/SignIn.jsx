@@ -34,11 +34,16 @@ const SignIn = () => {
     console.log(user);
     
       if(res.status === 200) {
-        localStorage.setItem("token" , JSON.stringify(res.data.token))
-        dispatch(login(user))
+        if(user?.role === "owner" || user?.role === "employee"){
+          localStorage.setItem("token" , JSON.stringify(res.data.token))
+          dispatch(login(user))
+         
+          toast.success("تم تسجيل الدخول بنجاح")
+          return  navigate('/')
+        }else {
+          toast.error("غير مسموح لك الوصول إلى  وقاء ادمن ")
+        }
        
-        toast.success("تم تسجيل الدخول بنجاح")
-        return  navigate('/')
       }
   
       } catch (error) {

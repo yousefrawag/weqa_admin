@@ -66,7 +66,7 @@ if(isLoading) {
             
               </div>
                 <div className='flex flex-col '>
-                    <label htmlFor="name">إسم الفرع</label>
+                    <label htmlFor="name">إسم المنشأه</label>
                     <input
                     type="text"
                     id="name"
@@ -75,6 +75,26 @@ if(isLoading) {
                     className="mt-3 text-main p-3 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
                 />
                 </div>
+                <div className="mb-6 flex flex-col  gap-2">
+              <label
+                htmlFor="kind"
+                className="w-full text-lg font-medium text-gray-700 dark:text-white"
+              >
+              نوع المنشأه
+              </label>
+              <select name="kind" id="kind" className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 w-full  outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500"
+              >
+                <option value="">قم بإختيار النوع</option>
+                <option value="مبنى إداري">مبنى إداري </option>
+                <option value="مستشفى">مستشفى   </option>
+                <option value="مركز صحي"> مركز صحي  </option>
+                <option value="مركز تخصصي">مركز تخصصي </option>
+                <option value="عيادة تخصصية"> عيادة تخصصية</option>
+                <option value="عيادة"> عيادة </option>
+              </select>
+        
+         
+            </div>
                 <button
                     type="submit"
                         className="mt-4 block text-white bg-main hover:bg-main2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800"

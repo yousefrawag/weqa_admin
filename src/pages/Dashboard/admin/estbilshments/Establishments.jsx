@@ -13,8 +13,8 @@ import FiltertionHook from '../../../../hooks/FiltertionHook';
 import { format } from 'date-fns';
 
 const Establishments = () => {
-  const { isError, isLoading, data } = useQuerygetiteams("building", "building");
-  const { deleteIteam } = useQueryDelete("building", "building");
+  const { isError, isLoading, data } = useQuerygetiteams("statistics/building", "statistics/building");
+
   const { isOwner, iscanAdd, iscanDelete, iscanPut } = useGetUserAuthentications("building");
 
   // FILTERION SECTION
@@ -32,8 +32,8 @@ const Establishments = () => {
   ];
 
   const filteredData = useMemo(() => {
-    if (!data?.data?.data) return [];
-    return data.data.data.filter(item => {
+    if (!data?.data) return [];
+    return data?.data?.data.filter(item => {
       if (params.searchTerm && params.field) {
         const fieldValue = params.field.split('.').reduce((obj, key) => obj?.[key], item);
         return fieldValue?.toLowerCase().includes(params.searchTerm.toLowerCase());
@@ -45,26 +45,18 @@ const Establishments = () => {
   // Columns for table rendering
   const columns = [
     { name: "الإسم", selector: (row) => <span className='text-wrap'>{row.name}</span> },
-    { name: "نوع المنشأه", selector: (row) => <span className='text-wrap'>{row.kind}</span> },
-    { name: "مستوى المنشأه", selector: (row) => <span className='text-wrap'>{row?.levels?.name}</span> },
-    { name: "تاريخ الانشاء", cell: (row) => <div>{format(new Date(row.createdAt), "dd MMMM, yyyy")}</div> },
+    { name: "الهيكل", selector: (row) => <span className='text-wrap'>{row.level}</span> },
+    { name: "المنشأه تابعة الى", selector: (row) => <span className='text-wrap'>{row?.level === row?.name  ? <span  className='text-red-500'>هيكل أساسى </span>: row?.parent}</span> },
+    { name: "تاريخ الانشاء", cell: (row) => row?.createdAt && <div>{format(new Date(row?.createdAt), "dd MMMM, yyyy")}</div> },
     {
       name: "إجراء",
       cell: (row) => (
         <div className="flex items-center justify-center space-x-3.5">
-          <Link to={`/Establishment-overView/${row._id}`} className="hover:text-primary">
+          <Link to={`/Establishment-overView/${row.id}/${row.levelsmodule}`} className="hover:text-primary">
             <GrFormView size={20} />
           </Link>
-          {(isOwner || iscanPut) && (
-            <Link to={`/update-Establishment/${row._id}`} className="hover:text-primary">
-              <MdOutlineEditNote size={20} />
-            </Link>
-          )}
-          {(iscanDelete || isOwner) && (
-            <button className="hover:text-primary" onClick={() => deleteIteam(row._id)}>
-              <AiTwotoneDelete size={20} />
-            </button>
-          )}
+       
+     
         </div>
       ),
     },

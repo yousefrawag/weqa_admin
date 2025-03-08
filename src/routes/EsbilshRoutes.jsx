@@ -19,7 +19,7 @@ import {
       { path: "/Est-ablishments", element: <Establishments /> , loader:Checkuserautherzationview(store , "building" , "get")},
       { path: "/Add-Establishment", element: <AddnewEstbilshments /> , loader:Checkuserautherzationview(store , "building" , "post")},
       { path: "/update-Establishment/:id", element: <UpdatedEstbilshment />  , loader:Checkuserautherzationview(store , "building" , "put")},
-      { path: "/Establishment-overView/:id", element: <Estbilshmentoverview />  , loader:Checkuserautherzationview(store , "building" , "get")},
+      { path: "/Establishment-overView/:id/:level", element: <Estbilshmentoverview />  , loader:Checkuserautherzationview(store , "building" , "get")},
 
       // User routes within establishments
       { path: "/establishments/:id/users", element: <EstablishmentUsers /> , loader:Checkuserautherzationview(store , "building" , "get") },

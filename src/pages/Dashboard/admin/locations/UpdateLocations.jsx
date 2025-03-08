@@ -8,24 +8,29 @@ import InputFiled from '../../../../components/common/InputFiled'
 import FloorsSection from '../../../../components/ui/locations/FloorsSection'
 import useQueryupdate from '../../../../services/useQueryupdate'
 import useQuerygetSpacficIteam from '../../../../services/QuerygetSpacficIteam'
+import RenderLevelsFlow from '../../../../components/ui/Levels/RenderLevelsFlow'
+import Loader from '../../../../components/common/Loader'
 const UpdateLocations = () => {
     const {id} = useParams()
   // react hooks && custome 
   const {data , isLoading} = useQuerygetSpacficIteam("location" , "location" , id)
   const {updateiteam} =  useQueryupdate("location" , "location" )
-
+ const Levels = [{name:"هيكل جديد" , key:"maincategories"} , {name:"هيكل فرعى"  , key:"categories"}, {name:"هيكل فرعى ثالث" , key:"subcategories" }, {name:"هيكل فرعى رابع" , key:"nestsubcategories"}]
+ const [Currentlevel , SetCurrentLevel] = useState("maincategories")
+ const [value , setvalue] = useState("")
   const CurrentLocation = data?.data
     const navigate = useNavigate()
 // usestates
     const [floors, setFloors] = useState([]);
-    const [building , setBuilding] = useState("")
+    
     const [locationType , setLocationtype] = useState("")
-    const [loading , setLoading] = useState(false)
+  
 useEffect(() => {
 if(CurrentLocation) {
 setFloors(CurrentLocation.floors)
-setBuilding(CurrentLocation?.building)
 setLocationtype(CurrentLocation?.kind)
+SetCurrentLevel(CurrentLocation?.levels)
+setvalue(CurrentLocation?.building?._id)
 }
 } , [CurrentLocation])
   // handel submit data 
@@ -35,7 +40,8 @@ setLocationtype(CurrentLocation?.kind)
       const data = Object.fromEntries(formData);
  
         data.floors = floors
-        data.building = building
+        data.building = value
+        data.levels = Currentlevel
         data.kind = locationType
         const longitude = data.longitude
         const latitude = data.latitude
@@ -43,7 +49,21 @@ setLocationtype(CurrentLocation?.kind)
             longitude , 
             latitude
         }
-        setLoading(true)
+        if(!data.name){
+          toast.error("يجب إضافة إسم الموقع")
+         }       
+        if(!longitude){
+          return toast.error("إحداثيات الموقع / خطوط الطول")
+        }
+        if(!longitude){
+          return toast.error("إحداثيات الموقع / خطوط العرض")
+        }
+        if(!data.kind){
+          return toast.error("يجب إختيار نوع الموقع")
+        }
+        if(!data.building){
+          return toast.error("يجب إختيار المنشأه التابع لها الموقع")
+        }
       try {
         updateiteam(
           {id , data},
@@ -56,11 +76,12 @@ setLocationtype(CurrentLocation?.kind)
         );
       } catch (error) {
         toast.error('هناك خطأ في تعديل الموقع');
-        setLoading(false)
-      }finally{
-        setLoading(false)
+        
       }
     };
+if(isLoading){
+  return <Loader />
+}    
   return (
     <div className='w-full h-full'>
         <Breadcrumb  pageName="تعديل موقع"/>
@@ -78,7 +99,22 @@ setLocationtype(CurrentLocation?.kind)
             <option value="outdoor">خارجي</option>
           </select>
         </div>
-             <GetEsbilshDropdown building={building} setBuilding={setBuilding} />
+        {/* RENDER LEVELS ITEAMS */}
+        <div className='grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-2 w-full'>
+          {
+            Levels.map((item) => {
+              return    <button
+              key={item.key}
+              onClick={() => SetCurrentLevel(item.key)}
+              className={`block text-white  ${Currentlevel === item.key ? "bg-main2" :"bg-main"}  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center  dark:focus:ring-blue-800`}
+              type="button"
+            >
+                {item.name}
+            </button>
+            })
+          }
+        </div>
+            <RenderLevelsFlow  Currentlevel={Currentlevel} value={value} setvalue={setvalue}/>
          
 
                      {/* Floors Section */}

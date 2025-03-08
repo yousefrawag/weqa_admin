@@ -29,12 +29,12 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
     <div className="relative mb-4 h-8 w-[2px] bg-main after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-main"></div>
 
     {/* Horizontal grid for sub-subcategories */}
-    <div className="grid gap-6 lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1 w-full max-w-4xl">
+    <div className="grid gap-5 lg:grid-cols-1 md:grid-cols-2 sm:grid-cols-1 w-full ">
     <div
           
           className="py-2 rounded-md text-center w-full max-w-sm relative"
         >
-          <div className='py-2 px-4 w-full bg-blue-900 shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer'> 
+          <div className='py-2 px-4 w-full bg-red-900 shadow-2 rounded-md text-center flex justify-between items-center cursor-pointer'> 
             <span className='text-white'>{subcategory?.name}</span>
             <div className="relative">
                 <button
@@ -69,7 +69,9 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
           {
             subcategory?.nestSubCategory &&  subcategory?.nestSubCategory.length > 0 && (
               subcategory?.nestSubCategory?.map((nestSub) => {
-                return   <SubsubCategoray key={nestSub?._id}  nestSub={nestSub}  isDropdownVisible = {isDropdownVisible}   toggleDropdown = {toggleDropdown}/>
+                return  <div className="grid grid-cols-1 gap-1 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-2 w-full max-w-2xl">
+                  <SubsubCategoray key={nestSub?._id}  nestSub={nestSub}  isDropdownVisible = {isDropdownVisible}   toggleDropdown = {toggleDropdown}/>
+                </div> 
               })
             
             )
@@ -87,7 +89,7 @@ const Subcategoray = ({subcategory , isDropdownVisible  , toggleDropdown}) => {
         onClose={() => setEditVisible(false)}
         onSubmit={handelsubmit}
         entity="فرع"
-        placeholder={selectedItem?.name || ""}
+        placeholder={selectedItem}
       />
   </div>
   )

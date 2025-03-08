@@ -292,7 +292,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                </li> : null
               }
                   {
-                 isOwner || permissions?.employee?.actions?.some((key) => key === "get") ?
+                 isOwner || permissions?.employee?.actions?.some((key) => key === "followemployeerequest") ?
                  <li>
                  <NavLink
                    to="/all-edit-requests"

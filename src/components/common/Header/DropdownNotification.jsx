@@ -50,7 +50,7 @@ const DropdownNotification = () => {
         return (
           <Link
             key={notfiy._id}
-            to={`/assetOverview/${notfiy?.allowed._id}`}
+            to={`/assetOverview/${notfiy?.allowed?._id}`}
             className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
           >
             <div className='w-full flex flex flex-col gap-3 items-center'>
@@ -70,7 +70,7 @@ const DropdownNotification = () => {
         );
         case "employee":
           return (
-            <div
+            <Link
               key={notfiy._id}
               to={`/all-edit-requests`}
               className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
@@ -88,7 +88,7 @@ const DropdownNotification = () => {
               </div>
               <span>{notfiy?.allowed?.assetsName}</span>
               {notfiy?.createdAt ? formatDistanceToNow(new Date(notfiy?.createdAt), { addSuffix: true }) : "N/A"}
-            </div>
+            </Link>
           )
       default:
         return null;

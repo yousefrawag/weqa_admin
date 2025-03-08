@@ -9,7 +9,7 @@ const EstbilshLevel4 = ({handeupdateLevel, updatelevel , name}) => {
       htmlFor="levels"
       className="w-full  text-lg font-medium text-gray-700 dark:text-white"
     >
-   المنشأه  تابعة الى
+   المستوى  تابعة الى
     </label>
     <select value={updatelevel} onChange={(e) => handeupdateLevel(e)} name={name} className="focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary text-main p-3 pr-10 w-full outline-0 rounded-md border border-gray-300 shadow-sm focus:ring-blue-500">
                   <option>

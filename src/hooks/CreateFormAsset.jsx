@@ -27,7 +27,7 @@ const CreateFormAsset = ({endpointKey , id , SelectedType , formData, handleInpu
         {
             filteredFields?.map((input) => {
                 return (
-                    <div key={input?.id} className="mb-6 flex flex-col  gap-2">
+                    <div key={input?.id} className=" flex flex-col  gap-2">
                 <label
                 htmlFor={input?.key}
                 className="w-full text-lg font-medium text-gray-700 dark:text-white"

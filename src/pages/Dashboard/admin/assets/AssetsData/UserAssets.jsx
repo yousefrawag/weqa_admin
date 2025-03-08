@@ -22,7 +22,7 @@ const UserAssets = () => {
 const params = {
     createBy:user?._id
 }
-    const {data , isLoading} = useQuerygetiteams("assets/myAssets" , "assets")
+    const {data , isLoading} = useQuerygetiteams("assets/myAssets" , "myassets")
     const {deleteIteam , isLoading:loaddingDelete} = useQueryDelete("assets" , "assets")
     const {isOwner, iscanAdd, iscanDelete, iscanPut, iscanView} = useGetUserAuthentications ("assets")
     const AllStauts = [{key:"all" , name:"الكل"} , {key:"underReview" , name:"قيد المراجعة"} ,{key:"reviewed" , name:"تمت المراجعه"}  ,  {key:"underDelete" , name:"قيد الحذف"} ,{key:"deleted" , name:"تم الحذف "} , {key:"underUpdate" , name:"قيد التعديل"}  , {key:"updated" , name:"تم التعديل"}]

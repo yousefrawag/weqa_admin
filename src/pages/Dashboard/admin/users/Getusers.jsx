@@ -72,6 +72,16 @@ const Getusers = () => {
         {
             name:"الإسم",
             selector: (row) => row.username,
+            cell: (row) => (
+              <div className='flex flex-col gap-3'>
+                <img src={row.image} alt={row.username} className='w-7 h-7 rounded-full'/>
+                <span>
+                  {
+                    row.username
+                  }
+                </span>
+              </div>
+            ),
 
         },
         {
@@ -94,12 +104,23 @@ const Getusers = () => {
           selector: (row) => <span className='text-wrap'> {row.identity}</span>  ,
 
       },
-   
-        {
-            name:"نوع الحساب",
-            selector: (row) => <span className='text-wrap'> { row?.role}</span> ,
+      {
+        name:"المنشأه",
+        selector: (row) => <span className='text-wrap'> {row.type ==="user" ? row.building?.name :"ليس تابع لمنشاه"}</span>  ,
 
-        },
+    },
+    {
+      name:"نوع الحساب",
+      selector: (row) => <span className='text-wrap'> { row?.role}</span> ,
+
+  },
+    {
+      name:"الصلاحية",
+      selector: (row) => <span className='text-wrap'> {row.role ==="owner" ? "مالك المنصة" : row?.permissions?.name}</span>  ,
+
+  },
+   
+
         {
                   name: "تاريخ الانشاء",
                   selector: (row) => row.createdAt,

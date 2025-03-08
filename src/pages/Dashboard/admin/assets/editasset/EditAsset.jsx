@@ -24,8 +24,8 @@ const EditAsset = () => {
  const {data , isLoading:loadingget} = useQuerygetSpacficIteam("assets" , "assets" , id)
   const {updateiteam  ,isLoading} =  useQueryupdate("assets" , "assets")
   const Currentasset = data?.data
-  const {isOwner,  canviewtAssetFinancial , canEditFinancial} = useGetUserAuthentications("assets")
-
+   const Levels = [{name:"هيكل رئيسى" , key:"maincategories"} , {name:"هيكل فرعى"  , key:"categories"}, {name:"هيكل فرعى ثالث" , key:"subcategories" }, {name:"هيكل فرعى رابع" , key:"nestsubcategories"}]
+   const [Currentlevel , SetCurrentLevel] = useState("maincategories")
    // react hooks && custome fetch and add
   
  
@@ -93,7 +93,9 @@ const handelSubmit = (e) =>{
      formData.set("area" , CurrentArea )
      formData.set("section" , CurrentSection )
      formData.set("room" , CurrentRoom )
-   
+     formData.set("levels" , Currentlevel)
+     formData.set("building" , building)
+      data.building = building
 
   //   pdfs.forEach((item) =>
   //     formData.append("pdf", item.file)
@@ -140,17 +142,16 @@ updateiteam({data:formData , id} , {
       toast.error("هناك خطاء فى تعديل اصل يرجى التأكد من جميع البيانات ")
   }
 }
+
 useEffect(() => {
 if(Currentasset){
-    console.log("cURRENTASSET" , Currentasset);
-    console.log("cURRENTASSET" , id);
-    
+  
     setbuilding(Currentasset?.building)
     setLocation(Currentasset?.location[0]?._id)
     setCurrentfloor(Currentasset?.floor)
     setCurrentArea(Currentasset?.area)
     setCurrentSection(Currentasset?.section)
-  
+     SetCurrentLevel(Currentasset?.levels)
     setCurrentRoom(Currentasset?.room)
     const dynamicData = {};
     const dynamicKeys = inputFields?.map((field) => field.key);
@@ -190,7 +191,7 @@ if(isLoading || loadingget) {
         <form onSubmit={handelSubmit} className='w-full h-full grid grid-rows-1	lg:grid-rows-3 shadow-md p-5	'>
           {/* بيانات اساسيه  ref to genarlildata*/}
           {
-            SelectedType === "genarlildata" && <AssetFormmainData params={params} continued ={Currentasset?.continued} id={Currentasset?.subCategoryAssets[0]?._id} location={location}  CurrentFloor={CurrentFloor}  setCurrentfloor={setCurrentfloor}  building={building} setbuilding={setbuilding} setLocation={setLocation} CurrentSection={CurrentSection} CurrentArea={CurrentArea} setCurrentArea ={setCurrentArea} setCurrentSection ={setCurrentSection} CurrentRoom ={CurrentRoom} setCurrentRoom ={setCurrentRoom}/>
+            SelectedType === "genarlildata" && <AssetFormmainData Currentlevel={Currentlevel} SetCurrentLevel={SetCurrentLevel} Levels={Levels} params={params} continued ={Currentasset?.continued} id={Currentasset?.subCategoryAssets[0]?._id} location={location}  CurrentFloor={CurrentFloor}  setCurrentfloor={setCurrentfloor}  building={building} setbuilding={setbuilding} setLocation={setLocation} CurrentSection={CurrentSection} CurrentArea={CurrentArea} setCurrentArea ={setCurrentArea} setCurrentSection ={setCurrentSection} CurrentRoom ={CurrentRoom} setCurrentRoom ={setCurrentRoom}/>
           }
  
  {/* بيانات اساسيه */}

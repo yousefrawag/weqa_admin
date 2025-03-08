@@ -6,6 +6,7 @@ const UsersPermissions = ({setEmployeePermissions , employeePermissions}) => {
         post: false,
         delete: false,
         put: false,
+        followemployeerequest:false
       });
       const handlePermissionChange = (key) => {
         const newPermissions = {
@@ -19,6 +20,7 @@ const UsersPermissions = ({setEmployeePermissions , employeePermissions}) => {
         if (newPermissions.post) actions.push('post');
         if (newPermissions.put) actions.push('put');
         if (newPermissions.delete) actions.push('delete');
+        if (newPermissions.followemployeerequest) actions.push('followemployeerequest');
     
         setEmployeePermissions({
           actions
@@ -32,6 +34,7 @@ const UsersPermissions = ({setEmployeePermissions , employeePermissions}) => {
           put: employeePermissions.actions.includes('put'),
           delete: employeePermissions.actions.includes('delete'),
           post: employeePermissions.actions.includes('post'),
+          followemployeerequest:employeePermissions.actions.includes('followemployeerequest')
         });
       }
     } , [employeePermissions])
@@ -40,6 +43,7 @@ const UsersPermissions = ({setEmployeePermissions , employeePermissions}) => {
         { key: "get", label: "عرض بيانات المستخدم", value: permissions.get },
         { key: "put", label: "تعديل بيانات المستخدم", value: permissions.put },
         { key: "delete", label: "حذف مستخدم", value: permissions.delete },
+        { key: "followemployeerequest", label: "متابعة طلبات المستخدمين بشأن تعديل بياناتهم", value: permissions.followemployeerequest },
         
         
       ];

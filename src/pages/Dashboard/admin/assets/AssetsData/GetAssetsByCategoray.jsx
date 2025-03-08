@@ -65,6 +65,7 @@ const filters = [
 
 
 ]
+
 const filteredData = useMemo(() => {
  if (!data?.data) return [];
 
@@ -107,7 +108,7 @@ const UpdateStuts  = (id , status) => {
       },
         {
             name:"المنشأه",
-            selector: (row) => <span className='text-wrap'>{row?.location[0]?.build?.name}</span> ,
+            selector: (row) => <span className='text-wrap'>{row?.building?.name}</span> ,
 
         },
         {

@@ -9,7 +9,7 @@ const UploadPdf = ({ pdfs, handelFiles ,setPdfs }) => {
     setPdfs(newfiles)
  }   
   return (
-    <div className="mt-10 mb-10 w-full h-full flex flex-col items-center justify-center  ">
+    <div className="  w-full h-full flex flex-col items-center justify-center  ">
       {/* Upload Area */}
       <div className="mt-[-10px] flex flex-col items-center justify-center min-h-[200px] w-full rounded-[12px] bg-[#F1F1F7] border-[1px] border-dashed border-black">
         <label

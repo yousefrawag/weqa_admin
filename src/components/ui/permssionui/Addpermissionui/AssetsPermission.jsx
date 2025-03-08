@@ -66,7 +66,7 @@ const AssetsPermission = ({ setPermissions  , assetsPermissions }) => {
     { key: "canviewtFinancial", label: "رؤيه بيانات ماليه", value: permissions.canviewtFinancial },
     { key: "canEditFinancial", label: "تعديل البيانات المالية", value: permissions.canEditFinancial },
     { key: "fllowAssetsRequest", label: "متابعة طلبات الإصول", value: permissions.fllowAssetsRequest },
-    { key: "Canviewclanderassets", label: "متابعة تقويم الإصول", value: permissions.fllowAssetsRequest },
+    { key: "Canviewclanderassets", label: "متابعة تقويم الإصول", value: permissions.Canviewclanderassets },
   ];
 
   return (

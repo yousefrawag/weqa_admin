@@ -100,7 +100,7 @@ const CategoryAssetPermission = ({ setMainCategoryAssetsPermissions, mainCategor
 
       {SelectedType === "all-level" ? (
         <div className='w-full h-full overflow-y-auto max-h-[300px]'>
-          {/* <label className="flex items-center gap-2 cursor-pointer shadow-md p-4 dark:border-form-strokedark dark:bg-form-input rounded-[5px]">
+          <label className="flex items-center gap-2 cursor-pointer shadow-md p-4 dark:border-form-strokedark dark:bg-form-input rounded-[5px]">
             <input
               type="checkbox"
               checked={allowedIds.includes("all")}
@@ -108,7 +108,7 @@ const CategoryAssetPermission = ({ setMainCategoryAssetsPermissions, mainCategor
               className="form-checkbox"
             />
             <span className='w-full flex gap-3 items-center'>الجميع</span>
-          </label> */}
+          </label>
           <GetCategoreisAllowdid handelAllowedid={handelAllowedid} allowedIds={allowedIds} fetchKey="mainCategoryAssets" sectionName="فئه رئيسيه" />
         </div>
       ) : (

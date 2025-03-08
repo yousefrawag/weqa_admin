@@ -54,11 +54,10 @@ dispatch(login(res.data.data))
   
   }
   const handelsendRequest = async  () => {
-    const formData = {
-      username:"مالك"
-    }
+
 try {
-  const res = await authFetch.put(`/employee/updateMe` , formData)
+  const res = await authFetch.put(`/employee/updateMe`)
+console.log("from-res-user-request" , res );
 
   if(res.status === 200 && res.data?.msg === "تم ارسال طلب تعديل بياناتك بنجاح"){
     toast.success("لا يمكنك تعديل بياناتك وتم إرسال طلبك للمسؤل")

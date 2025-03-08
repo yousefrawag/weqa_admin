@@ -9,6 +9,8 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import Wrapbtn from '../../../../components/common/Wrapbtn'
 import Loader from '../../../../components/common/Loader'
+import {EsbilshesLevel} from "../../../../data/index"
+
 const UpdatedEstbilshment = () => {
     // hook fetch all main category && update estbilshment
     const {id} = useParams()
@@ -17,28 +19,7 @@ const UpdatedEstbilshment = () => {
     const {updateiteam , isLoading:loadingUpdate} = useQueryupdate("building" , "building")
     const findEstablishment = CurrenEstbilshment?.building
 
-   const EsbilshesLevel = [
-     {
-     id:1,
-     key:"first",
-     name:"هيكل رئيسى" 
-   },
-   {
-     id:2,
-     key:"second",
-     name:"هيكل فرعى تانى" 
-   },
-   {
-     id:3,
-     key:"third",
-     name:"هيكل فرعى ثالث" 
-   },
-   {
-     id:4,
-     key:"fourth",
-     name:"هيكل فرعى رابع"
-   }
-      ]
+
       // states handelr
    const [Currentlevel , SetCurrentLevel] = useState("")
     const [errors , setErrors] = useState({})
@@ -77,7 +58,7 @@ const handeupdateLevel = (e) => {
         toast.error("يجب إضافه تابعية للمنشأه")
         return setErrors({...errors , levels:"يجب إضافه تابعية للمنشأه"}) 
     }
-      setLoading(true)
+     console.log(data)
     updateiteam({id , data} , {
             onSuccess:() =>{
                setErrors({})
@@ -98,7 +79,7 @@ useEffect(() => {
   if(findEstablishment){
     setupdatelevel(findEstablishment?.levels._id)
     setKind(findEstablishment?.kind)
-    return SetCurrentLevel(findEstablishment?.continued) 
+     SetCurrentLevel(findEstablishment?.continued) 
   }
 
 } , [findEstablishment])
